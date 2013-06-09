@@ -32,6 +32,7 @@ form = """
         <option value="LAW">Law</option>
         <option value="MED">Medicine</option>
         <option value="YST">Music</option>
+        <option value="SCI">Science</option>
         <option value="USP">USP</option>
     </select>
     <br><br>
@@ -79,7 +80,7 @@ class ResultsHandler(webapp2.RequestHandler):
     def get(self):
         modCode = self.request.get('code')
         faculty = self.request.get('fac')
-        self.response.out.write(query.extract(modCode,'Biz'))
+        self.response.out.write(query.extract(modCode,faculty))
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/mod', ResultsHandler)],
