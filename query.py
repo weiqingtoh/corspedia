@@ -16,11 +16,35 @@ facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "MED":"YONG LOO LIN SCHOOL OF MEDICINE",
                "YST":"YONG SIEW TOH CONSERVATORY OF MUSIC"}
 
-def extract(modCode, faculty):
+def extract(modCode, faculty, accType, newStudent):
     output = []
+    out = []
+    faculties = []
     with open('data.csv','rb') as csvfile:
         modData = csv.reader(csvfile)
         for row in modData:
-            if row[0] == modCode and row[7] == facultyList[faculty]:
-                output.append(row)
-    return output
+            #Extract Records for Account and ModCode
+            if row[0] == modCode:
+                if accType == 'p' and row[9]:
+                    output.append(row)
+                elif accType == 'g' and (row[10] or row[11][0] == '3'):
+                    output.append(row)
+                    
+    #Correct records for faculty, bidrounds
+    for row in output:
+        if newStudent == 0 and row[8] == '0' and row[9] == '1' and row[10] == '1':
+            out.append(row)
+        elif row[11] in {"3A","3B","3C"}:
+            out.append(row)
+        elif facultyList[faculty] == row[7]:
+            if newStudent == 0:
+                if row[8] == '0' or row[8] == '2':
+                    out.append(row)
+            elif newStudent == 1:
+                if row[8] == '1' or row[8] == '2':
+                    out.append(row)
+    return out
+
+
+## Rules. Round 3A and 3B always in.
+## Rules. row[8]: NewStu - 2 is for both new and not new, 1 for new, 0 for old.

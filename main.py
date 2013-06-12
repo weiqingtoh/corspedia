@@ -36,6 +36,12 @@ form = """
         <option value="USP">USP</option>
     </select>
     <br><br>
+    <input type="checkbox" name="newStudent" value=1>I am a New Student<br>
+    <br>
+    <input type="radio" name="accType" value="p" checked>P Account
+    <br>
+    <input type="radio" name="accType" value="g">G Account
+    <br><br>
     <input type="submit">
     <br><br>
     <div style="color: red">%(error)s</div>
@@ -64,11 +70,19 @@ class MainHandler(webapp2.RequestHandler):
         #Check if module code is valid
         modCode = self.request.get('modCode')
         faculty = self.request.get('faculty')
+        accType = self.request.get('accType')
+        newStudent = self.request.get('newStudent')
 
         #Check for validity of Module Code
         #If valid, move to separate handler to process query
         if modValid(modCode):
-            self.redirect('/mod?code='+modCode+'&fac=' + faculty)
+            url = '/mod?code='+modCode+'&fac=' + faculty
+            url += '&acc=' + accType
+            if newStudent == 1:
+                url += '&new=1'
+            else:
+                url += '&new=0'
+            self.redirect(url)
         #If invalid, redirect back to homepage
         else:
             self.write_form(error = "Invalid Module Code",
@@ -76,11 +90,15 @@ class MainHandler(webapp2.RequestHandler):
 
 
 class ResultsHandler(webapp2.RequestHandler):
-    
     def get(self):
         modCode = self.request.get('code')
+        if not modValid(modCode):
+            self.redirect('/')
         faculty = self.request.get('fac')
-        self.response.out.write(query.extract(modCode,faculty))
+        accType = self.request.get('acc')
+        newStudent = self.request.get('new')
+        self.response.out.write(query.extract(modCode,faculty,accType,
+                                              newStudent))
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/mod', ResultsHandler)],
