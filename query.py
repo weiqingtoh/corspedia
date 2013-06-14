@@ -34,7 +34,7 @@ def extract(modCode, faculty, accType, newStudent):
     for row in output:
         if newStudent == "0" and row[8] == '0' and row[9] == '1' and row[10] == '1':
             out.append(row)
-        elif row[11] in {"3A","3B","3C"}:
+        elif row[11] in ["3A","3B","3C"]:
             out.append(row)
         elif facultyList[faculty] == row[7]:
             if newStudent == "0":
