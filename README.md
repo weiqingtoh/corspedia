@@ -1,4 +1,4 @@
-CORSBid
+CORSInfo
 ==
 
 A project to simplify the CORS research process. 
