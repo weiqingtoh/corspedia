@@ -1,12 +1,8 @@
-a, h2 {color: rgb(0, 112, 150)}
-a:hover h2 {color: #ccc;}
-h1 {border-bottom: 1px dotted #ccc; margin-bottom: 30px; }
-h4 {padding-top:30px; margin-bottom:10px; color: #09c; font-size: 28px; clear: both}
-pre {font-family: 'courier', sans-serif; background-color:#eee; padding:20px;margin:20px;margin-left: 0px;border-radius: 10px;}
-img {margin-top: 30px; margin-bottom: 30px;}
-img.inline {float: right; padding-left: 20px;}
-img.profile-pic {margin: 0; width: 80; height: 80px; border-radius: 40px; float: left; margin-right: 30px;}
-ul.block {background-color: #F5F7DC; padding: 20px; width: 300px; border-radius: 10px;}
-ul.bullet {list-style-type: initial; margin-left: 25px; margin-bottom: 20px;}
-div.tutor-section {padding-bottom: 30px; padding-top: 15px;}
-p {text-align: justify;}
+.logo-container {text-align: center;}
+.logo {margin: 0 auto; margin-top: 30px; margin-bottom: -30px;}
+.main-title {text-align: center;}
+h1,h2,h3,h4,h5,h6 {margin-bottom: 20px;}
+label {display: inline-block !important; margin-left: 10px; margin-right: 10px;}
+span.label-title {font-size: 1.25em;margin-right: 30px; width: 150px; display: inline-block; text-align: right;}
+#submit-button {width:200px; margin: 0 auto; display: block; font-size: 1.25em;}
+.error {color: red; font-size: 1.25em; text-align: center;}

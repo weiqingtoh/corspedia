@@ -16,37 +16,13 @@
 #
 import webapp2
 import query
+import os
+import jinja2
 
-form = """
-<form method="post">
-    Module Code
-    <br>
-    <input type="text" name="modCode">
-    <br>
-    Faculty: <select name="faculty">
-        <option value="ART">Arts</option>
-        <option value="BIZ">Business</option>
-        <option value="COM">Computing</option>
-        <option value="SDE">Design & Environment</option>
-        <option value="ENG">Engine</option>
-        <option value="LAW">Law</option>
-        <option value="MED">Medicine</option>
-        <option value="YST">Music</option>
-        <option value="SCI">Science</option>
-        <option value="USP">USP</option>
-    </select>
-    <br><br>
-    <input type="checkbox" name="newStudent" value=1>I am a New Student<br>
-    <br>
-    <input type="radio" name="accType" value="p" checked>P Account
-    <br>
-    <input type="radio" name="accType" value="g">G Account
-    <br><br>
-    <input type="submit">
-    <br><br>
-    <div style="color: red">%(error)s</div>
-</form>
-"""
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'])
+
 def modValid(modCode):
     return True
 
@@ -58,14 +34,11 @@ def escape_html(s):
     return s
 
 class MainHandler(webapp2.RequestHandler):
-    def write_form(self,error="",faculty=""):
-        self.response.out.write(form % {'error':error,
-                                        })
     
     def get(self):
-        #self.response.headers['Content-Type'] = 'text/plain'
-        self.write_form()
-        
+        template = JINJA_ENVIRONMENT.get_template('index.html')
+        self.response.write(template.render({'error': ''}))
+
     def post(self):
         #Check if module code is valid
         modCode = self.request.get('modCode')
@@ -85,11 +58,11 @@ class MainHandler(webapp2.RequestHandler):
             self.redirect(url)
         #If invalid, redirect back to homepage
         else:
-            self.write_form(error = "Invalid Module Code",
-                            faculty = faculty)
-
+            template = JINJA_ENVIRONMENT.get_template('index.html')
+            self.response.write(template.render({'error': 'Invalid Module Code', 'faculty': faculty}))
 
 class ResultsHandler(webapp2.RequestHandler):
+    
     def get(self):
         modCode = self.request.get('code')
         if not modValid(modCode):
