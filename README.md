@@ -1,9 +1,7 @@
-CORSInfo
+Corspedia
 ==
 
-A project to simplify the CORS research process. 
-
-Coding for a better world!
+A project aiming to simplify the CORS research process. A wikipedia for NUS modules. A hope for the confused students of NUS.
 
 
 Authors
