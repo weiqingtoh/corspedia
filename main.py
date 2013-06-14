@@ -78,7 +78,7 @@ class MainHandler(webapp2.RequestHandler):
         if modValid(modCode):
             url = '/mod?code='+modCode+'&fac=' + faculty
             url += '&acc=' + accType
-            if newStudent == 1:
+            if newStudent == "1":
                 url += '&new=1'
             else:
                 url += '&new=0'

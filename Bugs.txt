@@ -1,0 +1,6 @@
+GEM and SS modules - 
+
+SS Code: SSA, SSB, SSD, SSS
+GEM Code: GEK, GEM
+
+Overwrite rules to show for all cases.
