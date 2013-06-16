@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import json
 import webapp2
 import query
 import os
@@ -70,8 +71,8 @@ class ResultsHandler(webapp2.RequestHandler):
         faculty = self.request.get('fac')
         accType = self.request.get('acc')
         newStudent = self.request.get('new')
-        self.response.out.write(query.extract(modCode,faculty,accType,
-                                              newStudent))
+        self.response.out.write(json.dumps(query.extract(modCode,faculty,accType,
+                                              newStudent)))
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/mod', ResultsHandler)],
