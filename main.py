@@ -18,6 +18,7 @@ import json
 import webapp2
 import query
 import os
+import re
 import jinja2
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -25,7 +26,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'])
 
 def modValid(modCode):
-    return True
+    match = re.search(r'[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}', modCode)
+    return match
 
 def escape_html(s):
     s = s.replace('&',"&amp;")
@@ -47,15 +49,15 @@ class MainHandler(webapp2.RequestHandler):
         accType = self.request.get('accType')
         newStudent = self.request.get('newStudent')
 
-        #Check for validity of Module Code
-        #If valid, move to separate handler to process query
-        if modValid(modCode):
-            url = '/mod?code='+modCode+'&fac=' + faculty
-            url += '&acc=' + accType
+        #Check for validity of Module Code - if Valid, proceed, else return error
+        code = modValid(modCode)
+        if code:
+            url = '/mod?code='+code.group()+'&fac=' + faculty + '&acc=' 
+            url += accType + '&new='
             if newStudent == "1":
-                url += '&new=1'
+                url += '1'
             else:
-                url += '&new=0'
+                url += '0'
             self.redirect(url)
         #If invalid, redirect back to homepage
         else:
