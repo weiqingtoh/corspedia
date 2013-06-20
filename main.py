@@ -76,6 +76,13 @@ class ResultsHandler(webapp2.RequestHandler):
         self.response.out.write(json.dumps(query.extract(modCode,faculty,accType,
                                               newStudent)))
 
+class InfoHandler(webapp2.RequestHandler):
+
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('info.html')
+        self.response.write(template.render())
+
 app = webapp2.WSGIApplication([('/', MainHandler),
-                               ('/mod', ResultsHandler)],
+                               ('/mod', ResultsHandler),
+                               ('/info', InfoHandler)],
                               debug=True)
