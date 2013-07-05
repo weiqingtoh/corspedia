@@ -1,4 +1,5 @@
 import csv
+import json
 
 facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "ENG":"ENGINEERING",
@@ -16,11 +17,32 @@ facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "MED":"YONG LOO LIN SCHOOL OF MEDICINE",
                "YST":"YONG SIEW TOH CONSERVATORY OF MUSIC"}
 
+
+#This function is to return a dictionary of keys representing
+#the bid history of the module given the certain factors provided.
 def extract(modCode, faculty, accType, newStu):
+
+    #In case of lower letters
+    modCode = modCode.upper()
+
+    #if modCode is SS or GEM format and return output
+    if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
+        return outformat(extractdata(modCode,'g'), modCode)
+    
+    #Extract the Module Records
+    output = extractdata(modCode, accType)    
+
+    #Correct records for faculty, bidrounds
+    out = filterdata(faculty, newStu, output)                
+          
+    return outformat(out,modCode)
+
+
+#This function extracts all the module data from the CSV file
+def extractdata(modCode, accType):
+    
     output = []
-    out = []
-    faculties = []
-    with open('data.csv','rb') as csvfile:
+    with open('data/data.csv','rb') as csvfile:
         modData = csv.reader(csvfile)
         for row in modData:
             #Extract Records for Account and ModCode
@@ -29,18 +51,20 @@ def extract(modCode, faculty, accType, newStu):
                     output.append(row)
                 elif accType == 'g' and row[10] == '1':
                     output.append(row)
-                    
-    #Correct records for faculty, bidrounds
-    #if modCode is SS or GEM format and return output
-    if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
-        return outformat(output, modCode)
-                    
+    return output
+
+
+#This function identifies the necessary bid point sets to display
+def filterdata(faculty, newStu, output):
+    
+    out, faculties = [], []
     for row in output:
         #Filter by Rounds - Round 1A,1B,1C
         if row[11][0] == '1':
             if newStu == '0' and row[8] != '1':
                 if row[7] == facultyList[faculty]:
                     out.append(row)
+                    
         #Round 2A, 2B, 2C
         elif row[11][0] == '2':
             if row[11] == '2C':
@@ -51,23 +75,40 @@ def extract(modCode, faculty, accType, newStu):
             elif newStu == '1' and row[8] != '0':
                 if facultyList[faculty] == row[7]:
                     out.append(row)
-        #Round 3A, 3B, 3C
+                    
+        #Round 3A, 3B, 3C         
         else:
-            out.append(row)      
-    return outformat(out,modCode)
+            out.append(row)
+    return out
 
-#Can remove modCode and seek modCode within data
+
+
+#To format the current dictonary into the return schema
 def outformat(bidInfo, modCode):
+    data = modInfo(modCode)          
+    data['BidHistory'] = bidHistory(bidInfo)
+    return data
+
+#Extract the necessary module information from JSON file
+def modInfo(modCode):
     data = {}
-    data['Title'] = ""
     data['Module'] = modCode
-    with open('modName.csv','rb') as csvfile:
-        modData = csv.reader(csvfile)
-        for row in modData:
-            if row[0] == modCode:
-                data['Title']= row[1]
-            
-    #Create Bidhstory
+    with open('data/mod_info.json','r') as infile:
+        allInfo = json.load(infile)
+        moduleInfo = allInfo["cors"][modCode]
+        data['Title'] = moduleInfo['title']
+        data['Credit'] = moduleInfo['mcs']
+        data['Description'] = moduleInfo['description']
+        if 'preclusion' in moduleInfo:
+            data['Preclusions'] = moduleInfo['preclusion']
+        if 'prerequisite' in moduleInfo:
+            data['Prerequisities'] = moduleInfo['prerequisite']
+    return data
+
+#Represent the bidHistory in the output schema format
+def bidHistory(bidInfo):
+    
+    #Create Bidhstory Dictionary
     bidHist = {}
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
@@ -88,18 +129,20 @@ def outformat(bidInfo, modCode):
             for i in range(0,numLect):
                 letter = chr(ord('A')+ i)
                 bidHist[aySem][letter] = {}
-                for bidRd in ['1A','1B','1C','2A','2B','2C','3A','3B','3C']:
-                    bidHist[aySem][letter][bidRd] = [0,0,0,0,0]
 
-            #Input each entry
+                ## Can uncomment this if [0,0,0,0,0] is needed in all rounds
+                ##for bidRd in ['1A','1B','1C','2A','2B','2C','3A','3B','3C']:
+                    ##bidHist[aySem][letter][bidRd] = [0,0,0,0,0]
+
+            #Input each entry of bid points into final output
             for entry in tempList:
+                #Create the Letters for each Lecture Group
                 letter = chr(ord('A')+lectGrp.index(entry[1]))
+                bidHist[aySem][letter][entry[11]] = [0,0,0,0,0]
+                #Add in the necessary bidding points
                 for i in range(0,5):
                     bidHist[aySem][letter][entry[11]][i]=int(entry[i+2])
-    data['BidHistory'] = bidHist
-    return data
-
-
+    return bidHist
 
 print extract("GEM2900","BIZ","g","0")
 ##    print row
