@@ -1,8 +1,18 @@
-.logo-container {text-align: center;}
-.logo {margin: 0 auto; margin-top: 30px; margin-bottom: -30px;}
-.main-title {text-align: center;}
-h1,h2,h3,h4,h5,h6 {margin-bottom: 20px;}
-label {display: inline-block !important; margin-left: 10px; margin-right: 10px;}
-span.label-title {font-size: 1.25em;margin-right: 30px; width: 150px; display: inline-block; text-align: right;}
-#submit-button {cursor: pointer;width:200px; margin: 0 auto; display: block; font-size: 1.25em;}
-.error {color: red; font-size: 1.25em; text-align: center;}
+body { width: 960px; margin: 0 auto; }
+body, button, input, p, select, table { font-family: 'Lato', sans-serif; font-weight: 300; }
+p, table { font-weight: 300;}
+h1,h2,h3,h4,h5,h6 { margin-bottom: 20px; font-weight: 700;}
+
+/* Landing Page */
+.landing { width: 400px;}
+.logo-container { text-align: center;}
+.logo { margin: 0 auto; margin-top: 30px; margin-bottom: -30px;}
+.main-title { text-align: center;}
+.landing label.pure-radio { width: 70px; }
+label { display: inline-block !important; margin-left: 10px; margin-right: 10px;}
+span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: inline-block; text-align: right;}
+#submit-button { cursor: pointer;width:200px; margin: 0 auto; display: block; font-size: 1.25em;}
+.error { color: red; font-size: 1.25em; text-align: center;}
+
+/* Search Results */
+.module-description-table td:first-child { font-weight: 400; background-color: #eee; }

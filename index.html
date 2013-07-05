@@ -31,80 +31,71 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <link rel="stylesheet" href="css/gumby.css">
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/base-min.css">
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">
   <link rel="stylesheet" href="css/style.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
   
 </head>
-<body class="docs uikit" id="inner-doc">
-  <div class="container">
-    <div class="row">
-      <div class="centered eight columns" id="main-content">
-        <div class="logo-container">
-          <img class="logo" src="http://www.morevectors.com/wp-content/uploads/2012/09/Stack-of-books-vector-design.jpg" width="250"/>
-        </div>
-        <h1 class="lead main-title">Corspedia</h1>
-        <hr/>
-        <form method="post">
-          <ul>
-            <li class="field">
-              <span class="label-title"><strong>Module Code</strong></span>
-              <input class="normal text input" type="text" name="modCode" placeholder="Module Code" style="margin-left:8px">
-            </li>
-            <li class="field">
-              <span class="label-title"><strong>Faculty</strong></span>
-              <div class="picker">
-                <select class="wide" name="faculty">
-                    <option value="ART">Arts</option>
-                    <option value="BIZ">Business</option>
-                    <option value="COM">Computing</option>
-                    <option value="SDE">Design & Environment</option>
-                    <option value="ENG">Engine</option>
-                    <option value="LAW">Law</option>
-                    <option value="MED">Medicine</option>
-                    <option value="YST">Music</option>
-                    <option value="SCI">Science</option>
-                    <option value="USP">USP</option>
-                </select>
-              </div>
-            </li>
-            <li class="field">
-              <span class="label-title"><strong>Student Type</strong></span>
-              <label class="checkbox" for="check1">
-                <input name="newStudent" id="check1" value="1" type="checkbox">
-                <span></span> I am a new student
-              </label>
-            </li>
-            <li class="field">
-              <span class="label-title"><strong>Account Type</strong></span>
-              <label class="radio checked" for="radio1">
-                <input name="accType" id="radio1" value="p" type="radio" checked="checked">
-                <span></span> Program
-              </label>
-              <label class="radio" for="radio2">
-                <input name="accType" id="radio2" value="g" type="radio">
-                <span></span> General
-              </label>
-            </li>
-            <p class="error">{{ error }}</p>
-            <li class="field">
-              <input id="submit-button" class="medium metro rounded btn secondary" type="submit">
-            </li>
-          </ul>
-          <br>
-        </form>
-      </div>   
-    </div>
+<body class="landing" id="inner-doc">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="logo-container">
+        <img class="logo" src="http://www.morevectors.com/wp-content/uploads/2012/09/Stack-of-books-vector-design.jpg" width="250"/>
+      </div>
+      <h1 class="lead main-title">Corspedia</h1>
+      <hr/>
+      <form class="pure-form pure-form-aligned" method="post">
+        <fieldset>
+          <div class="pure-control-group">
+            <label for="modCode"><strong>Module Code</strong></label>
+            <input id="modCode" class="pure-input-rounded"  type="text" name="modCode" placeholder="Module Code">
+          </div>
+          <div class="pure-control-group">
+            <label for="faculty"><strong>Faculty</strong></label>
+            <select class="wide" name="faculty">
+              <option value="ART">Arts</option>
+              <option value="BIZ">Business</option>
+              <option value="COM">Computing</option>
+              <option value="SDE">Design & Environment</option>
+              <option value="ENG">Engine</option>
+              <option value="LAW">Law</option>
+              <option value="MED">Medicine</option>
+              <option value="YST">Music</option>
+              <option value="SCI">Science</option>
+              <option value="USP">USP</option>
+              </select>
+          </div>
+          <div class="pure-control-group">
+            <label for="studentType"><strong>Student Type</strong></label>
+            <label class="pure-checkbox" for="check1" style="text-align:left">
+              <input name="newStudent" id="check1" value="1" type="checkbox">
+              <span></span> I am a new student
+            </label>
+          </div>
+          <div class="pure-control-group">
+            <label for="studentType"><strong>Account Type</strong></label>
+            <label class="pure-radio" for="radio1">
+              <input name="accType" id="radio1" value="p" type="radio" checked="checked">
+              <span></span> Program
+            </label>
+            <label class="pure-radio" for="radio2">
+              <input name="accType" id="radio2" value="g" type="radio">
+              <span></span> General
+            </label>
+          </div>
+          <p class="error">{{ error }}</p>
+          <button id="submit-button" class="pure-button" type="submit">Submit</button>
+        </fieldset>
+      </form>
+    </div> 
   </div>
 
   <!-- Grab Google CDN's jQuery, fall back to local if offline -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
-  <script src="js/libs/gumby.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/tutors.js"></script>
 
   </body>
 </html>

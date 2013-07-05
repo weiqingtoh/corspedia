@@ -52,7 +52,7 @@ class MainHandler(webapp2.RequestHandler):
         #Check for validity of Module Code - if Valid, proceed, else return error
         code = modValid(modCode)
         if code:
-            url = '/mod?code='+code.group()+'&fac=' + faculty + '&acc=' 
+            url = '/results?code='+code.group()+'&fac=' + faculty + '&acc=' 
             url += accType + '&new='
             if newStudent == "1":
                 url += '1'
@@ -73,6 +73,21 @@ class ResultsHandler(webapp2.RequestHandler):
         faculty = self.request.get('fac')
         accType = self.request.get('acc')
         newStudent = self.request.get('new')
+        template = JINJA_ENVIRONMENT.get_template('results.html')
+        self.response.out.write(template.render({'output_modCode': modCode,
+                                                'output_faculty': faculty,
+                                                'output_accType': accType,
+                                                'output_newStudent': newStudent}))
+
+class QueryHandler(webapp2.RequestHandler):
+    
+    def get(self):
+        modCode = self.request.get('code')
+        if not modValid(modCode):
+            self.redirect('/')
+        faculty = self.request.get('fac')
+        accType = self.request.get('acc')
+        newStudent = self.request.get('new')
         self.response.out.write(json.dumps(query.extract(modCode,faculty,accType,
                                               newStudent)))
 
@@ -83,6 +98,7 @@ class InfoHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([('/', MainHandler),
-                               ('/mod', ResultsHandler),
+                               ('/results', ResultsHandler),
+                               ('/query', QueryHandler),
                                ('/info', InfoHandler)],
                               debug=True)
