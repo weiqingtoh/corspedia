@@ -85,8 +85,14 @@ def filterdata(faculty, newStu, output):
 
 #To format the current dictonary into the return schema
 def outformat(bidInfo, modCode):
+
+    ##Load the module information
     data = modInfo(modCode)          
+
+    ##TO DELETE
     data['BidHistory'] = bidHistory(bidInfo)
+
+    data['bid_history'] = bidHistory1(bidInfo)
     return data
 
 #Extract the necessary module information from JSON file
@@ -95,20 +101,32 @@ def modInfo(modCode):
     data['Module'] = modCode
     with open('data/mod_info.json','r') as infile:
         allInfo = json.load(infile)
-        moduleInfo = allInfo["cors"][modCode]
-        data['Title'] = moduleInfo['title']
-        data['Credit'] = moduleInfo['mcs']
-        data['Description'] = moduleInfo['description']
-        if 'preclusion' in moduleInfo:
-            data['Preclusions'] = moduleInfo['preclusion']
-        if 'prerequisite' in moduleInfo:
-            data['Prerequisities'] = moduleInfo['prerequisite']
+        if modCode in allInfo["cors"]:
+            moduleInfo = allInfo["cors"][modCode]
+
+            ###*** To Delete After Change ***###
+            data['Title'] = moduleInfo['title']
+            data['Credit'] = moduleInfo['mcs']
+            data['Description'] = moduleInfo['description']
+            if 'preclusion' in moduleInfo:
+                data['Preclusions'] = moduleInfo['preclusion']
+            if 'prerequisite' in moduleInfo:
+                data['Prerequisities'] = moduleInfo['prerequisite']
+            ###*** END OF DELETE ***###
+            
+            data['title'] = moduleInfo['title']
+            data['credit'] = moduleInfo['mcs']
+            data['description'] = moduleInfo['description']
+            if 'preclusion' in moduleInfo:
+                data['preclusions'] = moduleInfo['preclusion']
+            if 'prerequisite' in moduleInfo:
+                data['prerequisities'] = moduleInfo['prerequisite']
     return data
 
 #Represent the bidHistory in the output schema format
 def bidHistory(bidInfo):
     
-    #Create Bidhstory Dictionary
+    #Create Bidhistory Dictionary
     bidHist = {}
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
@@ -144,5 +162,42 @@ def bidHistory(bidInfo):
                     bidHist[aySem][letter][entry[11]][i]=int(entry[i+2])
     return bidHist
 
-print extract("GEM2900","BIZ","g","0")
+def bidHistory1(bidInfo):
+    
+    #Create Bidhistory Dictionary
+    bidHist = []
+    for year in ['2008','2009','2010','2011','2012']:
+        for sem in ['1','2']:
+            aySem = year + 's' + sem
+            bidHist.insert(0,{aySem:[]})
+            currSem = bidHist[0][aySem]
+            lectGrp, tempList = [], []
+
+            #Extract Relevant Rows to Display in AY and Sem
+            for row in bidInfo:
+                if row[12] == year and row[13] == sem:
+                    tempList.append(row)
+                    if row[1] not in lectGrp:
+                        lectGrp.append(row[1])
+
+            #Count number of Lecture Groups, Create Dictionary Output
+            numLect = len(lectGrp)
+            lectGrp.sort()
+            for i in range(0,numLect):
+                letter = chr(ord('a')+ i)
+                currSem.insert(len(currSem), {letter:[]})
+
+            #Input each entry of bid points into final output
+            for entry in tempList:
+                num = lectGrp.index(entry[1])
+                letter = chr(ord('a') + num)
+                bidPoints = [0,0,0,0,0]
+                for i in range(0,5):
+                    bidPoints[i] = int(entry[i+2])   
+                currSem[num][letter].insert(len(currSem[num][letter]),{entry[11].lower(): bidPoints})
+
+    return bidHist
+
+##print extract("GEM2900","BIZ","g","0")
+print extract("cs4243","COM","p","0")
 ##    print row
