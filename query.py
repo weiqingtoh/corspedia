@@ -98,20 +98,20 @@ def outformat(bidInfo, modCode):
 #Extract the necessary module information from JSON file
 def modInfo(modCode):
     data = {}
-    data['Module'] = modCode
+    data['module'] = modCode
     with open('data/mod_info.json','r') as infile:
         allInfo = json.load(infile)
         if modCode in allInfo["cors"]:
             moduleInfo = allInfo["cors"][modCode]
 
             ###*** To Delete After Change ***###
-            data['Title'] = moduleInfo['title']
-            data['Credit'] = moduleInfo['mcs']
-            data['Description'] = moduleInfo['description']
+            data['title'] = moduleInfo['title']
+            data['credit'] = moduleInfo['mcs']
+            data['description'] = moduleInfo['description']
             if 'preclusion' in moduleInfo:
-                data['Preclusions'] = moduleInfo['preclusion']
+                data['preclusions'] = moduleInfo['preclusion']
             if 'prerequisite' in moduleInfo:
-                data['Prerequisities'] = moduleInfo['prerequisite']
+                data['prerequisites'] = moduleInfo['prerequisite']
             ###*** END OF DELETE ***###
             
             data['title'] = moduleInfo['title']
@@ -120,7 +120,7 @@ def modInfo(modCode):
             if 'preclusion' in moduleInfo:
                 data['preclusions'] = moduleInfo['preclusion']
             if 'prerequisite' in moduleInfo:
-                data['prerequisities'] = moduleInfo['prerequisite']
+                data['prerequisites'] = moduleInfo['prerequisite']
     return data
 
 #Represent the bidHistory in the output schema format

@@ -50,12 +50,12 @@
       <div class="pure-u-1">
         <h2>Module Description</h2>
         <table class="pure-table pure-table-bordered module-description-table">
-          <tr><td>Module Code</td><td>{@ data.Module @}</td></tr>
-          <tr><td>Title</td><td>{@ data.Title @}</td></tr>
-          <tr><td>Description</td><td>{@ data.Description @}</td></tr>
-          <tr><td>Credits</td><td>{@ data.Credit @}</td></tr>
-          <tr><td>Pre-Requisites</td><td>{@ data.Prerequisities @}</td></tr>
-          <tr><td>Preclusions</td><td>{@ data.Preclusions @}</td></tr>
+          <tr><td>Module Code</td><td>{@ data.module @}</td></tr>
+          <tr><td>Title</td><td>{@ data.title @}</td></tr>
+          <tr><td>Description</td><td>{@ data.description @}</td></tr>
+          <tr><td>Credits</td><td>{@ data.credit @}</td></tr>
+          <tr><td>Pre-Requisites</td><td>{@ data.prerequisites @}</td></tr>
+          <tr><td>Preclusions</td><td>{@ data.preclusions @}</td></tr>
         </table>
       </div>
       <div class="pure-u-1">
@@ -64,8 +64,8 @@
           <thead>
             <tr>
               <th>Year and Sem</th>
-              <th>Bidding Round</th>
               <th>Lecture Group</th>
+              <th>Bidding Round</th>
               <th>Quota</th>
               <th>No of Bidders</th>
               <th>Lowest Bid</th>
@@ -74,8 +74,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="row in data.bid_history">
-              <td>{@ row.sem @}</td>
+            <tr ng-repeat="row in data.bid_history_rows">
+              <td >{@ row.sem @}</td>
               <td>{@ row.bidding_round @}</td>
               <td>{@ row.lecture_grp @}</td>
               <td>{@ row.value[0] @}</td>
