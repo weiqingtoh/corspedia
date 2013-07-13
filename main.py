@@ -14,12 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import json
-import webapp2
-import query
-import os
-import re
-import jinja2
+import json, webapp2, query, os, re, jinja2
+from google.appengine.api import memcache
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -88,8 +84,9 @@ class QueryHandler(webapp2.RequestHandler):
         faculty = self.request.get('fac')
         accType = self.request.get('acc')
         newStudent = self.request.get('new')
-        self.response.out.write(json.dumps(query.extract(modCode,faculty,accType,
-                                              newStudent)))
+
+        response = json.dumps(query.extract(modCode,faculty,accType,newStudent))
+        self.response.out.write(response)
 
 class InfoHandler(webapp2.RequestHandler):
 

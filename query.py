@@ -87,8 +87,9 @@ def filterdata(faculty, newStu, output):
 def outformat(bidInfo, modCode):
 
     ##Load the module information
-    data = modInfo(modCode)          
-
+    data = modInfo(modCode)
+    data['all_data'] = bidInfo
+    
     ##TO DELETE
     data['BidHistory'] = bidHistory(bidInfo)
 
@@ -198,6 +199,6 @@ def bidHistory1(bidInfo):
 
     return bidHist
 
-##print extract("GEM2900","BIZ","g","0")
-print extract("cs4243","COM","p","0")
+print extract("GEM2900","BIZ","g","0")
+##print extract("cs4243","COM","p","0")
 ##    print row
