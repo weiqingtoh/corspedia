@@ -128,11 +128,12 @@ def modInfo(modCode):
 def bidHistory(bidInfo):
     
     #Create Bidhistory Dictionary
-    bidHist = {}
+    bidHist = []
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
             aySem = year + 'S' + sem
-            bidHist[aySem] = {}
+            bidHist.append({"year":aySem})
+            bidHist[len(bidHist)-1]["bid_info"] = []
             lectGrp, tempList = [], []
 
             #Extract Relevant Rows to Display in AY and Sem
@@ -144,23 +145,23 @@ def bidHistory(bidInfo):
 
             #Count number of Lecture Groups, Create Dictionary Output
             numLect = len(lectGrp)
-            lectGrp.sort()
             for i in range(0,numLect):
                 letter = chr(ord('A')+ i)
-                bidHist[aySem][letter] = {}
-
-                ## Can uncomment this if [0,0,0,0,0] is needed in all rounds
-                ##for bidRd in ['1A','1B','1C','2A','2B','2C','3A','3B','3C']:
-                    ##bidHist[aySem][letter][bidRd] = [0,0,0,0,0]
+                bidHist[len(bidHist)-1]['bid_info'].append({"lecture_group":letter, "data":[]})
 
             #Input each entry of bid points into final output
             for entry in tempList:
                 #Create the Letters for each Lecture Group
-                letter = chr(ord('A')+lectGrp.index(entry[1]))
-                bidHist[aySem][letter][entry[11]] = [0,0,0,0,0]
+                letter = lectGrp.index(entry[1])                
+
+                bidPoints = {"bid_round" : entry[11]}
+                bidPoints['bid_summary'] = [0,0,0,0,0]
+                
                 #Add in the necessary bidding points
                 for i in range(0,5):
-                    bidHist[aySem][letter][entry[11]][i]=int(entry[i+2])
+                    bidPoints['bid_summary'][i]=int(entry[i+2])
+                bidHist[len(bidHist)-1]['bid_info'][letter]['data'].append(bidPoints)
+
     return bidHist
 
 def bidHistory1(bidInfo):
@@ -170,8 +171,8 @@ def bidHistory1(bidInfo):
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
             aySem = year + 's' + sem
-            bidHist.insert(0,{aySem:[]})
-            currSem = bidHist[0][aySem]
+            bidHist.insert(0,{"year":aySem, "data":[]})
+            currSem = bidHist[0]["data"]
             lectGrp, tempList = [], []
 
             #Extract Relevant Rows to Display in AY and Sem
@@ -183,19 +184,17 @@ def bidHistory1(bidInfo):
 
             #Count number of Lecture Groups, Create Dictionary Output
             numLect = len(lectGrp)
-            lectGrp.sort()
             for i in range(0,numLect):
                 letter = chr(ord('a')+ i)
-                currSem.insert(len(currSem), {letter:[]})
+                currSem.append({"lecture_group":letter, "bid_info":[]})
 
             #Input each entry of bid points into final output
             for entry in tempList:
                 num = lectGrp.index(entry[1])
-                letter = chr(ord('a') + num)
-                bidPoints = [0,0,0,0,0]
+                bidPoints = {"bid_round": entry[11], "bid_summary":[0,0,0,0,0]}
                 for i in range(0,5):
-                    bidPoints[i] = int(entry[i+2])   
-                currSem[num][letter].insert(len(currSem[num][letter]),{entry[11].lower(): bidPoints})
+                    bidPoints["bid_summary"][i] = int(entry[i+2])   
+                currSem[num]["bid_info"].append(bidPoints)
 
     return bidHist
 
