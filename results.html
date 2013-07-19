@@ -5,7 +5,7 @@
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
 <!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 9]><!--> <html class="no-js" lang="en" itemscope itemtype="http://schema.org/Product" > <!--<![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en" itemscope itemtype="http://schema.org/Product" ng-app="corspediaResults"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
 
@@ -44,8 +44,12 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
   <script src="js/jquery-ui.js"></script>
 </head>
-<body class="docs uikit" id="inner-doc" ng-app="corspediaResults">
-  <div class="container" ng-controller="resultsController">
+<body class="docs uikit results-screen" id="inner-doc" ng-controller="resultsController">
+  <div ng-class="loading_section">
+    <img src="img/ajax_loader.gif" />
+    <p>Loading results</p>
+  </div>
+  <div ng-class="results_section" ng-show="!loading">
     <div class="pure-g">
       <div class="pure-u-1">
         <h1>Search Results</h1>
@@ -68,12 +72,12 @@
       <div class="pure-u-1 bidding-history-table" id="bidding-history-table">
         <h2>Bidding History</h2>
         <ul>
-          <li ng-repeat="year in data.bid_history">
+          <li ng-repeat="year in data.bid_history_by_year">
             <a href="#{@ year.year @}" ng-show="year.data.length > 0"><span><strong>{@ year.year@}</strong></span></a>
           </li>
         </ul>
         <hr/>
-        <div ng-repeat="year in data.bid_history" id="{@ year.year @}">
+        <div ng-repeat="year in data.bid_history_by_year" id="{@ year.year @}">
             <h3>{@ year.year @}</h3>
             <div class="pure-u-1" ng-repeat="(index, group) in year.data">
               <table class="pure-table pure-table-bordered" width="100%">

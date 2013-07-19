@@ -16,6 +16,11 @@ span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: 
 .error { color: red; font-size: 1.25em; text-align: center;}
 
 /* Search Results */
+.results-screen div { transition: opacity 0.5s; -webkit-transition: opacity 0.5s;}
+.invisible { opacity: 0 }
+.loading-screen { width: 100%; height: 100%; }
+.loading-screen img { width: 50px; height: 50px; position: absolute; top: 45%; left: 50%; margin-left: -25px; margin-top: -25px;}
+.loading-screen p { position: absolute; top: 50%; text-align: center; width: 960px; }
 .module-description-table td:first-child { font-weight: 400; background-color: #eee; }
 .pure-table-bordered th { border-bottom: 1px solid #cbcbcb; background-color: #eee; }
 table {table-layout: fixed;}

@@ -93,7 +93,7 @@ def outformat(bidInfo, modCode):
     ##TO DELETE
     data['BidHistory'] = bidHistory(bidInfo)
 
-    data['bid_history'] = bidHistory1(bidInfo)
+    data['bid_history_by_year'] = bidHistoryByYear(bidInfo)
     return data
 
 #Extract the necessary module information from JSON file
@@ -164,7 +164,7 @@ def bidHistory(bidInfo):
 
     return bidHist
 
-def bidHistory1(bidInfo):
+def bidHistoryByYear(bidInfo):
     
     #Create Bidhistory Dictionary
     bidHist = []
