@@ -54,10 +54,10 @@
     <div class="pure-g">
       <div class="pure-u-1">
         <h1>Search Results</h1>
-        <p class="search-again"><a ng-click="showSearchContainer()">Search again...</a></p>
+        <p class="search-again"><a ng-click="show_search_section = !show_search_section; showSearchContainer()">{@{true: 'Close panel', false: 'Search again...' }[show_search_section]@}</a></p>
         <hr/>
         <div id="search-container">
-          <form class="pure-form pure-form-aligned" method="post">
+          <form class="pure-form pure-form-aligned results-search-form" method="post">
             <fieldset>
               <div class="pure-control-group">
                 <label for="modCode"><strong>Module Code</strong></label>
@@ -70,7 +70,7 @@
                   <option value="BIZ">Business</option>
                   <option value="COM">Computing</option>
                   <option value="SDE">Design & Environment</option>
-                  <option value="ENG">Engine</option>
+                  <option value="ENG">Engineering</option>
                   <option value="LAW">Law</option>
                   <option value="MED">Medicine</option>
                   <option value="YST">Music</option>
