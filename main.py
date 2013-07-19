@@ -74,6 +74,27 @@ class ResultsHandler(webapp2.RequestHandler):
                                                 'output_faculty': faculty,
                                                 'output_accType': accType,
                                                 'output_newStudent': newStudent}))
+    def post(self):
+        #Check if module code is valid
+        modCode = self.request.get('modCode')
+        faculty = self.request.get('faculty')
+        accType = self.request.get('accType')
+        newStudent = self.request.get('newStudent')
+        print "post to results"
+        #Check for validity of Module Code - if Valid, proceed, else return error
+        code = modValid(modCode)
+        if code:
+            url = '/results?code='+code.group()+'&fac=' + faculty + '&acc=' 
+            url += accType + '&new='
+            if newStudent == "1":
+                url += '1'
+            else:
+                url += '0'
+            self.redirect(url)
+        #If invalid, redirect back to homepage
+        else:
+            template = JINJA_ENVIRONMENT.get_template('index.html')
+            self.response.write(template.render({'error': 'Invalid Module Code', 'faculty': faculty}))
 
 class QueryHandler(webapp2.RequestHandler):
     

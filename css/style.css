@@ -16,6 +16,8 @@ span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: 
 .error { color: red; font-size: 1.25em; text-align: center;}
 
 /* Search Results */
+.search-again { text-align: right;}
+#search-container { display: none; }
 .results-screen div { transition: opacity 0.5s; -webkit-transition: opacity 0.5s;}
 .invisible { opacity: 0 }
 .loading-screen { width: 100%; height: 100%; }
