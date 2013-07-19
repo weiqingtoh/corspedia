@@ -46,8 +46,9 @@
 </head>
 <body class="docs uikit results-screen" id="inner-doc" ng-controller="resultsController">
   <div ng-class="loading_section">
-    <img src="img/ajax_loader.gif" />
-    <p>Loading results</p>
+    <img ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}"/>
+    <p ng-show="error">An error has occurred. Please try again later. <br/><br/> Return to <a href="/">Search</a>.</p>
+    <p ng-show="!error">Loading results...</p>
   </div>
   <div ng-class="results_section" ng-show="!loading">
     <div class="pure-g">
@@ -71,35 +72,36 @@
 
       <div class="pure-u-1 bidding-history-table" id="bidding-history-table">
         <h2>Bidding History</h2>
-        <ul>
-          <li ng-repeat="year in data.bid_history_by_year">
-            <a href="#{@ year.year @}" ng-show="year.data.length > 0"><span><strong>{@ year.year@}</strong></span></a>
+        <ul ng-show="!empty_data">
+          <li ng-repeat="year in data.bid_history_by_year" ng-show="year.data.length > 0">
+            <a href="#{@ year.year @}"><span><strong>{@ year.year@}</strong></span></a>
           </li>
         </ul>
         <hr/>
-        <div ng-repeat="year in data.bid_history_by_year" id="{@ year.year @}">
-            <h3>{@ year.year @}</h3>
-            <div class="pure-u-1" ng-repeat="(index, group) in year.data">
-              <table class="pure-table pure-table-bordered" width="100%">
-                <tr ng-show="index == 0">
-                  <th class="lecture-group">Lecture Group</th>
-                  <th class="bidding-round">Bidding Round</th>
-                  <th>Quota</th>
-                  <th>No. of Bidders</th>
-                  <th>Lowest Bid</th>
-                  <th>Lowest Succ Bid</th>
-                  <th>Highest Bid</th>
-                </tr>
-                <tr ng-repeat="round in group.bid_info">
-                  <td class="lecture-group" ng-show="$first" rowspan="{@ group.bid_info.length @}">
-                    <h2>{@ index + 1 @}</h2>
-                  </td>
-                  <td class="bidding-round">{@ round.bid_round @}</td>
-                  <td ng-repeat="value in round.bid_summary">{@ value @}</td>
-                </tr>
-              </table>
-            </div>
+        <div ng-repeat="year in data.bid_history_by_year" id="{@ year.year @}" ng-show="year.data.length != 0 && !empty_data">
+          <h3>{@ year.year @}</h3>
+          <div class="pure-u-1" ng-repeat="(index, group) in year.data">
+            <table class="pure-table pure-table-bordered" width="100%">
+              <tr ng-show="index == 0">
+                <th class="lecture-group">Lecture Group</th>
+                <th class="bidding-round">Bidding Round</th>
+                <th>Quota</th>
+                <th>No. of Bidders</th>
+                <th>Lowest Bid</th>
+                <th>Lowest Succ Bid</th>
+                <th>Highest Bid</th>
+              </tr>
+              <tr ng-repeat="round in group.bid_info">
+                <td class="lecture-group" ng-show="$first" rowspan="{@ group.bid_info.length @}">
+                  <h2>{@ index + 1 @}</h2>
+                </td>
+                <td class="bidding-round">{@ round.bid_round @}</td>
+                <td ng-repeat="value in round.bid_summary">{@ value @}</td>
+              </tr>
+            </table>
+          </div>
         </div>
+        <p class="empty-data" ng-show="empty_data">No history to display.</p>
       </div>
     </div>
   </div>

@@ -14,8 +14,10 @@ function resultsController($scope, $http, $timeout) {
 	$scope.accType = accType;
 	$scope.newStudent = newStudent;
 	$scope.loading = true;
+	$scope.error = false;
 	$scope.loading_section = {'loading-screen': true, 'invisible': !$scope.loading};
 	$scope.results_section = {'container': true, 'invisible': $scope.loading};
+	$scope.empty_data = true;
 
 	function constructQueryURL() {
 		return QUERY_URL_FORMAT.replace('<modCode>', $scope.modCode).
@@ -34,15 +36,22 @@ function resultsController($scope, $http, $timeout) {
 
 	$http.get(constructQueryURL()).success(function(res) {
 		$scope.data = res;
-		console.log($scope.data);
+		for (var i = 0; i < $scope.data.bid_history_by_year.length; i++) {
+			if ($scope.data.bid_history_by_year[i].data.length > 0) {
+				$scope.empty_data = false;
+				break;
+			}
+		}
 		setTimeout(function() {
-			$("#bidding-history-table").tabs();
+			if (!$scope.empty_data) {
+				$("#bidding-history-table").tabs();
+			}
 			$timeout(function() {
 				$scope.loading = false;
 				syncLoadingState();
 			}, 500)
 		});
 	}).error(function(res) {
-		alert('An error occurred.');
+		$scope.error = true;
 	});
 }
