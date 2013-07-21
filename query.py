@@ -39,7 +39,7 @@ def extract(modCode, faculty, accType, newStu):
         facErr = 'yes'
     if modCode not in modList:
         modErr = 'yes'
-    if facErr or modErr:
+    if facErr == 'yes' or modErr == 'yes':
         module = {}
         module[module] = modCode
         module['faculty_error'] = facErr
