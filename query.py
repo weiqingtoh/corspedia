@@ -1,5 +1,4 @@
-import csv
-import json
+import csv, json
 
 facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "ENG":"ENGINEERING",
@@ -24,10 +23,28 @@ def extract(modCode, faculty, accType, newStu):
 
     #In case of lower letters
     modCode = modCode.upper()
+    faculty = faculty.upper()
 
     #if modCode is SS or GEM format and return output
     if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
         return outformat(extractdata(modCode,'g'), modCode)
+
+    #Catch errors of module, of faculty
+    facErr, modErr, modList = 'no', 'no', []
+    infile = csv.reader(open('modName.csv','r'))
+    infile.next()
+    for row in infile:
+        modList.append(row[0])
+    if faculty not in facultyList:
+        facErr = 'yes'
+    if modCode not in modList:
+        modErr = 'yes'
+    if facErr or modErr:
+        module = {}
+        module[module] = modCode
+        module['faculty_error'] = facErr
+        module['module_error'] = modErr
+        return module        
     
     #Extract the Module Records
     output = extractdata(modCode, accType)    
