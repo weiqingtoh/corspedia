@@ -47,6 +47,12 @@ function resultsController($scope, $http, $timeout) {
 		} catch (err) {};
 	}
 
+	$scope.idify = function(str) {
+		var string = str.toLowerCase().split(' ').join('-');
+		console.log(string);
+		return string;
+	};
+
 	function fetchResults() {
 		$scope.loading = true;
 		$http.get(constructQueryURL()).success(function(res) {

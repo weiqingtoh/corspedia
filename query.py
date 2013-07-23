@@ -134,7 +134,7 @@ def bidHistoryByYear(bidInfo):
     bidHist = []
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
-            aySem = year[2:] + str(int(year[2:]) + 1).zfill(2) + 'S' + sem
+            aySem = 'AY' + year[2:] + '/' + str(int(year[2:]) + 1).zfill(2) + ' Sem ' + sem
             bidHist.insert(0,{"year":aySem, "data":[]})
             currSem = bidHist[0]["data"]
             lectGrp, tempList = [], []

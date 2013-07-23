@@ -125,11 +125,11 @@
         <h2>Bidding History</h2>
         <ul ng-show="!empty_data">
           <li ng-repeat="year in data.bid_history_by_year" ng-show="year.data.length > 0">
-            <a href="#{@ year.year @}"><span><strong>{@ year.year@}</strong></span></a>
+            <a href="#{@ idify(year.year) @}"><span><strong>{@ year.year@}</strong></span></a>
           </li>
         </ul>
         <hr/>
-        <div ng-repeat="year in data.bid_history_by_year" id="{@ year.year @}" ng-show="year.data.length != 0 && !empty_data">
+        <div ng-repeat="year in data.bid_history_by_year" id="{@ idify(year.year) @}" ng-show="year.data.length != 0 && !empty_data">
           <h3>{@ year.year @}</h3>
           <div class="pure-u-1" ng-repeat="(index, group) in year.data">
             <table class="pure-table pure-table-bordered" width="100%">
