@@ -49,7 +49,6 @@ function resultsController($scope, $http, $timeout) {
 
 	$scope.idify = function(str) {
 		var string = str.toLowerCase().split(' ').join('-');
-		console.log(string);
 		return string;
 	};
 
@@ -57,7 +56,7 @@ function resultsController($scope, $http, $timeout) {
 		$scope.loading = true;
 		$http.get(constructQueryURL()).success(function(res) {
 			$scope.data = res;
-			console.log(res);
+			// console.log(res);
 			if ($scope.data.module_error || $scope.data.faculty_error) {
 				$scope.error = true;
 				return;
