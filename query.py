@@ -25,10 +25,6 @@ def extract(modCode, faculty, accType, newStu):
     modCode = modCode.upper()
     faculty = faculty.upper()
 
-    #if modCode is SS or GEM format and return output
-    if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
-        return outformat(extractdata(modCode,'g'), modCode)
-
     #Catch errors of module, of faculty
     facErr, modErr, modList = False, False, []
     infile = csv.reader(open('modName.csv','r'))
@@ -45,6 +41,10 @@ def extract(modCode, faculty, accType, newStu):
         module['faculty_error'] = facErr
         module['module_error'] = modErr
         return module        
+
+    #if modCode is SS or GEM format and return output
+    if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
+        return outformat(extractdata(modCode,'g'), modCode)
     
     #Extract the Module Records
     output = extractdata(modCode, accType)    
