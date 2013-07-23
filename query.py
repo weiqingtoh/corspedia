@@ -30,18 +30,18 @@ def extract(modCode, faculty, accType, newStu):
         return outformat(extractdata(modCode,'g'), modCode)
 
     #Catch errors of module, of faculty
-    facErr, modErr, modList = 'no', 'no', []
+    facErr, modErr, modList = False, False, []
     infile = csv.reader(open('modName.csv','r'))
     infile.next()
     for row in infile:
         modList.append(row[0])
     if faculty not in facultyList:
-        facErr = 'yes'
+        facErr = True
     if modCode not in modList:
-        modErr = 'yes'
-    if facErr == 'yes' or modErr == 'yes':
+        modErr = True
+    if facErr or modErr :
         module = {}
-        module[module] = modCode
+        module["module"] = modCode
         module['faculty_error'] = facErr
         module['module_error'] = modErr
         return module        
@@ -134,7 +134,7 @@ def bidHistoryByYear(bidInfo):
     bidHist = []
     for year in ['2008','2009','2010','2011','2012']:
         for sem in ['1','2']:
-            aySem = year + 's' + sem
+            aySem = year[2:] + str(int(year[2:]) + 1).zfill(2) + 'S' + sem
             bidHist.insert(0,{"year":aySem, "data":[]})
             currSem = bidHist[0]["data"]
             lectGrp, tempList = [], []
