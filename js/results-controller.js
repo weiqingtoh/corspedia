@@ -34,7 +34,7 @@ function resultsController($scope, $http, $timeout) {
 	}
 
 	$scope.newSearch = function() {
-		fetchResults(false);
+		window.location = constructQueryURL().replace('query', 'results');
 	}
 
 	function syncLoadingState() {
@@ -47,10 +47,8 @@ function resultsController($scope, $http, $timeout) {
 		} catch (err) {};
 	}
 
-	function fetchResults(new_search) {
+	function fetchResults() {
 		$scope.loading = true;
-		$scope.loading_section = {'loading-screen': true, 'invisible': !$scope.loading};
-		$scope.results_section = {'container': true, 'invisible': $scope.loading};
 		$http.get(constructQueryURL()).success(function(res) {
 			$scope.data = res;
 			for (var i = 0; i < $scope.data.bid_history_by_year.length; i++) {
@@ -62,9 +60,6 @@ function resultsController($scope, $http, $timeout) {
 			setTimeout(function() {
 				if (!$scope.empty_data) {
 					$timeout(function() {
-						if (!new_search) {
-							$("#bidding-history-table").tabs("destroy");
-						}
 						$("#bidding-history-table").tabs();
 					}, 0);
 				}
@@ -78,5 +73,5 @@ function resultsController($scope, $http, $timeout) {
 		});
 	}
 
-	fetchResults(true);
+	fetchResults();
 }
