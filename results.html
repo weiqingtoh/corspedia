@@ -47,10 +47,12 @@
 <body class="docs uikit results-screen" id="inner-doc" ng-controller="resultsController">
   <div ng-class="loading_section">
     <img ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}"/>
-    <p ng-show="faculty_error">The faculty input is invalid.<br/></p>
-    <p ng-show="module_error">The module code you have entered is invalid.<br/></p>
-    <p ng-show="error">An error has occurred. Please try again later. <br/><br/> Return to <a href="/">Search</a>.</p>
-    <p ng-show="!error">Loading results...</p>
+    <div class="error-container">
+      <p ng-show="data.faculty_error">The faculty you have chosen was not found.</p>
+      <p ng-show="data.module_error">The module code you have entered was invalid.</p>
+      <p ng-show="error">An error has occurred. Please try again later. <br/><br/> Return to <a href="/">Search</a>.</p>
+      <p ng-show="!error">Loading results...</p>
+    </div>
   </div>
   <div ng-class="results_section" ng-show="!loading">
     <div class="pure-g">
