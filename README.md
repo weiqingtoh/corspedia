@@ -2,6 +2,7 @@ Corspedia
 ==
 
 Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives.  
+Try it out at [http://www.corspedia.com](http://www.corspedia.com).  
 It is powered by [Google App Engine](https://cloud.google.com/products/), [AngularJS](http://angularjs.org/) and [Pure](http://purecss.io/). 
 
 Background
@@ -16,9 +17,18 @@ Issues
 --
 We understand that Corspedia is far from perfect. Improvements and suggestions can reach us at [nuscorsinfo@gmail.com](<mailto:nuscorsinfo@gmail.com>).
 
-
 Authors
 -- 
 
 - Toh Weiqing ([https://www.github.com/weiqingtoh](https://www.github.com/weiqingtoh))  
 - Tay Yang Shun ([https://www.github.com/yangshun](https://www.github.com/yangshun))
+
+License
+--
+Copyright (c) Corspedia 2013. Licensed under the MIT license.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
