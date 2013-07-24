@@ -25,7 +25,7 @@ def extract(modCode, faculty, accType, newStu):
     modCode = modCode.upper()
     faculty = faculty.upper()
 
-    #Catch errors of module, of faculty
+    #Catch errors of module and/or faculty
     facErr, modErr, modList = False, False, []
     infile = csv.reader(open('modName.csv','r'))
     infile.next()
@@ -37,7 +37,7 @@ def extract(modCode, faculty, accType, newStu):
         modErr = True
     if facErr or modErr :
         module = {}
-        module["module"] = modCode
+        module['module'] = modCode
         module['faculty_error'] = facErr
         module['module_error'] = modErr
         return module        
@@ -86,6 +86,8 @@ def filterdata(faculty, newStu, output):
         elif row[11][0] == '2':
             if row[11] == '2C':
                 out.append(row)
+            elif row[9] == '1' and row[10] == '1':
+                    out.append(row)
             elif newStu == '0' and row[8] != '1':
                 if facultyList[faculty] == row[7]:
                     out.append(row)
@@ -115,12 +117,13 @@ def modInfo(modCode):
     data['module'] = modCode
     with open('data/mod_info.json','r') as infile:
         allInfo = json.load(infile)
-        if modCode in allInfo["cors"]:
-            moduleInfo = allInfo["cors"][modCode]
+        if modCode in allInfo:
+            moduleInfo = allInfo[modCode]
 
             data['title'] = moduleInfo['title']
-            data['credit'] = moduleInfo['mcs']
-            data['description'] = moduleInfo['description']
+            data['credit'] = moduleInfo['credit']
+            if 'description' in moduleInfo:
+                data['description'] = moduleInfo['description']
             if 'preclusion' in moduleInfo:
                 data['preclusions'] = moduleInfo['preclusion']
             if 'prerequisite' in moduleInfo:
@@ -159,9 +162,12 @@ def bidHistoryByYear(bidInfo):
                 for i in range(0,5):
                     bidPoints["bid_summary"][i] = int(entry[i+2])   
                 currSem[num]["bid_info"].append(bidPoints)
-
-    return bidHist
+    bidHist1 = []
+    for item in bidHist:
+        if len(item['data']) > 0:
+            bidHist1.append(item)
+    return bidHist1
 
 print extract("GEM2900","BIZ","g","0")
-##print extract("cs4243","COM","p","0")
+print extract("ma3220","COM","p","0")
 ##    print row
