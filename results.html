@@ -47,7 +47,7 @@
   <script src="js/jquery-ui.js"></script>
 </head>
 <body class="docs uikit results-screen" id="inner-doc" ng-controller="resultsController">
-  <div ng-class="loading_section">
+  <div ng-class="loading_section" ng-show="loading || error">
     <img ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}"/>
     <div class="error-container">
       <p ng-show="data.faculty_error">The faculty you have chosen was not found.</p>
@@ -56,7 +56,7 @@
       <p ng-show="!error">Loading results...</p>
     </div>
   </div>
-  <div ng-class="results_section" ng-show="!loading">
+  <div ng-class="results_section" ng-show="!loading && !error">
     <div class="pure-g">
       <div class="pure-u-1">
         <h1>Search Results</h1>
@@ -156,6 +156,13 @@
         </div>
         <p class="empty-data" ng-show="empty_data">No history to display.</p>
       </div>
+    </div>
+  </div>
+  <div class="pure-g footer" ng-show="!loading && !error">
+    <div class="pure-u-1">
+      <hr/>
+      <p>&copy; Corspedia 2013 | Fork us on <a target="_blank" href="https://github.com/weiqingtoh/CORSBid">Github</a></p>
+      <p class="credits">Built by <a target="_blank" href="https://github.com/weiqingtoh/">Toh Weiqing</a> and <a target="_blank" href="https://github.com/yangshun/">Tay Yang Shun</a>.</p>
     </div>
   </div>
 

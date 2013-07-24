@@ -58,6 +58,7 @@ function resultsController($scope, $http, $timeout) {
 			$scope.data = res;
 			// console.log(res);
 			if ($scope.data.module_error || $scope.data.faculty_error) {
+				$scope.loading = false;
 				$scope.error = true;
 				return;
 			}
