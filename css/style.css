@@ -5,7 +5,8 @@ p, table { font-weight: 300;}
 h1,h2,h3,h4,h5,h6 { margin-bottom: 20px; font-weight: 700;}
 
 a { color: #666; cursor: pointer !important; text-decoration: none; }
-.footer { text-align: center; padding-top: 50px; padding-bottom: 50px; }
+.footer { text-align: center; padding-top: 25px; padding-bottom: 15px; }
+.footer p {width: 100%;}
 .footer .credits { font-size: 13px;}
 .footer a { font-weight: 700;}
 
