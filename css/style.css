@@ -2,13 +2,19 @@ html {width: 100%; }
 body { margin: 0 auto; margin-bottom: 50px; height: 100%;}
 body, button, input, p, select, table { font-family: 'Lato', sans-serif; font-weight: 300; }
 p, table { font-weight: 300;}
-h1,h2,h3,h4,h5,h6 { margin-bottom: 20px; font-weight: 700;}
+h1,h2,h3,h4,h5,h6 { font-family: 'Arvo', sans-serif; color: #666; margin-bottom: 20px; font-weight: 700;}
+h1 { font-size: 48px; color: #00577b; }
+button { font-family: 'Arvo', sans-serif; font-weight: 700; }
 
 a { color: #666; cursor: pointer !important; text-decoration: none; }
+a:hover { color: #00577b; }
 .footer { text-align: center; padding-top: 25px; padding-bottom: 15px; max-width: 960px; margin: 0 auto;}
 .footer p {width: 100%;}
-.footer .credits { font-size: 13px;}
+.footer .copyright { font-size: 18px; }
+.footer .credits { font-size: 15px; }
+.footer .nusmods { font-size: 13px; }
 .footer a { font-weight: 700;}
+.pure-button-primary { background-color: #00577b; }
 
 /* Landing Page */
 .landing { width: 400px; padding-left: 10px; padding-right: 10px; }
