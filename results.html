@@ -75,6 +75,7 @@
   </div>
   <div class="bookmarks-container" ng-show="show_bookmarks_section">
     <h2>Bookmarks</h2>
+    <p ng-show="emptyBookmarks()">You have no bookmarked modules.</p>
     <div class="bookmarks-section">
       <ul>
         <li ng-repeat="mod in bookmarks_list"><a ng-click="newSearch(mod)">{@ mod @} </a><span ng-click="removeBookmark(mod)" class="bookmark-delete">&#10006;</span></li>

@@ -99,6 +99,7 @@ function ResultsController($scope, $http, $timeout) {
 		$scope.bookmarks_list = {};
 		saveBookmarks();
 	}
+	console.log(Object.keys($scope.bookmarks_list).length);
 
 	$scope.addBookmark = function(module) {
 		$scope.bookmarks_list[module] = module;
@@ -113,6 +114,10 @@ function ResultsController($scope, $http, $timeout) {
 
 	function saveBookmarks() {
 		localStorage.setItem("bookmark_list", angular.toJson($scope.bookmarks_list));
+	}
+
+	$scope.emptyBookmarks = function() {
+		return Object.keys($scope.bookmarks_list).length === 0;
 	}
 
 	$scope.moduleInBookmarks = function() {
