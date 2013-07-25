@@ -45,9 +45,10 @@
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="logo-container">
-        <img class="logo" src="img/icon_books.png" width="250"/>
+        <img class="logo" src="img/icon_books.png" width="200"/>
       </div>
       <h1 class="lead main-title">Corspedia</h1>
+      <p>Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives.</p>
       <hr/>
       <form class="pure-form pure-form-aligned" method="post">
         <fieldset>
@@ -72,21 +73,23 @@
           </div>
           <div class="pure-control-group">
             <label for="studentType"><strong>Student Type</strong></label>
-            <label class="pure-checkbox" for="check1" style="text-align:left">
+            <label class="pure-checkbox" for="check1" style="text-align:left; width: 9em;">
               <input name="newStudent" id="check1" value="1" type="checkbox">
               <span></span> I am a new student
             </label>
           </div>
-          <div class="pure-control-group">
-            <label for="studentType"><strong>Account Type</strong></label>
-            <label class="pure-radio" for="radio1">
-              <input name="accType" id="radio1" value="p" type="radio" checked="checked">
-              <span></span> Program
-            </label>
-            <label class="pure-radio" for="radio2">
-              <input name="accType" id="radio2" value="g" type="radio">
-              <span></span> General
-            </label>
+          <div class="pure-control-group" style="height: 40px;">
+            <label for="studentType" style="height: 100%"><strong>Account Type</strong></label>
+            <div style="display: inline-block;">
+              <label class="pure-radio" for="radio1">
+                <input name="accType" id="radio1" value="p" type="radio" checked="checked">
+                <span>Program</span>
+              </label>
+              <label class="pure-radio" for="radio2">
+                <input name="accType" id="radio2" value="g" type="radio">
+                <span>General</span>
+              </label>
+            </div>
           </div>
           <p class="error">{{ error }}</p>
           <button id="submit-button" class="pure-button" type="submit">Submit</button>

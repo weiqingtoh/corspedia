@@ -91,16 +91,18 @@
                   <span></span> I am a new student
                 </label>
               </div>
-              <div class="pure-control-group">
-                <label for="studentType"><strong>Account Type</strong></label>
-                <label class="pure-radio" for="radio1">
-                  <input name="accType" id="radio1" value="p" type="radio" checked="checked" ng-model="accType">
-                  <span></span> Program
-                </label>
-                <label class="pure-radio" for="radio2">
-                  <input name="accType" id="radio2" value="g" type="radio" ng-model="accType">
-                  <span></span> General
-                </label>
+              <div class="pure-control-group" style="height: 40px;">
+                <label for="studentType" style="height: 100%"><strong>Account Type</strong></label>
+                <div style="display: inline-block;">
+                  <label class="pure-radio" for="radio1">
+                    <input name="accType" id="radio1" value="p" type="radio" checked="checked" ng-model="accType">
+                    <span></span> Program
+                  </label>
+                  <label class="pure-radio" for="radio2">
+                    <input name="accType" id="radio2" value="g" type="radio" ng-model="accType">
+                    <span></span> General
+                  </label>
+                </div>
               </div>
               <p class="error">{{ error }}</p>
               <button id="submit-button" class="pure-button" ng-click="newSearch()">Search</button>
