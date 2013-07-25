@@ -8,7 +8,7 @@ angular.module('corspediaResults', [], function ($interpolateProvider) {
 var QUERY_URL_FORMAT = '/query?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 
-function resultsController($scope, $http, $timeout) {
+function ResultsController($scope, $http, $timeout) {
 
 	$scope.modCode = modCode;
 	$scope.faculty = faculty;
@@ -26,15 +26,21 @@ function resultsController($scope, $http, $timeout) {
 		$('#search-container').toggle("blind");
 	}
 
-	function constructQueryURL() {
-		return QUERY_URL_FORMAT.replace('<modCode>', $scope.modCode).
-								replace('<faculty>', $scope.faculty).
-								replace('<accType>', $scope.accType).
-								replace('<newStudent>', $scope.newStudent);				
+	function constructURL(type, mod, fac, acc, stu) {
+		var format = type == 'query' ? QUERY_URL_FORMAT : RESULTS_URL_FORMAT;
+		var m = mod ? mod : $scope.modCode;
+		var f = fac ? fac : $scope.faculty;
+		var a = acc ? acc : $scope.accType;
+		var s = stu ? stu : $scope.newStudent;
+		return format.replace('<modCode>', m).
+						replace('<faculty>', f).
+						replace('<accType>', a).
+						replace('<newStudent>', s);				
 	}
 
-	$scope.newSearch = function() {
-		window.location = constructQueryURL().replace('query', 'results');
+	$scope.newSearch = function(module) {
+		var new_url = constructURL('results', module);
+		window.location = new_url;
 	}
 
 	function syncLoadingState() {
@@ -54,7 +60,7 @@ function resultsController($scope, $http, $timeout) {
 
 	function fetchResults() {
 		$scope.loading = true;
-		$http.get(constructQueryURL()).success(function(res) {
+		$http.get(constructURL('query')).success(function(res) {
 			$scope.data = res;
 			// console.log(res);
 			if ($scope.data.module_error || $scope.data.faculty_error) {
@@ -85,4 +91,31 @@ function resultsController($scope, $http, $timeout) {
 	}
 
 	fetchResults();
+
+	$scope.show_bookmarks_section = false;
+	$scope.bookmarks_list = angular.fromJson(localStorage.getItem("bookmark_list"));
+
+	if ($scope.bookmarks_list === null) {
+		$scope.bookmarks_list = {};
+		saveBookmarks();
+	}
+
+	$scope.addBookmark = function(module) {
+		$scope.bookmarks_list[module] = module;
+		$scope.show_bookmarks_section = true;
+		saveBookmarks();
+	}
+
+	$scope.removeBookmark = function(module) {
+		delete $scope.bookmarks_list[module];
+		saveBookmarks();
+	}
+
+	function saveBookmarks() {
+		localStorage.setItem("bookmark_list", angular.toJson($scope.bookmarks_list));
+	}
+
+	$scope.moduleInBookmarks = function() {
+		return $scope.modCode in $scope.bookmarks_list;
+	}
 }

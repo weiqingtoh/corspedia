@@ -47,7 +47,7 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
   <script src="js/jquery-ui.js"></script>
 </head>
-<body class="docs uikit results-screen" id="inner-doc" ng-controller="resultsController">
+<body class="docs uikit results-screen" id="inner-doc" ng-controller="ResultsController">
   <div id="fb-root"></div>
   <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -63,6 +63,22 @@
       <p ng-show="data.module_error">The module code you have entered was invalid.</p>
       <p ng-show="error">An error has occurred. Please try again later. <br/><br/> Return to <a href="/">Search</a>.</p>
       <p ng-show="!error">Loading results...</p>
+    </div>
+  </div>
+  <div class="pure-menu pure-menu-open pure-menu-horizontal nav-section" ng-show="!loading && !error">
+    <a href="/" class="pure-menu-heading">Corspedia</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#">Search</a></li>
+        <li><a href="#" ng-click="show_bookmarks_section = !show_bookmarks_section">{@{true: 'Hide', false: 'Show' }[show_bookmarks_section]@} Bookmarks</a></li>
+    </ul>
+  </div>
+  <div class="bookmarks-container" ng-show="show_bookmarks_section">
+    <h2>Bookmarks</h2>
+    <div class="bookmarks-section">
+      <ul>
+        <li ng-repeat="mod in bookmarks_list"><a ng-click="newSearch(mod)">{@ mod @} </a><span ng-click="removeBookmark(mod)" class="bookmark-delete">&#10006;</span></li>
+      </ul>
     </div>
   </div>
   <div ng-class="results_section" ng-show="!loading && !error">
@@ -123,9 +139,13 @@
     </div>
     <div class="pure-g">
       <div class="pure-u-1">
-        <h2>Module Description</h2>
+        <h2>Module Information</h2>
+        <p class="bookmark-module">
+          <a ng-show="!moduleInBookmarks()" ng-click="addBookmark(data.module)">Bookmark Module</a>
+          <span class="bookmarked" ng-show="moduleInBookmarks()">Bookmarked!</span>
+        </p>
         <table class="pure-table pure-table-bordered module-description-table">
-          <tr ng-show="data.module"><td>Module Code</td><td ng-bind-html-unsafe="data.module"></td></tr>
+          <tr ng-show="data.module"><td>Module Code</td><td>{@ data.module @} </td></tr>
           <tr ng-show="data.title"><td>Title</td><td ng-bind-html-unsafe="data.title"></td></tr>
           <tr ng-show="data.description"><td>Description</td><td ng-bind-html-unsafe="data.description"></td></tr>
           <tr ng-show="data.credit"><td>Credits</td><td>{@ data.credit @}</td></tr>
