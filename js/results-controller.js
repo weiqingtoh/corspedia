@@ -100,6 +100,15 @@ function ResultsController($scope, $http, $timeout) {
 		saveBookmarks();
 	}
 
+	$scope.toggleBookmarksSection = function() {
+		$scope.show_bookmarks_section = !$scope.show_bookmarks_section; 
+		if (show_bookmarks_section) {
+			_gaq.push(['_trackEvent', 'Bookmarks', 'Open']);
+		} else {
+			_gaq.push(['_trackEvent', 'Bookmarks', 'Close']);
+		}
+	}
+
 	$scope.addBookmark = function(module) {
 		$scope.bookmarks_list[module] = module;
 		$scope.show_bookmarks_section = true;

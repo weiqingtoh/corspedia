@@ -70,7 +70,7 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="#">Search</a></li>
-        <li><a href="#" ng-click="show_bookmarks_section = !show_bookmarks_section">{@{true: 'Hide', false: 'Show' }[show_bookmarks_section]@} Bookmarks</a></li>
+        <li><a href="#" ng-click="toggleBookmarksSection()">{@{true: 'Hide', false: 'Show' }[show_bookmarks_section]@} Bookmarks</a></li>
     </ul>
   </div>
   <div class="bookmarks-container" ng-show="show_bookmarks_section">
