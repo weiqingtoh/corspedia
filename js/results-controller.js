@@ -100,7 +100,7 @@ function ResultsController($scope, $http, $timeout) {
 				$timeout(function() {
 					$scope.loading = false;
 					syncLoadingState();
-				}, 500)
+				}, 250)
 			});
 		}).error(function(res) {
 			$scope.error = true;
