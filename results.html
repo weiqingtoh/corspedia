@@ -181,7 +181,7 @@
                   <h2>{@ index + 1 @}</h2>
                 </td>
                 <td class="bidding-round">{@ round.bid_round @}</td>
-                <td ng-repeat="value in round.bid_summary">{@ value @}</td>
+                <td ng-repeat="value in round.bid_summary" ng-class="{true: 'success', false: 'nothing'}[$index == 3];">{@ value @}</td>
               </tr>
             </table>
           </div>

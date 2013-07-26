@@ -70,6 +70,7 @@ table {table-layout: fixed;}
 .bidding-history-table table { text-align: center; min-width: 800px; }
 .bidding-history-table .lecture-group { width: 120px; }
 .bidding-history-table .bidding-round { width: 120px; }
+.bidding-history-table .success { font-weight: 400; color: rgb(0, 196, 63); }
 .ui-tabs .ui-tabs-panel { padding: 0; }
 .ui-tabs-active { background-color: #eee; border-radius: 5px; }
 .ui-tabs-anchor:hover { background-color: #ccc; border-radius: 5px; }
