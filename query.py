@@ -152,8 +152,7 @@ def bidHistoryByYear(bidInfo):
             #Count number of Lecture Groups, Create Dictionary Output
             numLect = len(lectGrp)
             for i in range(0,numLect):
-                letter = chr(ord('a')+ i)
-                currSem.append({"lecture_group":letter, "bid_info":[]})
+                currSem.append({"bid_info":[]})
 
             #Input each entry of bid points into final output
             for entry in tempList:
@@ -169,5 +168,5 @@ def bidHistoryByYear(bidInfo):
     return bidHist1
 
 print extract("GEM2900","BIZ","g","0")
-print extract("ma3220","COM","p","0")
+print extract("eg1413","eng","p","0")
 ##    print row
