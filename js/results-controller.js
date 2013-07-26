@@ -10,8 +10,8 @@ var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&ne
 
 function ResultsController($scope, $http, $timeout) {
 
-	$scope.modCode = modCode;
-	$scope.faculty = faculty;
+	$scope.modCode = modCode.toUpperCase();
+	$scope.faculty = faculty.toUpperCase();
 	$scope.accType = accType;
 	$scope.newStudent = newStudent.toString();
 	$scope.loading = true;
@@ -93,13 +93,12 @@ function ResultsController($scope, $http, $timeout) {
 	fetchResults();
 
 	$scope.show_bookmarks_section = false;
-	$scope.bookmarks_list = angular.fromJson(localStorage.getItem("bookmark_list"));
+	$scope.bookmarks_list = angular.fromJson(localStorage["bookmark_list"]);
 
 	if ($scope.bookmarks_list === null) {
 		$scope.bookmarks_list = {};
 		saveBookmarks();
 	}
-	console.log(Object.keys($scope.bookmarks_list).length);
 
 	$scope.addBookmark = function(module) {
 		$scope.bookmarks_list[module] = module;
@@ -113,7 +112,7 @@ function ResultsController($scope, $http, $timeout) {
 	}
 
 	function saveBookmarks() {
-		localStorage.setItem("bookmark_list", angular.toJson($scope.bookmarks_list));
+		localStorage["bookmark_list"] = angular.toJson($scope.bookmarks_list);
 	}
 
 	$scope.emptyBookmarks = function() {
