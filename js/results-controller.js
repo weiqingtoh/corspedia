@@ -22,8 +22,16 @@ function ResultsController($scope, $http, $timeout) {
 
 	$scope.show_search_section = false;
 
-	$scope.showSearchContainer = function() {
+	$scope.toggleSearchContainer = function() {
+
 		$('#search-container').toggle("blind");
+		$scope.show_search_section = !$scope.show_search_section; 
+		if ($scope.show_search_section) {
+			_gaq.push(['_trackEvent', 'Search', 'Open']);
+		} else {
+			_gaq.push(['_trackEvent', 'Search', 'Close']);
+		}
+		
 	}
 
 	function constructURL(type, mod, fac, acc, stu) {
@@ -102,7 +110,7 @@ function ResultsController($scope, $http, $timeout) {
 
 	$scope.toggleBookmarksSection = function() {
 		$scope.show_bookmarks_section = !$scope.show_bookmarks_section; 
-		if (show_bookmarks_section) {
+		if ($scope.show_bookmarks_section) {
 			_gaq.push(['_trackEvent', 'Bookmarks', 'Open']);
 		} else {
 			_gaq.push(['_trackEvent', 'Bookmarks', 'Close']);
