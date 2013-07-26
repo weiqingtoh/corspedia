@@ -5,7 +5,7 @@
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
 <!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 9]><!--> <html class="no-js" lang="en" itemscope itemtype="http://schema.org/Product" > <!--<![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en" itemscope itemtype="http://schema.org/Product"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
 
@@ -13,7 +13,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>Corspedia - NUS CORS Bidding Archive</title>
+  <title>About - NUS CORS Bidding Archive</title>
   <meta name="description" content="Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives. It provides a clean and simple interface for students to search for the bidding history of any module and displays the relevant results according to their profile: Faculty, New/Returning student and Programmes/General account." />
   <meta name="keywords" content="bidding, archives, history, NUS, CORS, modules, timetable, National, University, Singapore" />
   <meta name="author" content="humans.txt">
@@ -32,17 +32,22 @@
   <meta itemprop="image" content="">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
   <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/base-min.css">
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
   
+  <!-- Grab Google CDN's jQuery, fall back to local if offline -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+  <script src="js/jquery-ui.js"></script>
 </head>
-<body class="landing" id="inner-doc">
+<body class="docs uikit results-screen" id="inner-doc">
   <div id="fb-root"></div>
   <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -51,65 +56,47 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=224705450986837";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-  <div class="pure-g">
-    <div class="pure-u-1">
-      <div class="logo-container">
-        <img class="logo" src="img/icon_books.png" width="200"/>
+  
+  <div class="pure-menu pure-menu-open pure-menu-horizontal nav-section">
+    <a href="/" class="pure-menu-heading">Corspedia</a>
+    <ul>
+        <li><a href="/">Search</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+  </div>
+  <div class="main-container about-container">
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h1>About</h1>
+        <hr/>
+        <div class="info-container">
+          <img src="https://graph.facebook.com/tohweiqing/picture?type=large" width="150" />
+          <div class="info">
+            <h2>Toh Weiqing</h2>
+            <p>Weiqing swims every other day to keep fit, and studies at NUS. He wants to make the world a better place, solving 1 problem at a time. He seeks to provide lasting value and impact to organisations that he is involved in. Weiqing aspires to be a data strategist, drawing out relationships and crafting actionable strategies, having done this through various experiences.</p>
+            <a href="https://www.facebook.com/tohweiqing" target="_blank"><i class="icon-facebook-sign icon-large"></i></a>
+            <a href="http://www.linkedin.com/profile/view?id=120065349&locale=en_US&trk=tyah" target="_blank"><i class="icon-linkedin-sign icon-large"></i></a>
+            <a href="https://www.github.com/weiqingtoh" target="_blank"><i class="icon-github-sign icon-large"></i></a>
+          </div>
+        </div>
+        <div class="info-container">
+          <img src="https://graph.facebook.com/yangshun/picture?type=large" width="150" />
+          <div class="info">
+            <h2>Tay Yang Shun</h2>
+            <p>As a driven and creative person, Yang Shun's two main passions lie in coding and designing. He has developed a few apps for the iOS platform and has extensive experience in graphic designing having performed freelance design tasks and winning design competitions. He spent a year in Silicon Valley as an intern at a bay area startup, exploring front-end web development technologies and is currently building beautiful kickass sites.</p>
+            <a href="https://www.facebook.com/yangshun" target="_blank"><i class="icon-facebook-sign icon-large"></i></a>
+            <a href="http://www.linkedin.com/profile/view?id=95566039&trk=nav_responsive_tab_profile" target="_blank"><i class="icon-linkedin-sign icon-large"></i></a>
+            <a href="https://www.github.com/yangshun" target="_blank"><i class="icon-github-sign icon-large"></i></a>
+          </div>
+        </div>
       </div>
-      <h1 class="lead main-title">Corspedia</h1>
-      <p>Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives.</p>
-      <hr/>
-      <form class="pure-form pure-form-aligned" method="post">
-        <fieldset>
-          <div class="pure-control-group">
-            <label for="modCode"><strong>Module Code</strong></label>
-            <input id="modCode" class="pure-input-rounded"  type="text" name="modCode" placeholder="Module Code">
-          </div>
-          <div class="pure-control-group">
-            <label for="faculty"><strong>Faculty</strong></label>
-            <select class="wide" name="faculty">
-              <option value="ART">Arts</option>
-              <option value="BIZ">Business</option>
-              <option value="COM">Computing</option>
-              <option value="SDE">Design & Environment</option>
-              <option value="ENG">Engineering</option>
-              <option value="LAW">Law</option>
-              <option value="MED">Medicine</option>
-              <option value="YST">Music</option>
-              <option value="SCI">Science</option>
-              <option value="USP">USP</option>
-              </select>
-          </div>
-          <div class="pure-control-group">
-            <label for="studentType"><strong>Student Type</strong></label>
-            <label class="pure-checkbox" for="check1" style="text-align:left; width: 9em;">
-              <input name="newStudent" id="check1" value="1" type="checkbox">
-              <span></span> I am a new student
-            </label>
-          </div>
-          <div class="pure-control-group" style="height: 40px;">
-            <label for="studentType" style="height: 100%"><strong>Account Type</strong></label>
-            <div style="display: inline-block;">
-              <label class="pure-radio" for="radio1">
-                <input name="accType" id="radio1" value="p" type="radio" checked="checked">
-                <span>Program</span>
-              </label>
-              <label class="pure-radio" for="radio2">
-                <input name="accType" id="radio2" value="g" type="radio">
-                <span>General</span>
-              </label>
-            </div>
-          </div>
-          <p class="error">{{ error }}</p>
-          <button id="submit-button" class="pure-button pure-button-primary" type="submit">Submit</button>
-        </fieldset>
-      </form>
-    </div> 
+    </div>
+    
   </div>
   <div class="pure-g footer">
     <div class="pure-u-1">
       <hr/>
-      <p>&copy; Corspedia 2013</p>
+      <p class="copyright">&copy; Corspedia 2013</p>
       <p class="credits">Built by <a target="_blank" href="https://github.com/weiqingtoh/">Toh Weiqing</a> and <a target="_blank" href="https://github.com/yangshun/">Tay Yang Shun</a>.</p>
       <div class="fb-like" data-href="https://www.facebook.com/Corspedia" data-send="false" data-width="300" data-show-faces="false"></div>
       <p>
@@ -119,9 +106,7 @@
       <p class="nusmods">Found the module you need? Plan your timetable at <a href="http://www.nusmods.com" target="_blank">NUSMods.com</a>.</p>
     </div>
   </div>
-  <!-- Grab Google CDN's jQuery, fall back to local if offline -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+
   <!-- Google Analytics Code -->
   <script type="text/javascript">
 
@@ -136,5 +121,6 @@
     })();
 
   </script>
+  
   </body>
 </html>

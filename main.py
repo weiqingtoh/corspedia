@@ -88,14 +88,14 @@ class QueryHandler(webapp2.RequestHandler):
         response = json.dumps(query.extract(modCode,faculty,accType,newStudent))
         self.response.out.write(response)
 
-class InfoHandler(webapp2.RequestHandler):
+class AboutHandler(webapp2.RequestHandler):
 
     def get(self):
-        template = JINJA_ENVIRONMENT.get_template('info.html')
+        template = JINJA_ENVIRONMENT.get_template('about.html')
         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/results', ResultsHandler),
                                ('/query', QueryHandler),
-                               ('/info', InfoHandler)],
+                               ('/about', AboutHandler)],
                               debug=True)

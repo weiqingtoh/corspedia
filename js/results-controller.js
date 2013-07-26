@@ -17,7 +17,7 @@ function ResultsController($scope, $http, $timeout) {
 	$scope.loading = true;
 	$scope.error = false;
 	$scope.loading_section = {'loading-screen': true, 'invisible': !$scope.loading};
-	$scope.results_section = {'results-container': true, 'invisible': $scope.loading};
+	$scope.results_section = {'main-container': true, 'invisible': $scope.loading};
 	$scope.empty_data = true;
 
 	$scope.show_search_section = false;
