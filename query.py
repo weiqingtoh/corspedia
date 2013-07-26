@@ -126,8 +126,12 @@ def modInfo(modCode):
                 data['description'] = moduleInfo['description']
             if 'preclusion' in moduleInfo:
                 data['preclusions'] = moduleInfo['preclusion']
+                if 'preclusion_module' in moduleInfo:
+                    data['preclusion_module'] = moduleInfo['preclusion_module']
             if 'prerequisite' in moduleInfo:
                 data['prerequisites'] = moduleInfo['prerequisite']
+                if 'prerequisite_module' in moduleInfo:
+                    data['prerequisite_module'] = moduleInfo['prerequisite_module']
     return data
 
 
