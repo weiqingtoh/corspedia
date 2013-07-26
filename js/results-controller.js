@@ -1,5 +1,13 @@
 'use strict';
 
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
 angular.module('corspediaResults', [], function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{@');
     $interpolateProvider.endSymbol('@}');
@@ -11,6 +19,7 @@ var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&ne
 function ResultsController($scope, $http, $timeout) {
 
 	$scope.modCode = modCode.toUpperCase();
+	$scope.currentModCode = $scope.modCode;
 	$scope.faculty = faculty.toUpperCase();
 	$scope.accType = accType;
 	$scope.newStudent = newStudent.toString();
@@ -103,7 +112,7 @@ function ResultsController($scope, $http, $timeout) {
 	$scope.show_bookmarks_section = false;
 	$scope.bookmarks_list = angular.fromJson(localStorage["bookmark_list"]);
 
-	if ($scope.bookmarks_list === null) {
+	if (!$scope.bookmarks_list) {
 		$scope.bookmarks_list = {};
 		saveBookmarks();
 	}
@@ -118,6 +127,7 @@ function ResultsController($scope, $http, $timeout) {
 	}
 
 	$scope.addBookmark = function(module) {
+		console.log($scope.bookmarks_list);
 		$scope.bookmarks_list[module] = module;
 		$scope.show_bookmarks_section = true;
 		saveBookmarks();
@@ -133,10 +143,15 @@ function ResultsController($scope, $http, $timeout) {
 	}
 
 	$scope.emptyBookmarks = function() {
-		return Object.keys($scope.bookmarks_list).length === 0;
+		return Object.size($scope.bookmarks_list) === 0;
 	}
 
 	$scope.moduleInBookmarks = function() {
-		return $scope.modCode in $scope.bookmarks_list;
+		for (var key in $scope.bookmarks_list) {
+			if ($scope.bookmarks_list.hasOwnProperty(key) && $scope.currentModCode === key) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
