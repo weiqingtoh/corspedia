@@ -1,4 +1,5 @@
-import csv, json
+import csv, json, operator
+from itertools import imap
 
 facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "ENG":"ENGINEERING",
@@ -15,6 +16,12 @@ facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "USP":"UNIVERSITY SCHOLARS PROGRAMME",
                "MED":"YONG LOO LIN SCHOOL OF MEDICINE",
                "YST":"YONG SIEW TOH CONSERVATORY OF MUSIC"}
+
+#This function is to calculate the hamming distance
+def hamdist(str1, str2):
+    assert len(str1) == len(str2)
+    ne = operator.ne
+    return sum(imap(ne, str1, str2))
 
 
 #This function is to return a dictionary of keys representing
