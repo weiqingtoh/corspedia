@@ -8,6 +8,13 @@ Object.size = function(obj) {
     return size;
 };
 
+String.prototype.insert = function (index, string) {
+  if (index > 0)
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  else
+    return string + this;
+};
+
 angular.module('corspediaResults', [], function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{@');
     $interpolateProvider.endSymbol('@}');
@@ -85,6 +92,25 @@ function ResultsController($scope, $http, $timeout) {
 				$scope.error = true;
 				return;
 			}
+
+			function linkifyModules(str, module_list) {
+				if (str && module_list) {
+					for (var i = module_list.length - 1; i >= 0; i--) {
+						var starting_index = module_list[i][0];
+						var length = module_list[i][1];
+						var ending_index = starting_index + length;
+						var module_code = str.substr(starting_index, length);
+						str = str.insert(ending_index, '</a>');
+						str = str.insert(starting_index, '<a class="module-links" href="' + constructURL('results', module_code) + '">');
+						console.log(module_code);
+					}
+				}
+				return str;
+			}
+
+			$scope.data.prerequisites = linkifyModules($scope.data.prerequisites, $scope.data.prerequisite_module);
+			$scope.data.preclusions = linkifyModules($scope.data.preclusions, $scope.data.preclusion_module);
+
 			for (var i = 0; i < $scope.data.bid_history_by_year.length; i++) {
 				if ($scope.data.bid_history_by_year[i].data.length > 0) {
 					$scope.empty_data = false;

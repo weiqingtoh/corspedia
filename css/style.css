@@ -76,6 +76,8 @@ table {table-layout: fixed;}
 .ui-tabs-anchor:hover { background-color: #ccc; border-radius: 5px; }
 .ui-tabs-anchor:focus { outline: none;}
 .empty-data {text-align: center; margin-top: 30px; }
+a.module-links { color: #00577b; text-decoration: underline; }
+a.module-links:hover { color: #666; }
 
 /* About Page */
 .about-container [class^="icon-"] { margin: 0 2px; }
