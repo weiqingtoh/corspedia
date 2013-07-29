@@ -72,22 +72,22 @@ function determineRound(now_date) {
     for (var i = 0; i < CORS_SCHEDULE.length; i++) {
         var round = CORS_SCHEDULE[i].round;
         if (now_date < toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start))) {
-            return 'The next round is ' + CORS_SCHEDULE[i].round + ' OPEN at ' + CORS_SCHEDULE[i].open_bidding_start;
+            return 'The next round is ' + CORS_SCHEDULE[i].round + ' OPEN at<br/>' + CORS_SCHEDULE[i].open_bidding_start;
         }
         if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start)) &&
             now_date <= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end))) {
             round += ' OPEN';
-            return start + round;
+            return start + round + ' till<br/>' + CORS_SCHEDULE[i].open_bidding_end;
         }
         if (CORS_SCHEDULE[i].open_bidding_start) {
             if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_start)) &&
                 now_date <= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_end))) {
                 round += ' CLOSED';
-                return start + round;
+                return start + round + ' till<br/>' + CORS_SCHEDULE[i].closed_bidding_end;
             }
         }
     }
 }
 
 var curr_date = Date.now();
-$('.current-round').text(determineRound(curr_date));
+$('.current-round').html(determineRound(curr_date));
