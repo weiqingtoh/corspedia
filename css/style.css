@@ -40,6 +40,7 @@ label { display: inline-block !important; margin-left: 10px; margin-right: 10px;
 span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: inline-block; text-align: right;}
 #submit-button { cursor: pointer;width:200px; margin: 0 auto; display: block; font-size: 1.25em;}
 .error { color: red; font-size: 1.25em; text-align: center;}
+.current-round { color: red; font-weight: 700; }
 
 /* Search Results */
 .search-again { text-align: right;}
