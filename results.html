@@ -56,7 +56,7 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=224705450986837";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-  <div ng-class="loading_section" ng-show="loading || error">
+  <div ng-class="loading_section" ng-show="loading || error" style="display:none">
     <img ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}"/>
     <div class="error-container">
       <p ng-show="data.faculty_error">The faculty you have chosen was not found.</p>
@@ -65,30 +65,34 @@
       <p ng-show="!error">Loading results...</p>
     </div>
   </div>
-  <div class="pure-menu pure-menu-open pure-menu-horizontal nav-section" ng-show="!loading && !error">
+  <div class="pure-menu pure-menu-open pure-menu-horizontal nav-section" ng-show="!loading && !error" style="display:none">
     <a href="/" class="pure-menu-heading">Corspedia</a>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="#" ng-click="toggleBookmarksSection()">{@{true: 'Hide', false: 'Show' }[show_bookmarks_section]@} Bookmarks</a></li>
+        <li></li>
         <li><a href="/about">About</a></li>
     </ul>
   </div>
-  <div class="bookmarks-container" ng-show="show_bookmarks_section">
-    <h2>Bookmarks</h2>
-    <p ng-show="emptyBookmarks()">You have no bookmarked modules.</p>
-    <div class="bookmarks-section">
-      <ul>
-        <li ng-repeat="mod in bookmarks_list"><a ng-click="newSearch(mod)">{@ mod @} </a><span ng-click="removeBookmark(mod)" class="bookmark-delete">&#10006;</span></li>
-      </ul>
-    </div>
-  </div>
-  <div ng-class="results_section" ng-show="!loading && !error">
+  <div ng-class="results_section" ng-show="!loading && !error" style="display:none">
     <div class="pure-g">
       <div class="pure-u-1">
         <h1>Search Results</h1>
         <p class="current-round"></p>
-        <p class="search-again"><a ng-click="toggleSearchContainer()">{@{true: 'Close panel', false: 'Search again...' }[show_search_section]@}</a></p>
+        <p class="search-again">
+          <a href="#" ng-click="toggleBookmarksSection()">{@{true: 'Hide', false: 'Show' }[show_bookmarks_section]@} watchlist</a> &bull;
+          <a ng-click="toggleSearchContainer()">{@{true: 'Close panel', false: 'Search again' }[show_search_section]@}</a></p>
         <hr/>
+        <div class="bookmarks-container" ng-show="show_bookmarks_section" style="display:none">
+          <h2>Watchlist</h2>
+          <p>Modules can be saved here for easier reference later on. Simply remove modules by clicking on the cross beside the module name.</p>
+          <p ng-show="emptyBookmarks()">You have no modules in the watchlist. Add modules to the watchlist by clicking the <strong>Add to Watchlist</strong> button.</p>
+          <div class="bookmarks-section">
+            <ul>
+              <li ng-repeat="mod in bookmarks_list"><a ng-click="newSearch(mod)">{@ mod @} </a><span ng-click="removeBookmark(mod)" class="bookmark-delete">&#10006;</span></li>
+            </ul>
+          </div>
+          <hr/>
+        </div>
         <div id="search-container">
           <form class="pure-form pure-form-aligned results-search-form" method="post">
             <fieldset>
@@ -143,8 +147,8 @@
       <div class="pure-u-1">
         <h2>Module Information</h2>
         <p class="bookmark-module">
-          <a ng-show="!moduleInBookmarks()" ng-click="addBookmark(data.module)">Bookmark Module</a>
-          <span class="bookmarked" ng-show="moduleInBookmarks()">Bookmarked!</span>
+          <button class="pure-button pure-button-primary" ng-show="!moduleInBookmarks()" ng-click="addBookmark(data.module)">Add to Watchlist</button>
+          <span class="bookmarked" ng-show="moduleInBookmarks()">In Watchlist!</span>
         </p>
         <table class="pure-table pure-table-bordered module-description-table">
           <tr ng-show="data.module"><td>Module Code</td><td>{@ data.module @} </td></tr>
@@ -191,7 +195,7 @@
       </div>
     </div>
   </div>
-  <div class="pure-g footer" ng-show="!loading && !error">
+  <div class="pure-g footer" ng-show="!loading && !error" style="display:none">
     <div class="pure-u-1">
       <hr/>
       <p class="copyright">&copy; Corspedia 2013</p>

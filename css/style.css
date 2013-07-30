@@ -25,6 +25,9 @@ a:hover { color: #00577b; }
 .footer .nusmods { font-size: 13px; }
 .fb-like { margin: 0 auto; }
 .pure-button-primary { background-color: #00577b; }
+.pure-button-primary:hover {
+    background-color: #ccc;
+}
 
 /* Landing Page */
 .landing { width: 400px; padding-left: 10px; padding-right: 10px; }
@@ -38,7 +41,7 @@ label.pure-radio { width: 8em !important; text-align: left !important; display: 
 .pure-form-aligned .pure-control-group label { width: 6em; }
 label { display: inline-block !important; margin-left: 10px; margin-right: 10px;}
 span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: inline-block; text-align: right;}
-#submit-button { cursor: pointer;width:200px; margin: 0 auto; display: block; font-size: 1.25em;}
+#submit-button { cursor: pointer;width:200px; margin: 0 auto; display: block; font-size: 1.25em; }
 .error { color: red; font-size: 1.25em; text-align: center;}
 .current-round { color: red; font-weight: 700; }
 
@@ -46,7 +49,7 @@ span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: 
 .search-again { text-align: right;}
 #search-container { display: none; }
 
-.bookmarks-container { padding: 20px; max-width: 960px; margin: 0 auto; }
+.bookmarks-container { }
 .bookmarks-section { background-color: #eee; border-radius: 5px; padding-top: 10px; }
 .bookmarks-section ul { margin: 0; padding-left: 10px;}
 .bookmarks-section ul li { display: inline-block; list-style: none; padding: 5px 10px; border-radius: 5px; background-color: #ccc; margin-right: 10px; margin-bottom: 10px; }
@@ -57,6 +60,7 @@ span.label-title { font-size: 1.25em;margin-right: 30px; width: 150px; display: 
 .bookmarked { font-weight: 700; color: rgb(0, 196, 63);}
 
 .main-container { padding-left: 20px; padding-right: 20px; max-width: 960px; margin: 0 auto; }
+
 .results-search-form { width: 320px; margin: 0 auto; }
 .results-screen div { transition: opacity 0.5s; -webkit-transition: opacity 0.5s;}
 .invisible { opacity: 0 }
