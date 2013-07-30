@@ -90,4 +90,4 @@ function determineRound(now_date) {
 }
 
 var curr_date = Date.now();
-$('.current-round').html(determineRound(curr_date));
+// $('.current-round').html(determineRound(curr_date));
