@@ -3,7 +3,7 @@ from itertools import imap
 
 facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "ENG":"ENGINEERING",
-               "USP":"JOINT MULTI-DISCIPLINARY PROGRAMMES",
+               "MDP":"JOINT MULTI-DISCIPLINARY PROGRAMMES",
                "LAW":"LAW",
                "XX1":"NON-FACULTY-BASED DEPARTMENTS",
                "XX2":"NUS",
