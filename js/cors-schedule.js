@@ -58,13 +58,14 @@ var CORS_SCHEDULE = [
 ];
 
 function toUTC(date) {
-    return Date.UTC(date.getFullYear(),
+    var d = Date.UTC(date.getFullYear(),
                     date.getMonth(),
                     date.getDate(),
                     date.getHours(),
                     date.getMinutes(),
                     date.getSeconds(),
                     date.getMilliseconds());
+    return d - (8 * 60 * 60 * 1000);
 }
 
 function determineRound(now_date) {
@@ -74,6 +75,7 @@ function determineRound(now_date) {
         if (now_date < toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start))) {
             return 'The next round is ' + CORS_SCHEDULE[i].round + ' Open Bidding at<br/>' + CORS_SCHEDULE[i].open_bidding_start;
         }
+        console.log(i + ': ' + toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end)));
         if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start)) &&
             now_date <= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end))) {
             round += ' Open Bidding';
@@ -90,4 +92,4 @@ function determineRound(now_date) {
 }
 
 var curr_date = Date.now();
-// $('.current-round').html(determineRound(curr_date));
+$('.current-round').html(determineRound(curr_date));
