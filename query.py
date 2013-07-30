@@ -70,7 +70,7 @@ def extractdata(modCode, accType):
         modData = csv.reader(csvfile)
         for row in modData:
             #Extract Records for Account and ModCode
-            if row[0] == modCode:
+            if row[0] == modCode or ((row[0] == 'EG1413') and (modCode == 'ES1531')):
                 if accType == 'p' and row[9] == '1':
                     output.append(row)
                 elif accType == 'g' and row[10] == '1':

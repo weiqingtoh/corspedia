@@ -45,6 +45,10 @@ class MainHandler(webapp2.RequestHandler):
         accType = self.request.get('accType')
         newStudent = self.request.get('newStudent')
 
+        #In case of lower letters
+        modCode = modCode.upper()
+        faculty = faculty.upper()
+
         #Check for validity of Module Code - if Valid, proceed, else return error
         code = modValid(modCode)
         if code:
