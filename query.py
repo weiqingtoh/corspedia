@@ -23,7 +23,24 @@ def hamdist(str1, str2):
     ne = operator.ne
     return sum(imap(ne, str1, str2))
 
-
+#This function is to check if module code is valid -
+#returns suggestions for wrong codes
+def checkModCode(modCode):
+    modList, suggest = [], []
+    infile = csv.reader(open('modName.csv','r'))
+    infile.next()
+    for row in infile:
+        modList.append(row[0])
+    modList.sort()
+    if modCode not in modList:
+        #Find suggestions for modList
+        for mod in modList:
+            if modCode > mod:
+                suggest.append(mod)
+                break
+        
+    return suggest
+    
 #This function is to return a dictionary of keys representing
 #the bid history of the module given the certain factors provided.
 def extract(modCode, faculty, accType, newStu):
@@ -33,17 +50,14 @@ def extract(modCode, faculty, accType, newStu):
     faculty = faculty.upper()
 
     #Catch errors of module and/or faculty
-    facErr, modErr, modList = False, False, []
-    infile = csv.reader(open('modName.csv','r'))
-    infile.next()
-    for row in infile:
-        modList.append(row[0])
+    facErr, modErr, module = False, False, {}
+    modList = checkModCode(modCode)
     if faculty not in facultyList:
         facErr = True
-    if modCode not in modList:
-        modErr = True
+    if len(modList) > 0:
+        modErr = true
+        module['suggestions'] = modList
     if facErr or modErr :
-        module = {}
         module['module'] = modCode
         module['faculty_error'] = facErr
         module['module_error'] = modErr
