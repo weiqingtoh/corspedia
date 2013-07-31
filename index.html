@@ -37,6 +37,7 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/base-min.css">
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
@@ -50,79 +51,61 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=224705450986837";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-  <div class="pure-g">
-    <div class="pure-u-1">
-      <div class="logo-container">
-        <img class="logo" src="img/icon_books.png" width="200"/>
+  <div class="top-container">
+    <div class="landing-container">
+      <div class="pure-g search-container">
+        <div class="pure-u-1">
+          <h1 class="lead main-title">Corspedia</h1>
+          <p class="main-caption">An easy-to-use search engine for NUS CORS Bidding Archives.</p>
+        </div> 
       </div>
-      <h1 class="lead main-title">Corspedia</h1>
-      <p>Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives.</p>
-      <p class="current-round"></p>
-      <hr/>
-      <form class="pure-form pure-form-aligned" method="post">
-        <fieldset>
-          <div class="pure-control-group">
-            <label for="modCode">
-              <strong>Module Code</strong>
-              <span class="tooltip">[?]<div class="tooltip-content">Select the Module code of the module history that you wish to view.</div></span>
-            </label>
-            <input id="modCode" class="pure-input-rounded"  type="text" name="modCode" placeholder="Module Code">
-          </div>
-          <div class="pure-control-group">
-            <label for="faculty">
-              <strong>Your Faculty</strong>
-              <span class="tooltip">[?]<div class="tooltip-content">Select the faculty you are studying in.
-                </br></br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course. 
-              </div></span>
-            </label>
-            <select class="wide" name="faculty">
-              <option value="ART">Arts</option>
-              <option value="BIZ">Business</option>
-              <option value="COM">Computing</option>
-              <option value="SDE">Design & Environment</option>
-              <option value="ENG">Engineering</option>
-              <option value="LAW">Law</option>
-              <option value="MED">Medicine</option>
-              <option value="MDP">Multi-Disciplinary Program</option>
-              <option value="YST">Music</option>
-              <option value="SCI">Science</option>
-              <option value="USP">USP</option>
-              </select>
-          </div>
-          <div class="pure-control-group">
-            <label for="studentType">
-              <strong>Student Type</strong>
-              <span class="tooltip">[?]<div class="tooltip-content">For certain modules, places are reserved for new students in Rounds 1 and 2, recognizing that new students do not have as many points as some of the seniors.</div></span>
-            </label>
-            <label class="pure-checkbox" for="check1" style="text-align:left; width: 9em;">
-              <input name="newStudent" id="check1" value="1" type="checkbox">
-              <span></span> I am a new student
-            </label>
-          </div>
-          <div class="pure-control-group" style="height: 40px;">
-            <label for="studentType" style="height: 100%">
-              <strong>Account Type</strong>
-              <span class="tooltip">[?]<div class="tooltip-content">Which Account Type is used?</br></br>
-                This depends on the module type that you are planning to map the module towards.</br></br>
-                Program Account (P) - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br></br>
-                General Account (G) - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS </div></span>
-            </label>
-            <div style="display: inline-block;">
-              <label class="pure-radio" for="radio1">
-                <input name="accType" id="radio1" value="p" type="radio" checked="checked">
-                <span>Program</span>
-              </label>
-              <label class="pure-radio" for="radio2">
-                <input name="accType" id="radio2" value="g" type="radio">
-                <span>General</span>
-              </label>
-            </div>
-          </div>
-          <p class="error">{{ error }}</p>
-          <button id="submit-button" class="pure-button pure-button-primary" type="submit">Submit</button>
-        </fieldset>
-      </form>
-    </div> 
+    </div>
+  </div>
+  <div class="landing-container">
+    <p class="current-round"></p>
+    <form method="post" class="search-form">
+      <div class="search-segment search-module">
+        <input placeholder="Module Code" type="text" name="modCode" />
+      </div>
+      <div class="search-segment search-faculty">
+        <div class="icon-container">
+          <i class="icon-caret-down icon-2x"></i>
+        </div>
+        <select class="wide" name="faculty">
+          <option value="0">Faculty</option>
+          <option value="ART">Arts</option>
+          <option value="BIZ">Business</option>
+          <option value="COM">Computing</option>
+          <option value="SDE">Design & Environment</option>
+          <option value="ENG">Engineering</option>
+          <option value="LAW">Law</option>
+          <option value="MED">Medicine</option>
+          <option value="MDP">Multi-Disciplinary Program</option>
+          <option value="YST">Music</option>
+          <option value="SCI">Science</option>
+          <option value="USP">USP</option>
+        </select>
+      </div>
+      <div class="search-segment search-new-student">
+        <p><label for="check1">New Student?</label><input name="newStudent" id="check1" value="1" type="checkbox"></p>
+      </div>
+      <div class="search-segment search-account">
+        <div class="icon-container">
+          <i class="icon-caret-down icon-2x"></i>
+        </div>
+        <select class="wide" name="accType" style="height:50px;">
+          <option value="0">Account</option>
+          <option value="p">Program</option>
+          <option value="g">General</option>
+        </select>
+      </div>
+      <div class="search-segment search-button">
+        <button class="pure-button" type="submit">Search</button>
+      </div>
+    </form>
+    <div class="error-container">
+      <p class="error">{{ error }}</p>
+    </div>
   </div>
   <div class="pure-g footer">
     <div class="pure-u-1">

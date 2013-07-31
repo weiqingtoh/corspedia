@@ -50,10 +50,17 @@ class MainHandler(webapp2.RequestHandler):
         faculty = faculty.upper()
 
         #Check for validity of Module Code - if Valid, proceed, else return error
+        error_messages = []
         code = modValid(modCode)
-        if code:
-            url = '/results?code='+code.group()+'&fac=' + faculty + '&acc=' 
-            url += accType + '&new='
+        if not code:
+            error_messages.append('Invalid Module Code')
+        if faculty == '0':
+            error_messages.append('Invalid Faculty')
+        if accType == '0':
+            error_messages.append('Invalid Account Type')
+
+        if len(error_messages) == 0:
+            url = '/results?code='+code.group()+'&fac=' + faculty + '&acc=' + accType + '&new='
             if newStudent == "1":
                 url += '1'
             else:
@@ -62,17 +69,19 @@ class MainHandler(webapp2.RequestHandler):
         #If invalid, redirect back to homepage
         else:
             template = JINJA_ENVIRONMENT.get_template('index.html')
-            self.response.write(template.render({'error': 'Invalid Module Code', 'faculty': faculty}))
+            self.response.write(template.render({'error': ', '.join(error_messages), 'faculty': faculty}))
 
 class ResultsHandler(webapp2.RequestHandler):
     
     def get(self):
         modCode = self.request.get('code')
-        if not modValid(modCode):
-            self.redirect('/')
         faculty = self.request.get('fac')
         accType = self.request.get('acc')
         newStudent = self.request.get('new')
+        
+        if not modValid(modCode) or faculty == '0' or accType == '0':
+            self.redirect('/')
+        
         template = JINJA_ENVIRONMENT.get_template('results.html')
         self.response.out.write(template.render({'output_modCode': modCode,
                                                 'output_faculty': faculty,

@@ -73,19 +73,19 @@ function determineRound(now_date) {
     for (var i = 0; i < CORS_SCHEDULE.length; i++) {
         var round = CORS_SCHEDULE[i].round;
         if (now_date < toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start))) {
-            return 'Next Round: ' + CORS_SCHEDULE[i].round + ' (Open) at<br/>' + CORS_SCHEDULE[i].open_bidding_start;
+            return 'Next Round: ' + CORS_SCHEDULE[i].round + ' (Open) at ' + CORS_SCHEDULE[i].open_bidding_start;
         }
         console.log(i + ': ' + toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end)));
         if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start)) &&
             now_date <= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end))) {
             round += ' (Open)';
-            return start + round + '<br/>till ' + CORS_SCHEDULE[i].open_bidding_end;
+            return start + round + ' till ' + CORS_SCHEDULE[i].open_bidding_end;
         }
         if (CORS_SCHEDULE[i].open_bidding_start) {
             if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_start)) &&
                 now_date <= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_end))) {
                 round += ' (Closed)';
-                return start + round + '<br/>till ' + CORS_SCHEDULE[i].closed_bidding_end;
+                return start + round + ' till ' + CORS_SCHEDULE[i].closed_bidding_end;
             }
         }
     }
