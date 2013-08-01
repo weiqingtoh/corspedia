@@ -23,6 +23,25 @@ def hamdist(str1, str2):
     ne = operator.ne
     return sum(imap(ne, str1, str2))
 
+#This function is to calculate the Levenshtein distance
+def levenDist(a,b):
+	m,n = len(a), len(b)
+	d = numpy.zeros((m+1)*(n+1)).reshape((m+1,n+1))
+	for i in range(1,m+1):
+		d[i][0] = i
+	for i in range(1,n+1):
+		d[0][i] = i
+	for j in range(1,n+1):
+		for i in range(1,m+1):
+			if a[i-1] == b[j-1]:
+				d[i][j] = d[i-1][j-1]
+			else:
+				d[i][j] = min ( d[i-1][j]+1,
+						d[i][j-1]+1,
+						d[i-1][j-1]+1)
+			print d
+	return int(d[m][n])
+
 #This function is to check if module code is valid -
 #returns suggestions for wrong codes
 def checkModCode(modCode):
@@ -35,7 +54,7 @@ def checkModCode(modCode):
     if modCode not in modList:
         #Find suggestions for modList
         for mod in modList:
-            if modCode > mod:
+            if modCode < mod:
                 suggest.append(mod)
                 break
         
@@ -55,7 +74,7 @@ def extract(modCode, faculty, accType, newStu):
     if faculty not in facultyList:
         facErr = True
     if len(modList) > 0:
-        modErr = true
+        modErr = True
         module['suggestions'] = modList
     if facErr or modErr :
         module['module'] = modCode
