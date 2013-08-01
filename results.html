@@ -108,7 +108,7 @@
                   </br></br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course. 
                   </div></span>
                 </label>
-                <select class="wide" name="faculty" ng-model="faculty">
+                <select name="faculty" ng-model="faculty" style="width:160px;">
                   <option value="ART">Arts</option>
                   <option value="BIZ">Business</option>
                   <option value="COM">Computing</option>
@@ -120,7 +120,7 @@
                   <option value="YST">Music</option>
                   <option value="SCI">Science</option>
                   <option value="USP">USP</option>
-                  </select>
+                </select>
               </div>
               <div class="pure-control-group">
                 <label for="studentType"><strong>Student Type</strong>
@@ -216,7 +216,7 @@
         <div class="right-col">
           <div class="bookmarks-container">
             <h2>Bookmarks</h2>
-            <p ng-show="emptyBookmarks()">You have no modules in your bookmarks. Add modules here by clicking the <strong>Add to Bookmarks</strong> button.</p>
+            <p ng-show="emptyBookmarks()">You have no modules in your bookmarks. Add modules here by clicking the <strong>Bookmark</strong> button.</p>
             <div class="bookmarks-section">
               <ul>
                 <li ng-repeat="mod in bookmarks_list"><a ng-click="newSearch(mod)">{@ mod @} </a><span ng-click="removeBookmark(mod)" class="bookmark-delete">&#10006;</span></li>

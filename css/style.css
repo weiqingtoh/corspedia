@@ -6,14 +6,14 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Arvo', sans-serif; color: #666; margin-bottom:
 h1 { font-size: 48px; color: #00577b; }
 button { font-family: 'Arvo', sans-serif; font-weight: 700; }
 button i { margin-right: 5px; }
-input, select {
+.search-form input, .search-form select {
     border: none; 
     outline: none;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-select {
+.search-form select {
     -webkit-appearance: none;
 }
 a { color: #666; cursor: pointer !important; text-decoration: none; font-weight: 700; transition: color 0.5s; -webkit-transition: color 0.5s; -moz-transition: color 0.5s;}
@@ -63,7 +63,7 @@ a:hover { color: #00577b; }
 .search-form .search-faculty { width: 20%; position: relative; }
 .search-form .icon-container,
 .search-form .icon-container  { background-color: white; position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; padding-top: 5px; pointer-events: none; text-align: center;}
-.search-form select { text-align:center; width: 100%; height: 50px; font-size: 24px; padding: 10px;}
+.search-form select { width: 100%; height: 50px; font-size: 24px; padding: 10px; border-radius: 5px; }
 .search-form .search-new-student { background: #fff; width: 21%; }
 .search-form .search-new-student label { height: 50px; }
 .search-form .search-new-student p { margin: 0; line-height: 50px; font-size: 24px; font-weight: 700; color: #00577b; text-align: left; }
