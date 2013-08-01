@@ -69,7 +69,7 @@
       </div>
       <div class="search-segment search-faculty">
         <div class="icon-container">
-          <i class="icon-caret-down icon-2x"></i>
+          <i class="icon-chevron-down icon-large"></i>
         </div>
         <select class="wide" name="faculty">
           <option value="0">Faculty</option>
@@ -91,7 +91,7 @@
       </div>
       <div class="search-segment search-account">
         <div class="icon-container">
-          <i class="icon-caret-down icon-2x"></i>
+          <i class="icon-chevron-down icon-large"></i>
         </div>
         <select class="wide" name="accType" style="height:50px;">
           <option value="0">Account</option>
@@ -105,6 +105,20 @@
     </form>
     <div class="error-container">
       <p class="error">{{ error }}</p>
+    </div>
+    <p class="first-time"><a onclick="$('.tutorial').toggle()">Your first time here?</a></p>
+    <div class="tutorial">
+      <h3>Explanation</h>
+      <h5>Module Code</h5>
+      <p>Enter the module code of the module history that you wish to view.</p>
+      <h5>Faculty</h5>
+      <p>Select the faculty you are from.</br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course.</p>
+      <h5>New Student?</h5>
+      <p>For certain modules, places are reserved for new students in Rounds 1 and 2, recognizing that new students do not have as many points as some of the seniors.</p>
+      <h5>Account Type</h5>
+      <p>This depends on the module type that you are planning to map the module towards.</br>
+        <strong>Program Account (P)</strong> - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br>
+        <strong>General Account (G)</strong> - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS </div></p>
     </div>
   </div>
   <div class="pure-g footer">
