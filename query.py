@@ -17,48 +17,6 @@ facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
                "MED":"YONG LOO LIN SCHOOL OF MEDICINE",
                "YST":"YONG SIEW TOH CONSERVATORY OF MUSIC"}
 
-#This function is to calculate the hamming distance
-def hamdist(str1, str2):
-    assert len(str1) == len(str2)
-    ne = operator.ne
-    return sum(imap(ne, str1, str2))
-
-#This function is to calculate the Levenshtein distance
-def levenDist(a,b):
-	m,n = len(a), len(b)
-	d = numpy.zeros((m+1)*(n+1)).reshape((m+1,n+1))
-	for i in range(1,m+1):
-		d[i][0] = i
-	for i in range(1,n+1):
-		d[0][i] = i
-	for j in range(1,n+1):
-		for i in range(1,m+1):
-			if a[i-1] == b[j-1]:
-				d[i][j] = d[i-1][j-1]
-			else:
-				d[i][j] = min ( d[i-1][j]+1,
-						d[i][j-1]+1,
-						d[i-1][j-1]+1)
-			print d
-	return int(d[m][n])
-
-#This function is to check if module code is valid -
-#returns suggestions for wrong codes
-def checkModCode(modCode):
-    modList, suggest = [], []
-    infile = csv.reader(open('modName.csv','r'))
-    infile.next()
-    for row in infile:
-        modList.append(row[0])
-    modList.sort()
-    if modCode not in modList:
-        #Find suggestions for modList
-        for mod in modList:
-            if modCode < mod:
-                suggest.append(mod)
-                break
-        
-    return suggest
     
 #This function is to return a dictionary of keys representing
 #the bid history of the module given the certain factors provided.
@@ -82,18 +40,37 @@ def extract(modCode, faculty, accType, newStu):
         module['module_error'] = modErr
         return module        
 
+    ##Load the module information
+    data = modInfo(modCode)
+
     #if modCode is SS or GEM format and return output
     if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
-        return outformat(extractdata(modCode,'g'), modCode)
+        modBidData = extractdata(modCode,'g')
+    #For all other modules, extract and filter the nevessary data
+    else:
+        modBidData = filterdata(faculty, newStu, extractdata(modCode, accType))                
     
-    #Extract the Module Records
-    output = extractdata(modCode, accType)    
+    #Format the necessary bid history
+    data['bid_history_by_year'] = bidHistoryByYear(modBidData)
 
-    #Correct records for faculty, bidrounds
-    out = filterdata(faculty, newStu, output)                
-          
-    return outformat(out,modCode)
+    return data
 
+#This function is to check if module code is valid -
+#returns suggestions for wrong codes
+def checkModCode(modCode):
+    modList, suggest = [], []
+    infile = csv.reader(open('modName.csv','r'))
+    infile.next()
+    for row in infile:
+        modList.append(row[0])
+    modList.sort()
+    if modCode not in modList:
+        #Find suggestions for modList
+        for mod in modList:
+            if modCode < mod:
+                suggest.append(mod)
+                break
+    return suggest
 
 #This function extracts all the module data from the CSV file
 def extractdata(modCode, accType):
@@ -140,16 +117,6 @@ def filterdata(faculty, newStu, output):
             out.append(row)
     return out
 
-
-
-#To format the current dictonary into the return schema
-def outformat(bidInfo, modCode):
-
-    ##Load the module information
-    data = modInfo(modCode)
-
-    data['bid_history_by_year'] = bidHistoryByYear(bidInfo)
-    return data
 
 #Extract the necessary module information from JSON file
 def modInfo(modCode):
@@ -211,6 +178,31 @@ def bidHistoryByYear(bidInfo):
             bidHist1.append(item)
     return bidHist1
 
+
+#This function is to calculate the hamming distance
+def hamdist(str1, str2):
+    assert len(str1) == len(str2)
+    ne = operator.ne
+    return sum(imap(ne, str1, str2))
+
+
+#This function is to calculate the Levenshtein distance
+def levendist(a,b):
+    m,n = len(a), len(b)
+    d = numpy.zeros((m+1)*(n+1)).reshape((m+1,n+1))
+    for i in range(1,m+1):
+        d[i][0] = i
+    for i in range(1,n+1):
+        d[0][i] = i
+    for j in range(1,n+1):
+        for i in range(1,m+1):
+            if a[i-1] == b[j-1]:
+                d[i][j] = d[i-1][j-1]
+            else:
+                d[i][j] = min ( d[i-1][j]+1,
+                                d[i][j-1]+1,
+                                d[i-1][j-1]+1)
+    return int(d[m][n])
+
 print extract("GEM2900","BIZ","g","0")
 print extract("eg1413","eng","p","0")
-##    print row
