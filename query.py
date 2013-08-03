@@ -55,7 +55,7 @@ def extract(modCode, faculty, accType, newStu):
     if faculty not in facultyList:
         facErr = True
     if len(modList) > 0:
-        modErr = true
+        modErr = True
         module['suggestions'] = modList
     if facErr or modErr :
         module['module'] = modCode
