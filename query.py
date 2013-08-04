@@ -55,7 +55,7 @@ def modInfo(modCode, faculty):
     if faculty not in facultyList:
         data['error']['faculty'] = True
 
-    if modCode in ('FIN3101','FIN3102','FIN3103','BSP3001'):
+    if modCode in ('FIN3101','FIN3102','FIN3103','BSP3001','MKT2401'):
         modCode = modCode + 'A'
     
     with open('data/mod_info.json','r') as infile:
