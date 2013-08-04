@@ -30,7 +30,7 @@ def extract(modCode, faculty, accType, newStu):
     data = modInfo(modCode, faculty)
 
     #If error exists in module code or faculty
-    if ('module_error' in data) or ('faculty_error' in data):
+    if data['error']['module'] or data['error']['faculty']:
         return data
     
     #if modCode is SS or GEM format and return output
@@ -49,11 +49,11 @@ def extract(modCode, faculty, accType, newStu):
 
 #Extract the necessary module information from JSON file
 def modInfo(modCode, faculty):
-    data = {}
-    data['module'] = modCode
+    data = {'error':{'faculty': False, 'module': False},
+            'module': modCode}
     #Faculty error
     if faculty not in facultyList:
-        data['faculty_error'] = True
+        data['error']['faculty'] = True
 
     if modCode in ('FIN3101','FIN3102','FIN3103','BSP3001'):
         modCode = modCode + 'A'
@@ -63,10 +63,11 @@ def modInfo(modCode, faculty):
 
         #If modules doesn't exist
         if modCode not in allInfo:
-            data['module_error'] = True
-            data['suggestion'] = checkModCode(modCode)
+            data['error']['module'] = True
+            if data['error']['faculty'] == False:
+                data['suggestion'] = checkModCode(modCode)
 
-        if modCode in allInfo and 'faculty_error' not in allInfo:
+        if modCode in allInfo and not data['error']['faculty']:
             moduleInfo = allInfo[modCode]
             postfix = '_module'
             
