@@ -108,8 +108,8 @@ function ResultsController($scope, $http, $timeout) {
 				return str;
 			}
 
-			$scope.data.prerequisites = linkifyModules($scope.data.prerequisites, $scope.data.prerequisite_module);
-			$scope.data.preclusions = linkifyModules($scope.data.preclusions, $scope.data.preclusion_module);
+			$scope.data.prerequisite = linkifyModules($scope.data.prerequisite, $scope.data.prerequisite_module);
+			$scope.data.preclusion = linkifyModules($scope.data.preclusion, $scope.data.preclusion_module);
 
 			for (var i = 0; i < $scope.data.bid_history_by_year.length; i++) {
 				if ($scope.data.bid_history_by_year[i].data.length > 0) {
