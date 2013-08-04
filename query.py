@@ -87,28 +87,37 @@ def modInfo(modCode, faculty):
 #returns suggestions for wrong codes
 def checkModCode(modCode):
 
+    #Extract total module list 
     modList, suggest = [], []
     infile = csv.reader(open('data/modName.csv','r'))
     infile.next()
     for row in infile:
         modList.append(row[0])
     modList.sort()
-    
+
+    #Extract modules with leven distance 2 or less
     for module in modList:
         if levenDist(module, modCode) <= 2:
             suggest.append(module)
 
+    #If too many modules, score each module and take the top 3 scores
+    #to filter down the number of suggested modules.
     if len(suggest) > 3:
         suggestList = []
         baseIndex = getModIndex(modCode,modList)
+
+        #Score each module based on alphabetical distance and leven distance
+        #A lower score indicates a 'closer match'
         for module in suggest:
-            score = (abs(getModIndex(module,modList)-baseIndex))/len(modList)
-            score += (2-levenDist(module,modCode)) * 1000.0
+            score = (abs(getModIndex(module,modList)- baseIndex))/(1.0*len(modList))
+            score += (levenDist(module,modCode)) * 1000.0
             suggestList.append([module,score])
+
+        #Extract modules with the lowest score
         suggestList = sorted(suggestList, key = lambda score: score[1])
         suggest = []
         for i in range(0,3):
-            suggest.append(suggestList.pop()[0])
+            suggest.append(suggestList[i][0])
     suggest.sort()
     return suggest
 
@@ -232,7 +241,4 @@ def bidHistoryByYear(bidInfo):
     return bidHist1
 
 print extract("GEM2900","BIZ","g","0")
-print extract("fin3101","biz","p","0")
-print extract("fin3101","bia","p","0")
-print extract("eg1412","biz","p","0")
-print extract("eg1412","bia","p","0")
+print extract("fin3100","biz","p","0")
