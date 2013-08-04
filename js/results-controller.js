@@ -32,6 +32,7 @@ function ResultsController($scope, $http, $timeout) {
 	$scope.newStudent = newStudent.toString();
 	$scope.loading = true;
 	$scope.error = false;
+	$scope.suggestion = '';
 	$scope.loading_section = {'loading-screen': true, 'invisible': !$scope.loading};
 	$scope.results_section = {'main-container': true, 'invisible': $scope.loading};
 	$scope.empty_data = true;
@@ -87,11 +88,39 @@ function ResultsController($scope, $http, $timeout) {
 		$http.get(constructURL('query')).success(function(res) {
 			$scope.data = res;
 			// console.log(res);
-			if ($scope.data.module_error || $scope.data.faculty_error) {
+
+			function suggestModule(str, suggest_list){
+				if(str && suggest_list){
+					for (var i = 0; i <= suggest_list.length-1; i++) {
+						str = str.insert(str.length,'<a class="module-links" href="http://www.corspedia.com');
+						str = str.insert(str.length, constructURL('results', suggest_list[i]) + '">');
+						str = str.insert(str.length, suggest_list[i] + '</a>  ');
+						if (i == suggest_list.length - 2){
+							str = str + ' or ';
+						}
+						else if (i == suggest_list.length - 1){
+							str = str + '?';
+						}
+						else {
+							str = str + ', '
+						}
+					}
+				}
+				return str;
+			}
+
+			if ($scope.data.error.module || $scope.data.error.faculty) {
 				$scope.loading = false;
 				$scope.error = true;
+
+				if ($scope.data.suggestion) {
+					$scope.suggestion = suggestModule('Were you looking for ', $scope.data.suggestion); 
+				}
+
 				return;
 			}
+
+
 
 			function linkifyModules(str, module_list) {
 				if (str && module_list) {
@@ -108,8 +137,8 @@ function ResultsController($scope, $http, $timeout) {
 				return str;
 			}
 
-			$scope.data.prerequisites = linkifyModules($scope.data.prerequisites, $scope.data.prerequisite_module);
-			$scope.data.preclusions = linkifyModules($scope.data.preclusions, $scope.data.preclusion_module);
+			$scope.data.prerequisite = linkifyModules($scope.data.prerequisite, $scope.data.prerequisite_module);
+			$scope.data.preclusion = linkifyModules($scope.data.preclusion, $scope.data.preclusion_module);
 
 			for (var i = 0; i < $scope.data.bid_history_by_year.length; i++) {
 				if ($scope.data.bid_history_by_year[i].data.length > 0) {
