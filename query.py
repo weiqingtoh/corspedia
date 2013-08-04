@@ -1,4 +1,4 @@
-import csv, json, operator
+import csv, json, operator, numpy
 from itertools import imap
 
 facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
@@ -19,34 +19,25 @@ facultyList = {"ART":"ARTS & SOCIAL SCIENCES",
 
     
 #This function is to return a dictionary of keys representing
-#the bid history of the module given the certain factors provided.
+#the bid history of the module given the certain parameters provided.
 def extract(modCode, faculty, accType, newStu):
 
     #In case of lower letters
     modCode = modCode.upper()
     faculty = faculty.upper()
 
-    #Catch errors of module and/or faculty
-    facErr, modErr, module = False, False, {}
-    modList = checkModCode(modCode)
-    if faculty not in facultyList:
-        facErr = True
-    if len(modList) > 0:
-        modErr = True
-        module['suggestions'] = modList
-    if facErr or modErr :
-        module['module'] = modCode
-        module['faculty_error'] = facErr
-        module['module_error'] = modErr
-        return module        
+    ##Load the module information and do error checking
+    data = modInfo(modCode, faculty)
 
-    ##Load the module information
-    data = modInfo(modCode)
-
+    #If error exists in module code or faculty
+    if ('module_error' in data) or ('faculty_error' in data):
+        return data
+    
     #if modCode is SS or GEM format and return output
     if modCode[0:3] in ('SSA','SSB','SSD','SSS','GEK','GEM'):
         modBidData = extractdata(modCode,'g')
-    #For all other modules, extract and filter the nevessary data
+        
+    #For all other modules, extract and filter the necessary data
     else:
         modBidData = filterdata(faculty, newStu, extractdata(modCode, accType))                
     
@@ -55,22 +46,105 @@ def extract(modCode, faculty, accType, newStu):
 
     return data
 
+
+#Extract the necessary module information from JSON file
+def modInfo(modCode, faculty):
+    data = {}
+    data['module'] = modCode
+    #Faculty error
+    if faculty not in facultyList:
+        data['faculty_error'] = True
+
+    if modCode in ('FIN3101','FIN3102','FIN3103','BSP3001'):
+        modCode = modCode + 'A'
+    
+    with open('data/mod_info.json','r') as infile:
+        allInfo = json.load(infile)
+
+        #If modules doesn't exist
+        if modCode not in allInfo:
+            data['module_error'] = True
+            data['suggestion'] = checkModCode(modCode)
+
+        if modCode in allInfo and 'faculty_error' not in allInfo:
+            moduleInfo = allInfo[modCode]
+            postfix = '_module'
+            
+            for datatype in ['title','credit']:
+                if datatype in moduleInfo:
+                    data[datatype] = moduleInfo[datatype]
+
+            for datatype in ['description','preclusion','prerequisite']:
+                if datatype in moduleInfo:
+                    data[datatype] = moduleInfo[datatype]
+                    if (datatype + postfix) in moduleInfo:
+                        data[datatype+postfix] = moduleInfo[datatype+postfix]
+        
+    return data
+
 #This function is to check if module code is valid -
 #returns suggestions for wrong codes
 def checkModCode(modCode):
+
     modList, suggest = [], []
-    infile = csv.reader(open('modName.csv','r'))
+    infile = csv.reader(open('data/modName.csv','r'))
     infile.next()
     for row in infile:
         modList.append(row[0])
     modList.sort()
-    if modCode not in modList:
-        #Find suggestions for modList
+    
+    for module in modList:
+        if levenDist(module, modCode) <= 2:
+            suggest.append(module)
+
+    if len(suggest) > 3:
+        suggestList = []
+        baseIndex = getModIndex(modCode,modList)
+        for module in suggest:
+            score = (abs(getModIndex(module,modList)-baseIndex))/len(modList)
+            score += (2-levenDist(module,modCode)) * 1000.0
+            suggestList.append([module,score])
+        suggestList = sorted(suggestList, key = lambda score: score[1])
+        suggest = []
+        for i in range(0,3):
+            suggest.append(suggestList.pop()[0])
+    suggest.sort()
+    return suggest
+
+#Define module index
+def getModIndex(modCode, modList):
+    #Find suggestions for modList
+    if modCode in modList:
+        return modList.index(modCode)
+    else:
         for mod in modList:
             if modCode < mod:
-                suggest.append(mod)
-                break
-    return suggest
+                return modList.index(mod)
+    return len(modList)        
+
+#This function is to calculate the hamming distance
+def hamDist(str1, str2):
+    assert len(str1) == len(str2)
+    ne = operator.ne
+    return sum(imap(ne, str1, str2))
+
+#This function is to calculate the Levenshtein distance
+def levenDist(a,b):
+    m,n = len(a), len(b)
+    d = numpy.zeros((m+1)*(n+1)).reshape((m+1,n+1))
+    for i in range(1,m+1):
+        d[i][0] = i
+    for i in range(1,n+1):
+        d[0][i] = i
+    for j in range(1,n+1):
+        for i in range(1,m+1):
+            if a[i-1] == b[j-1]:
+                d[i][j] = d[i-1][j-1]
+            else:
+                d[i][j] = min ( d[i-1][j]+1,
+                                d[i][j-1]+1,
+                                d[i-1][j-1]+1)
+    return int(d[m][n])
 
 #This function extracts all the module data from the CSV file
 def extractdata(modCode, accType):
@@ -90,7 +164,6 @@ def extractdata(modCode, accType):
 
 #This function identifies the necessary bid point sets to display
 def filterdata(faculty, newStu, output):
-    
     out, faculties = [], []
     for row in output:
         #Filter by Rounds - Round 1A,1B,1C
@@ -116,31 +189,6 @@ def filterdata(faculty, newStu, output):
         else:
             out.append(row)
     return out
-
-
-#Extract the necessary module information from JSON file
-def modInfo(modCode):
-    data = {}
-    data['module'] = modCode
-    with open('data/mod_info.json','r') as infile:
-        allInfo = json.load(infile)
-        if modCode in allInfo:
-            moduleInfo = allInfo[modCode]
-
-            data['title'] = moduleInfo['title']
-            data['credit'] = moduleInfo['credit']
-            if 'description' in moduleInfo:
-                data['description'] = moduleInfo['description']
-            if 'preclusion' in moduleInfo:
-                data['preclusions'] = moduleInfo['preclusion']
-                if 'preclusion_module' in moduleInfo:
-                    data['preclusion_module'] = moduleInfo['preclusion_module']
-            if 'prerequisite' in moduleInfo:
-                data['prerequisites'] = moduleInfo['prerequisite']
-                if 'prerequisite_module' in moduleInfo:
-                    data['prerequisite_module'] = moduleInfo['prerequisite_module']
-    return data
-
 
 def bidHistoryByYear(bidInfo):
     
@@ -178,31 +226,5 @@ def bidHistoryByYear(bidInfo):
             bidHist1.append(item)
     return bidHist1
 
-
-#This function is to calculate the hamming distance
-def hamdist(str1, str2):
-    assert len(str1) == len(str2)
-    ne = operator.ne
-    return sum(imap(ne, str1, str2))
-
-
-#This function is to calculate the Levenshtein distance
-def levendist(a,b):
-    m,n = len(a), len(b)
-    d = numpy.zeros((m+1)*(n+1)).reshape((m+1,n+1))
-    for i in range(1,m+1):
-        d[i][0] = i
-    for i in range(1,n+1):
-        d[0][i] = i
-    for j in range(1,n+1):
-        for i in range(1,m+1):
-            if a[i-1] == b[j-1]:
-                d[i][j] = d[i-1][j-1]
-            else:
-                d[i][j] = min ( d[i-1][j]+1,
-                                d[i][j-1]+1,
-                                d[i-1][j-1]+1)
-    return int(d[m][n])
-
-print extract("GEM2900","BIZ","g","0")
-print extract("eg1413","eng","p","0")
+##print extract("GEM2900","BIZ","g","0")
+##print extract("fin3101","biz","p","0")
