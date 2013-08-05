@@ -61,7 +61,7 @@
     <img ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}"/>
     <div class="error-container">
       <p ng-show="data.error.faculty">The faculty you have chosen was not found.</p>
-      <p ng-show="data.error.module">Invalid Module Code!</p>
+      <p ng-show="data.error.module">We do not have the information for the module code you have entered.</p>
       <p ng-bind-html-unsafe="suggestion"></p>
       <p ng-show="error">An error has occurred. Please check your queries again. <br/><br/> Return to <a href="/">Search</a>.</p>
       <p ng-show="!error">Loading results...</p>
