@@ -141,11 +141,7 @@ def hamDist(str1, str2):
 #This function is to calculate the Levenshtein distance
 def levenDist(a,b):
     m,n,d = len(a), len(b), []
-    for i in range(0,m+1):
-        f = []
-        for j in range(0,n+1):
-            f.append(0)
-        d.append(f)
+    d = [[0 for x in range(0,n+1)] for y in range(0,m+1)]
     for i in range(1,m+1):
         d[i][0] = i
     for i in range(1,n+1):
