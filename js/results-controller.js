@@ -90,18 +90,16 @@ function ResultsController($scope, $http, $timeout) {
 			// console.log(res);
 
 			function suggestModule(str, suggest_list){
-				if(str && suggest_list){
+				if (str && suggest_list){
 					for (var i = 0; i <= suggest_list.length-1; i++) {
 						str = str.insert(str.length,'<a class="module-links" href="http://www.corspedia.com');
 						str = str.insert(str.length, constructURL('results', suggest_list[i]) + '">');
 						str = str.insert(str.length, suggest_list[i] + '</a>  ');
 						if (i == suggest_list.length - 2){
 							str = str + ' or ';
-						}
-						else if (i == suggest_list.length - 1){
+						} else if (i == suggest_list.length - 1){
 							str = str + '?';
-						}
-						else {
+						} else {
 							str = str + ', '
 						}
 					}
@@ -119,8 +117,6 @@ function ResultsController($scope, $http, $timeout) {
 
 				return;
 			}
-
-
 
 			function linkifyModules(str, module_list) {
 				if (str && module_list) {
@@ -146,7 +142,7 @@ function ResultsController($scope, $http, $timeout) {
 					break;
 				}
 			}
-			setTimeout(function() {
+			$timeout(function() {
 				if (!$scope.empty_data) {
 					$timeout(function() {
 						$("#bidding-history-table").tabs();
