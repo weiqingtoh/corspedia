@@ -1,0 +1,171 @@
+extends layout
+
+block content
+  div(class="docs uikit results-screen", id="inner-doc", ng-controller="ResultsController")
+
+    div(ng-class="loading_section", ng-show="loading || error", style="display:none")
+      img(ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}")
+      div(class="error-container")
+        p(ng-show="data.error.faculty") The faculty you have chosen was not found.
+        p(ng-show="data.error.module") We do not have the information for the module code you have entered.
+        p(ng-bind-html-unsafe="suggestion")
+        p(ng-show="error") An error has occurred. Please check your queries again. <br/><br/> Return to <a href="/">Search</a>.
+        p(ng-show="!error") Loading results...
+
+    include nav
+    
+    div(ng-class="results_section", ng-show="!loading && !error", style="display:none")
+      div(class="pure-g")
+        div(class="pure-u-1")
+          h1 Search Results
+          p(class="current-round")
+
+        div(class="pure-u-1")
+          p(class="search-again")
+            button(class="pure-button pure-button-primary", ng-click="toggleSearchContainer()", ng-show="!show_search_section")
+              i(class="icon-search") Search again
+            button(class="pure-button pure-button-danger", ng-click="toggleSearchContainer()", ng-show="show_search_section")
+              i(class="icon-remove") Close panel
+          hr
+          
+          div(id="search-container")
+            form(class="pure-form pure-form-aligned results-search-form", method="post")
+              fieldset
+                div(class="pure-control-group")
+                  label(for="modCode"): strong Module Code
+                    span(class="tooltip")[?]
+                      div(class="tooltip-content") Select the Module code of the module history that you wish to view.
+                  
+                  input(id="modCode", class="pure-input-rounded", type="text", name="modCode", placeholder="Module Code", ng-model="modCode")
+                
+                div(class="pure-control-group")
+                  label(for="faculty"): strong Your Faculty
+                    span(class="tooltip")[?]
+                      div(class="tooltip-content") Select the faculty you are studying in.</br></br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course. 
+                    
+                  select(name="faculty", ng-model="faculty", style="width:160px;")
+                    option(value="ART") Arts
+                    option(value="BIZ") Business
+                    option(value="COM") Computing
+                    option(value="SDE") Design &amp; Environment
+                    option(value="ENG") Engineering
+                    option(value="LAW") Law
+                    option(value="MED") Medicine
+                    option(value="MDP") Multi-Disciplinary Program
+                    option(value="YST") Music
+                    option(value="SCI") Science
+                    option(value="USP") USP
+
+                div(class="pure-control-group")
+                  label(for="studentType"): strong Student Type
+                    span(class="tooltip")[?]
+                      div(class="tooltip-content") For certain modules, places are reserved for new students in Rounds 1 and 2, recognizing that new students do not have as many points as some of the seniors.
+
+                  label(class="pure-checkbox", for="check1", style="text-align:left")
+                    input(name="newStudent", id="check1", type="checkbox", ng-model="newStudent", ng-true-value="1", ng-false-value="0")
+                    span I am a new student
+
+                div(class="pure-control-group", style="height: 40px;")
+                  label(for="studentType", style="height: 100%"): strong Account Type
+                    span(class="tooltip") [?]
+                      div(class="tooltip-content") Which Account Type is used?</br></br>
+                      | This depends on the module type that you are planning to map the module towards.</br></br>
+                      | Program Account (P) - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br></br>
+                      | General Account (G) - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS
+
+                  div(style="display: inline-block;")
+                    label(class="pure-radio", for="radio1")
+                      input(name="accType", id="radio1", value="p", type="radio", checked="checked", ng-model="accType")
+                      span Program
+
+                    label(class="pure-radio", for="radio2")
+                      input(name="accType", id="radio2", value="g", type="radio", ng-model="accType")
+                      span General
+                    
+                button(id="submit-button", class="pure-button pure-button-primary", ng-click="newSearch()") Search
+            hr
+      div(class="pure-g-r")
+        div(class="pure-u-3-4")
+          div(class="pure-u-1")
+            h2 {@ data.module @} Module Information
+            p(class="bookmark-module")
+              button(class="pure-button pure-button-primary", ng-show="!moduleInBookmarks()", ng-click="addBookmark(data.module)")
+                i(class="icon-bookmark") Bookmark
+              button(class="pure-button pure-button-success", ng-show="moduleInBookmarks()", ng-click="removeBookmark(data.module)")
+                i(class="icon-ok" disabled) Bookmarked!
+              <!-- <span class="bookmarked" ng-show="moduleInBookmarks()">Bookmarked!</span> -->
+
+            table(class="pure-table pure-table-bordered module-description-table")
+              tr(ng-show="data.module")
+                td Module Code
+                td {@ data.module @} 
+              tr(ng-show="data.title")
+                td Title
+                td(ng-bind-html-unsafe="data.title")
+              tr(ng-show="data.description")
+                td Description
+                td(ng-bind-html-unsafe="data.description")
+              tr(ng-show="data.credit")
+                td Credits
+                td {@ data.credit @}
+              tr(ng-show="data.prerequisite")
+                td Pre-Requisite
+                td(ng-bind-html-unsafe="data.prerequisite")
+              tr(ng-show="data.preclusion")
+                td Preclusion
+                td(ng-bind-html-unsafe="data.preclusion")
+
+          div(class="pure-u-1 bidding-history-table" id="bidding-history-table")
+            h2 Bidding History
+            ul(ng-show="!empty_data")
+              li(ng-repeat="year in data.bid_history_by_year", ng-show="year.data.length > 0")
+                a(href="#{@ idify(year.year) @}"): span: strong {@ year.year@}
+
+            hr
+            div(ng-repeat="year in data.bid_history_by_year", id="{@ idify(year.year) @}", ng-show="year.data.length != 0 && !empty_data")
+              h3 {@ year.year @}
+              div(class="pure-u-1", ng-repeat="(index, group) in year.data")
+                table(class="pure-table pure-table-bordered", width="100%")
+                  tr(ng-show="index == 0")
+                    th(class="lecture-group") Lecture Group
+                    th(class="bidding-round") Bidding Round
+                    th Quota
+                    th No. of Bidders
+                    th Lowest Bid
+                    th Lowest Succ Bid
+                    th Highest Bid
+
+                  tr(ng-repeat="round in group.bid_info")
+                    td(class="lecture-group", ng-show="$first", rowspan="{@ group.bid_info.length @}")
+                      h2 {@ index + 1 @}
+                    td(class="bidding-round") {@ round.bid_round @}
+                    td(ng-repeat="value in round.bid_summary", ng-class="{true: 'success', false: 'nothing'}[$index == 3];") {@ value @}
+
+            p(class="empty-data", ng-show="empty_data") No history to display.
+
+        div(class="pure-u-1-4")
+          div(class="right-col")
+            div(class="bookmarks-container")
+              h2 Bookmarks
+              p(ng-show="emptyBookmarks()") You have no modules in your bookmarks. Add modules here by clicking the <strong>Bookmark</strong> button.
+              div(class="bookmarks-section")
+                ul
+                  li(ng-repeat="mod in bookmarks_list")
+                    a(ng-click="newSearch(mod)") {@ mod @}
+                      span(ng-click="removeBookmark(mod)", class="bookmark-delete") &#10006;
+            br
+            div(class="sponsored-container")
+              h2 Partners
+              p
+                a(href="http://www.nusmods.com", target="_blank") NUSMods 
+                |· NUSMods helps you find modules which fit your schedule, plan your ideal timetable, then share it with your friends or export it to various formats.
+            
+  script(type="text/javascript")
+    var modCode = '#{output_modCode}';
+    var faculty = '#{output_faculty}';
+    var accType = '#{ output_accType}';
+    var newStudent = #{output_newStudent};
+
+  script(src="javascripts/results-controller.js")
+  script(src="javascripts/cors-schedule.js")
+  
