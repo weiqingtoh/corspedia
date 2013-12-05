@@ -3,6 +3,8 @@
  * GET home page.
  */
 
+var corsdata = require('../cors-data');
+
 module.exports = {
 	index: function(req, res){
  		res.render('index', { title: 'Corspedia - NUS CORS Bidding Archive' });
@@ -11,7 +13,6 @@ module.exports = {
 		res.render('about', { title: 'About - Corspedia' });
 	},
 	search: function(req, res) {
-        
         var modCode = req.body.modCode;
         var faculty = req.body.faculty;
         var accType = req.body.accType;
@@ -52,7 +53,6 @@ module.exports = {
         }
 	},
 	results: function(req, res) {
-		console.log(req)
 		var modCode = req.query.code;
         var faculty = req.query.fac;
         var accType = req.query.acc;
@@ -73,5 +73,22 @@ module.exports = {
             output_accType: accType,
             output_newStudent: newStudent
         });
+	},
+	query: function(req, res) {
+		var modCode = req.query.code;
+        var faculty = req.query.fac;
+        var accType = req.query.acc;
+        var newStudent = req.query.new;
+        modCode = modCode.toUpperCase();
+        faculty = faculty.toUpperCase();
+        if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || faculty == '0' || accType == '0') {
+            res.redirect('/');
+        }
+		
+        var data = corsdata.extract(modCode, faculty, accType, newStudent);
+        res.set('Content-Type', 'application/json');
+        // console.log(data);
+        res.send(JSON.stringify(data));
+        // self.response.out.write(response)
 	}
 }
