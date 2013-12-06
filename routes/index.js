@@ -90,5 +90,8 @@ module.exports = {
         // console.log(data);
         res.send(JSON.stringify(data));
         // self.response.out.write(response)
+	},
+	test: function() {
+		corsdata.checkModCode();
 	}
 }

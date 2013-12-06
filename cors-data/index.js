@@ -4,7 +4,14 @@
  */
 
 var fs = require('fs');
-var allModulesInfo = JSON.parse(fs.readFileSync('./cors-data/mod_info.json'));
+var allModulesInfo = JSON.parse(fs.readFileSync('./cors-data/modules-info.json'));
+
+var csv = require('csv');
+var biddingData;
+csv().from.path('./cors-data/bidding-data.csv', { delimiter: ','}).to.array(function(data) {
+    biddingData = data;
+    console.log('CSV loaded');
+});
 
 module.exports = {
     facultyList: {
@@ -38,22 +45,123 @@ module.exports = {
         if (data.error.module || data.error.faculty) {
             return data;
         }
+
+        function extractData(modCode, accType) {
+            var output = []
+            biddingData.forEach(function(row) {
+                // Extract Records for Account and ModCode
+                if (row[0] == modCode || ((row[0] == 'EG1413') && (modCode == 'ES1531'))) {
+                    if (accType == 'p' && row[9] == '1') {
+                        output.push(row);
+                    } else if (accType == 'g' && row[10] == '1') {
+                        output.push(row);
+                    }
+                }
+            });
+            return output
+        }        
+        var that = this;
         
-        // // If modCode is SS or GEM format and return output
-        // if (['SSA','SSB','SSD','SSS','GEK','GEM'].indexOf(modCode.slice(0, 3)) != -1) {
-        //     var modBidData = extractData(modCode,'g')
-        // }    
-        // // For all other modules, extract and filter the necessary data
-        // else {
-        //     var modBidData = filterData(faculty, newStu, extractData(modCode, accType))                
-        // }
+        // This function identifies the necessary bid point sets to display
+        function filterData(faculty, newStu, output) {
+            var out = [];
+            var faculties = [];
+            output.forEach(function(row) {
+                // Filter by Rounds - Round 1A,1B,1C
+                if (row[11][0] == '1' && newStu == '0' && row[8] != '1' && row[7] == that.facultyList[faculty]) {
+                    out.push(row);
+                } else if (row[11][0] == '2') {
+                    // Round 2A, 2B, 2C
+                    if (row[11] == '2C') {
+                        out.push(row);
+                    } else if (row[9] == '1' && row[10] == '1') {
+                        out.push(row);
+                    } else if (newStu == '0' && row[8] != '1' && facultyList[faculty] == row[7]) {
+                        out.push(row);
+                    } else if (newStu == '1' && row[8] != '0') {
+                        if (that.facultyList[faculty] == row[7]) {
+                            out.push(row);
+                        }
+                    }
+                } else {
+                    // Round 3A, 3B, 3C         
+                    out.push(row);
+                }
+            });
+
+            return out
+        }
+
+
+        function bidHistoryByYear(bidInfo) {
+            // Create Bidhistory Dictionary
+            var bidHist = [];
+            ['2008','2009','2010','2011','2012','2013'].forEach(function(year) {
+                ['1','2'].forEach(function(sem) {
+                    if (!(year == '2013' && sem == '2')) {
+                        function zfill(num, len) { return (Array(len).join("0") + num).slice(-len); }
+                        var aySem = 'AY' + year.slice(2) + '/' + zfill((parseInt(year.slice(2)) + 1).toString(), 2) + ' Sem ' + sem;
+                        bidHist.unshift({"year": aySem, "data": []});
+                        var currSem = bidHist[0]["data"];
+                        var lectGrp = [];
+                        var tempList = [];
+
+                        // Extract Relevant Rows to Display in AY and Sem
+                        bidInfo.forEach(function(row) {
+                            if (row[12] == year && row[13] == sem) {
+                                tempList.push(row);
+                                if (lectGrp.indexOf(row[1]) == -1) {
+                                    lectGrp.push(row[1]);
+                                }
+                            }
+                        });
+
+                        // Count number of Lecture Groups, Create Dictionary Output
+                        var numLect = lectGrp.length;
+                        for (var i = 0; i < numLect; i++) {
+                            currSem.push({"bid_info":[]});
+                        }
+
+                        // Input each entry of bid points into final output
+                        tempList.forEach(function(entry) {
+                            var num = lectGrp.indexOf(entry[1]);
+                            var bidPoints = {"bid_round": entry[11], "bid_summary":[0,0,0,0,0]}
+                            for (var i = 0; i < 5; i++) {
+                                bidPoints["bid_summary"][i] = parseInt(entry[i+2]);
+                            }
+                            currSem[num]["bid_info"].push(bidPoints);
+                        });
+                    }
+                });
+            });
+
+            bidHist1 = [];
+            if (bidHist.length > 1) {
+                bidHist.forEach(function(item) {
+                    if (item['data'].length > 0) {
+                        bidHist1.push(item);
+                    }
+                });
+            }
+            return bidHist1
+        }
+
+        // If modCode is SS or GEM format and return output
+        if (['SSA','SSB','SSD','SSS','GEK','GEM'].indexOf(modCode.slice(0, 3)) != -1) {
+            var modBidData = extractData(modCode,'g')
+        } else {
+            // For all other modules, extract and filter the necessary data
+            var modBidData = filterData(faculty, newStu, extractData(modCode, accType))                
+        }
         
-        // // Format the necessary bid history
-        // data.bid_history_by_year = bidHistoryByYear(modBidData);
+        // Format the necessary bid history
+        data.bid_history_by_year = bidHistoryByYear(modBidData);
 
         return data;
     },
     modInfo: function(modCode, faculty) {
+        // Extract the necessary module information from JSON file
+
         var data = {'error': {'faculty': false, 'module': false },
                     'module': modCode }; 
         // Faculty error
@@ -94,161 +202,79 @@ module.exports = {
         }
 
         return data;
+    },
+    checkModCode: function(modCode) {
+        // This function checks if the module code is valid -
+        // returns suggestions for wrong codes
+
+        // Extract total module list 
+        var modList = Object.keys(allModulesInfo).sort();
+
+        function levenshteinDist(a, b) {
+            // This function calculates the Levenshtein distance
+            // between two module codes (strings)
+            var m = a.length;
+            var n = b.length;
+            var d = [];
+
+            for (var y = 0; y <= m; y++) { d.push([]); }
+            for (var i = 1; i <= m; i++) { d[i][0] = i; }
+            for (var i = 1; i <= n; i++) { d[0][i] = i; }
+
+            for (var j = 1; j <= n; j++) {
+                for (var i = 1; i <= m; i++) {
+                    if (a[i-1] == b[j-1]) {
+                        d[i][j] = d[i-1][j-1];
+                    } else {
+                        d[i][j] = Math.min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1]+1);
+                    }
+                }
+            }
+
+            return d[m][n];
+        }
+
+        function getModIndex(modCode, modList) {
+            // Define module index
+            // Find suggestions for modList
+            if (modList.indexOf(modCode) != -1) {
+                return modList.indexOf(modCode);
+            } else {
+                for (var i = 0; i < modList.length; i++) {
+                    if (modCode < modList[i]) {
+                        return i;
+                    }
+                }
+            }
+            return modList.length;
+        }
+
+        // Extract modules with leven distance 2 or less
+        var suggestions = modList.filter(function(module) {
+            return levenshteinDist(module, modCode) <= 2;
+        });
+
+        // If too many modules, score each module and take the top 3 scores
+        // to filter down the number of suggested modules.
+        if (suggestions.length > 3) {
+            var baseIndex = getModIndex(modCode,modList);
+
+            // Score each module based on alphabetical distance and leven distance
+            // A lower score indicates a 'closer match'
+            var suggestionsList = suggestions.map(function(module) {
+                score = (Math.abs(getModIndex(module, modList) - baseIndex)) / (1.0*modList.length);
+                score += (levenshteinDist(module, modCode)) * 1000.0;
+                return [module, score];
+            });
+
+            // Extract modules with the lowest score
+            suggestionsList.sort(function(a, b) {
+                return a[1] - b[1];
+            });
+            return suggestionsList.slice(0, 3);
+        }
+
+        suggestions.sort();
+        return suggestions;
     }
 }
-
-// #Extract the necessary module information from JSON file
-// 
-
-// #This function is to check if module code is valid -
-// #returns suggestions for wrong codes
-// def checkModCode(modCode):
-
-//     #Extract total module list 
-//     modList, suggest = [], []
-//     infile = csv.reader(open('data/modName.csv','r'))
-//     infile.next()
-//     for row in infile:
-//         modList.append(row[0])
-//     modList.sort()
-
-//     #Extract modules with leven distance 2 or less
-//     for module in modList:
-//         if levenDist(module, modCode) <= 2:
-//             suggest.append(module)
-
-//     #If too many modules, score each module and take the top 3 scores
-//     #to filter down the number of suggested modules.
-//     if len(suggest) > 3:
-//         suggestList = []
-//         baseIndex = getModIndex(modCode,modList)
-
-//         #Score each module based on alphabetical distance and leven distance
-//         #A lower score indicates a 'closer match'
-//         for module in suggest:
-//             score = (abs(getModIndex(module,modList)- baseIndex))/(1.0*len(modList))
-//             score += (levenDist(module,modCode)) * 1000.0
-//             suggestList.append([module,score])
-
-//         #Extract modules with the lowest score
-//         suggestList = sorted(suggestList, key = lambda score: score[1])
-//         suggest = []
-//         for i in range(0,3):
-//             suggest.append(suggestList[i][0])
-//     suggest.sort()
-//     return suggest
-
-// #Define module index
-// def getModIndex(modCode, modList):
-//     #Find suggestions for modList
-//     if modCode in modList:
-//         return modList.index(modCode)
-//     else:
-//         for mod in modList:
-//             if modCode < mod:
-//                 return modList.index(mod)
-//     return len(modList)        
-
-// #This function is to calculate the hamming distance
-// def hamDist(str1, str2):
-//     assert len(str1) == len(str2)
-//     ne = operator.ne
-//     return sum(imap(ne, str1, str2))
-
-// #This function is to calculate the Levenshtein distance
-// def levenDist(a,b):
-//     m,n,d = len(a), len(b), []
-//     d = [[0 for x in range(0,n+1)] for y in range(0,m+1)]
-//     for i in range(1,m+1):
-//         d[i][0] = i
-//     for i in range(1,n+1):
-//         d[0][i] = i
-//     for j in range(1,n+1):
-//         for i in range(1,m+1):
-//             if a[i-1] == b[j-1]:
-//                 d[i][j] = d[i-1][j-1]
-//             else:
-//                 d[i][j] = min ( d[i-1][j]+1,
-//                                 d[i][j-1]+1,
-//                                 d[i-1][j-1]+1)
-//     return int(d[m][n])
-
-// #This function extracts all the module data from the CSV file
-// def extractData(modCode, accType):
-    
-//     output = []
-//     with open('data/data.csv','rb') as csvfile:
-//         modData = csv.reader(csvfile)
-//         for row in modData:
-//             #Extract Records for Account and ModCode
-//             if row[0] == modCode or ((row[0] == 'EG1413') and (modCode == 'ES1531')):
-//                 if accType == 'p' and row[9] == '1':
-//                     output.append(row)
-//                 elif accType == 'g' and row[10] == '1':
-//                     output.append(row)
-//     return output
-
-
-// #This function identifies the necessary bid point sets to display
-// def filterData(faculty, newStu, output):
-//     out, faculties = [], []
-//     for row in output:
-//         #Filter by Rounds - Round 1A,1B,1C
-//         if row[11][0] == '1':
-//             if newStu == '0' and row[8] != '1':
-//                 if row[7] == facultyList[faculty]:
-//                     out.append(row)
-                    
-//         #Round 2A, 2B, 2C
-//         elif row[11][0] == '2':
-//             if row[11] == '2C':
-//                 out.append(row)
-//             elif row[9] == '1' and row[10] == '1':
-//                     out.append(row)
-//             elif newStu == '0' and row[8] != '1':
-//                 if facultyList[faculty] == row[7]:
-//                     out.append(row)
-//             elif newStu == '1' and row[8] != '0':
-//                 if facultyList[faculty] == row[7]:
-//                     out.append(row)
-                    
-//         #Round 3A, 3B, 3C         
-//         else:
-//             out.append(row)
-//     return out
-
-// def bidHistoryByYear(bidInfo):
-    
-//     #Create Bidhistory Dictionary
-//     bidHist = []
-//     for year in ['2008','2009','2010','2011','2012']:
-//         for sem in ['1','2']:
-//             aySem = 'AY' + year[2:] + '/' + str(int(year[2:]) + 1).zfill(2) + ' Sem ' + sem
-//             bidHist.insert(0,{"year":aySem, "data":[]})
-//             currSem = bidHist[0]["data"]
-//             lectGrp, tempList = [], []
-
-//             #Extract Relevant Rows to Display in AY and Sem
-//             for row in bidInfo:
-//                 if row[12] == year and row[13] == sem:
-//                     tempList.append(row)
-//                     if row[1] not in lectGrp:
-//                         lectGrp.append(row[1])
-
-//             #Count number of Lecture Groups, Create Dictionary Output
-//             numLect = len(lectGrp)
-//             for i in range(0,numLect):
-//                 currSem.append({"bid_info":[]})
-
-//             #Input each entry of bid points into final output
-//             for entry in tempList:
-//                 num = lectGrp.index(entry[1])
-//                 bidPoints = {"bid_round": entry[11], "bid_summary":[0,0,0,0,0]}
-//                 for i in range(0,5):
-//                     bidPoints["bid_summary"][i] = int(entry[i+2])   
-//                 currSem[num]["bid_info"].append(bidPoints)
-//     bidHist1 = []
-//     for item in bidHist:
-//         if len(item['data']) > 0:
-//             bidHist1.append(item)
-//     return bidHist1
