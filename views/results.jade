@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  script(type="text/javascript", src="javascripts/jquery-ui.js")
   link(href="stylesheets/jquery-ui.css", rel="stylesheet")
   div(class="docs uikit results-screen", id="inner-doc", ng-app, ng-controller="ResultsController")
     div(ng-class="loading_section", ng-show="loading || error", style="display:none")
@@ -171,5 +172,5 @@ block content
       var accType = '#{output_accType}';
       var newStudent = #{output_newStudent};
 
-    script(src="javascripts/results-controller.js")
-    script(src="javascripts/cors-schedule.js")
+    script(type="text/javascript", src="javascripts/results-controller.js")
+    script(type="text/javascript", src="javascripts/cors-schedule.js")
