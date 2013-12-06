@@ -59,7 +59,8 @@ module.exports = {
                 }
             });
             return output
-        }        
+        } 
+
         var that = this;
         
         // This function identifies the necessary bid point sets to display
@@ -148,12 +149,13 @@ module.exports = {
 
         // If modCode is SS or GEM format and return output
         if (['SSA','SSB','SSD','SSS','GEK','GEM'].indexOf(modCode.slice(0, 3)) != -1) {
-            var modBidData = extractData(modCode,'g')
+            var modBidData = extractData(modCode, accType);
         } else {
             // For all other modules, extract and filter the necessary data
-            var modBidData = filterData(faculty, newStu, extractData(modCode, accType))                
+            var modBidData = filterData(faculty, newStu, extractData(modCode, accType));
         }
         
+        console.log(modBidData);
         // Format the necessary bid history
         data.bid_history_by_year = bidHistoryByYear(modBidData);
 
