@@ -34,14 +34,14 @@ block content
             form(class="pure-form pure-form-aligned results-search-form", method="post")
               fieldset
                 div(class="pure-control-group")
-                  label(for="modCode"): strong Module Code
+                  label(for="modCode"): strong Module Code 
                     span(class="tooltip")[?]
                       div(class="tooltip-content") Select the Module code of the module history that you wish to view.
                   
                   input(id="modCode", class="pure-input-rounded", type="text", name="modCode", placeholder="Module Code", ng-model="modCode")
                 
                 div(class="pure-control-group")
-                  label(for="faculty"): strong Your Faculty
+                  label(for="faculty"): strong Your Faculty 
                     span(class="tooltip")[?]
                       div(class="tooltip-content") Select the faculty you are studying in.</br></br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course. 
                     
@@ -59,8 +59,8 @@ block content
                     option(value="USP") USP
 
                 div(class="pure-control-group")
-                  label(for="studentType"): strong Student Type
-                    span(class="tooltip")[?]
+                  label(for="studentType"): strong Student Type 
+                    span(class="tooltip") [?]
                       div(class="tooltip-content") For certain modules, places are reserved for new students in Rounds 1 and 2, recognizing that new students do not have as many points as some of the seniors.
 
                   label(class="pure-checkbox", for="check1", style="text-align:left")
@@ -68,20 +68,20 @@ block content
                     span I am a new student
 
                 div(class="pure-control-group", style="height: 40px;")
-                  label(for="studentType", style="height: 100%"): strong Account Type
+                  label(for="studentType", style="height: 100%"): strong Account Type 
                     span(class="tooltip") [?]
                       div(class="tooltip-content") Which Account Type is used?</br></br>
-                      | This depends on the module type that you are planning to map the module towards.</br></br>
-                      | Program Account (P) - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br></br>
-                      | General Account (G) - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS
+                        | This depends on the module type that you are planning to map the module towards.</br></br>
+                        | Program Account (P) - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br></br>
+                        | General Account (G) - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS
 
                   div(style="display: inline-block;")
                     label(class="pure-radio", for="radio1")
-                      input(name="accType", id="radio1", value="p", type="radio", checked="checked", ng-model="accType")
+                      input(name="accType", id="radio1", value="p", type="radio", checked="checked", ng-model="accType") 
                       span Program
 
                     label(class="pure-radio", for="radio2")
-                      input(name="accType", id="radio2", value="g", type="radio", ng-model="accType")
+                      input(name="accType", id="radio2", value="g", type="radio", ng-model="accType") 
                       span General
                     
                 button(id="submit-button", class="pure-button pure-button-primary", ng-click="newSearch()") Search
@@ -89,7 +89,7 @@ block content
       div(class="pure-g-r")
         div(class="pure-u-3-4")
           div(class="pure-u-1")
-            h2 {{ data.module }} Module Information
+            h2 {{ data.module }} - {{ data.title }}
             p(class="bookmark-module")
               button(class="pure-button pure-button-primary", ng-show="!moduleInBookmarks()", ng-click="addBookmark(data.module)")
                 i(class="icon-bookmark")
