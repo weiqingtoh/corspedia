@@ -87,7 +87,7 @@ function ResultsController($scope, $http, $timeout) {
 			function suggestModule(str, suggest_list){
 				if (str && suggest_list){
 					for (var i = 0; i <= suggest_list.length-1; i++) {
-						str = str.insert(str.length,'<a class="module-links" href="http://www.corspedia.com');
+						str = str.insert(str.length,'<a class="module-links" href="');
 						str = str.insert(str.length, constructURL('results', suggest_list[i]) + '">');
 						str = str.insert(str.length, suggest_list[i] + '</a>  ');
 						if (i == suggest_list.length - 2){

@@ -217,7 +217,11 @@ module.exports = {
             var n = b.length;
             var d = [];
 
-            for (var y = 0; y <= m; y++) { d.push([]); }
+            for (var y = 0; y <= m; y++) { 
+                var li = [];
+                for (var x = 0; x <= n; x++) { li.push(0); }
+                d.push(li); 
+            }
             for (var i = 1; i <= m; i++) { d[i][0] = i; }
             for (var i = 1; i <= n; i++) { d[0][i] = i; }
 
@@ -271,7 +275,10 @@ module.exports = {
             suggestionsList.sort(function(a, b) {
                 return a[1] - b[1];
             });
-            return suggestionsList.slice(0, 3);
+
+            return suggestionsList.slice(0, 3).map(function(s) {
+                return s[0];
+            })
         }
 
         suggestions.sort();
