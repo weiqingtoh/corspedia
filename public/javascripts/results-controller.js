@@ -15,11 +15,6 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-angular.module('corspediaResults', [], function ($interpolateProvider) {
-    $interpolateProvider.startSymbol('{@');
-    $interpolateProvider.endSymbol('@}');
-}); 
-
 var QUERY_URL_FORMAT = '/query?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 
@@ -38,7 +33,7 @@ function ResultsController($scope, $http, $timeout) {
 	$scope.empty_data = true;
 
 	$scope.show_search_section = false;
-
+	console.log('results contr')
 	$scope.toggleSearchContainer = function() {
 
 		$('#search-container').toggle("blind");
@@ -87,7 +82,7 @@ function ResultsController($scope, $http, $timeout) {
 		$scope.loading = true;
 		$http.get(constructURL('query')).success(function(res) {
 			$scope.data = res;
-			// console.log(res);
+			console.log(res);
 
 			function suggestModule(str, suggest_list){
 				if (str && suggest_list){

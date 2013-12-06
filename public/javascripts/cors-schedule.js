@@ -75,7 +75,6 @@ function determineRound(now_date) {
         if (now_date < toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start))) {
             return 'Next Round: ' + CORS_SCHEDULE[i].round + ' (Open) at ' + CORS_SCHEDULE[i].open_bidding_start;
         }
-        console.log(i + ': ' + toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end)));
         if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start)) &&
             now_date <= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end))) {
             round += ' (Open)';

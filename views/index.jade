@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  div(class="top-container")
+    div(class="landing-container")
+      div(class="pure-g search-container")
+        div(class="pure-u-1")
+          h1(class="lead main-title") Corspedia
+          p(class="main-caption") An easy-to-use search engine for NUS CORS Bidding Archives.
+  div(class="landing-container")
+    p(class="current-round")
+    form(method="post" class="search-form")
+      div(class="search-segment search-module")
+        input(placeholder="Module Code", type="text", name="modCode")
+      div(class="search-segment search-faculty")
+        div(class="icon-container")
+          i(class="icon-chevron-down icon-large")
+        - var faculties = [{ val: 0, name: 'Your Faculty' }, { val: 'ART', name: 'Arts' }, { val: 'BIZ', name: 'Business' }, { val: 'COM', name: 'Computing' }, { val: 'SDE', name: 'Design & Environment' }, { val: 'ENG', name: 'Engineering' }, { val: 'LAW', name: 'Law' }, { val: 'MED', name: 'Medicine' }, { val: 'MDP', name: 'Multi-Disciplinary Program' }, { val: 'YST', name: 'Music' }, { val: 'SCI', name: 'Science' }, { val: 'USP', name: 'USP' }]
+        select(class="wide", name="faculty")
+          for item in faculties
+            option(value=item.val)= item.name
+
+      div(class="search-segment search-new-student")
+        p
+          label(for="check1") New Student? 
+          input(name="newStudent", id="check1", value="1", type="checkbox")
+
+      div(class="search-segment search-account")
+        div(class="icon-container")
+          i(class="icon-chevron-down icon-large")
+
+        select(class="wide", name="accType", style="height:50px;")
+          option(value="0") Account
+          option(value="p") Program
+          option(value="g") General
+
+      div(class="search-segment search-button")
+        button(class="pure-button", type="submit") Search
+
+    div(class="error-container")
+      p(class="error")= error
+
+    p(class="first-time"): a(onclick="$('.tutorial').toggle()") Is this your first time here?
+    div(class="tutorial")
+      h3 Explanation
+      h5 Module Code
+      p Enter the module code of the module history that you wish to view.
+      h5 Faculty
+      p Select the faculty you are from.</br>CEG Students are to select Multi-Disciplinary Program due to the unique nature of their course.
+      h5 New Student?
+      p For certain modules, places are reserved for new students in Rounds 1 and 2, recognizing that new students do not have as many points as some of the seniors.
+      h5 Account Type
+      p This depends on the module type that you are planning to map the module towards.
+        <strong> Program Account (P)</strong> - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br>
+        <strong> General Account (G)</strong> - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS </div></p>
+  script(src="javascripts/cors-schedule.js")
+  include footer

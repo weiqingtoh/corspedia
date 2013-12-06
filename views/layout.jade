@@ -1,0 +1,48 @@
+doctype 5
+html
+  head
+    title= title
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="description", content="Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives. It provides a clean and simple interface for students to search for the bidding history of any module and displays the relevant results according to their profile: Faculty, New/Returning student and Programmes/General account.")
+    meta(name="keywords", content="bidding, archives, history, NUS, CORS, modules, timetable, National, University, Singapore")
+    meta(name="author", content="humans.txt")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1")
+
+    //- Facebook Metadata
+    meta(property="fb:app_id", content="224705450986837")
+    meta(property="og:image", content="http://www.corspedia.com/img/icon.jpg")
+    meta(property="og:description", content="An easy-to-use search engine to search through CORS bidding archives. It provides a clean and simple interface for students to search for the bidding history of any module and displays the relevant results according to their profile: Faculty, New/Returning student and Programmes/General account.")
+    meta(property="og:title", content="Corspedia")
+    meta(property="og:type", content="blog")
+    meta(property="og:site_name", content="Corspedia")
+
+    //- Stylesheets
+    link(href='http://fonts.googleapis.com/css?family=Arvo:400,700', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700', rel='stylesheet', type='text/css')
+    link(href="http://yui.yahooapis.com/pure/0.2.0/base-min.css", rel="stylesheet")
+    link(href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css", rel="stylesheet")
+    link(href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css", rel="stylesheet")
+    link(href="stylesheets/style.css", rel="stylesheet")
+
+    script(src="javascripts/libs/modernizr-2.6.2.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
+     //- Grab Google CDN's jQuery, fall back to local if offline
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+    script
+      window.jQuery || document.write('<script src="javascripts/libs/jquery-1.9.1.min.js"><\/script>')
+    script(src="javascripts/jquery-ui.js")
+
+  body
+    div(id="fb-root")
+    script
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=224705450986837";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+    block content
+    include ga
