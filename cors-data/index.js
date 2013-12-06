@@ -76,7 +76,7 @@ module.exports = {
                         out.push(row);
                     } else if (row[9] == '1' && row[10] == '1') {
                         out.push(row);
-                    } else if (newStu == '0' && row[8] != '1' && facultyList[faculty] == row[7]) {
+                    } else if (newStu == '0' && row[8] != '1' && that.facultyList[faculty] == row[7]) {
                         out.push(row);
                     } else if (newStu == '1' && row[8] != '0') {
                         if (that.facultyList[faculty] == row[7]) {
