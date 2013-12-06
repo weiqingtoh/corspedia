@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  div(class="docs uikit results-screen", id="inner-doc", ng-controller="ResultsController")
-
+  link(href="stylesheets/jquery-ui.css", rel="stylesheet")
+  div(class="docs uikit results-screen", id="inner-doc", ng-app, ng-controller="ResultsController")
     div(ng-class="loading_section", ng-show="loading || error", style="display:none")
-      img(ng-src="{@{true: 'img/error-icon.png', false: 'img/ajax_loader.gif'}[error]@}")
+      img(ng-src="{{{true: 'images/error-icon.png', false: 'images/ajax_loader.gif'}[error]}}")
       div(class="error-container")
         p(ng-show="data.error.faculty") The faculty you have chosen was not found.
         p(ng-show="data.error.module") We do not have the information for the module code you have entered.
@@ -23,9 +23,11 @@ block content
         div(class="pure-u-1")
           p(class="search-again")
             button(class="pure-button pure-button-primary", ng-click="toggleSearchContainer()", ng-show="!show_search_section")
-              i(class="icon-search") Search again
+              i(class="icon-search")
+              | Search again
             button(class="pure-button pure-button-danger", ng-click="toggleSearchContainer()", ng-show="show_search_section")
-              i(class="icon-remove") Close panel
+              i(class="icon-remove")
+              | Close panel
           hr
           
           div(id="search-container")
@@ -87,18 +89,20 @@ block content
       div(class="pure-g-r")
         div(class="pure-u-3-4")
           div(class="pure-u-1")
-            h2 {@ data.module @} Module Information
+            h2 {{ data.module }} Module Information
             p(class="bookmark-module")
               button(class="pure-button pure-button-primary", ng-show="!moduleInBookmarks()", ng-click="addBookmark(data.module)")
-                i(class="icon-bookmark") Bookmark
+                i(class="icon-bookmark")
+                | Bookmark
               button(class="pure-button pure-button-success", ng-show="moduleInBookmarks()", ng-click="removeBookmark(data.module)")
-                i(class="icon-ok" disabled) Bookmarked!
+                i(class="icon-ok" disabled)
+                | Bookmarked!
               <!-- <span class="bookmarked" ng-show="moduleInBookmarks()">Bookmarked!</span> -->
 
             table(class="pure-table pure-table-bordered module-description-table")
               tr(ng-show="data.module")
                 td Module Code
-                td {@ data.module @} 
+                td {{ data.module }}
               tr(ng-show="data.title")
                 td Title
                 td(ng-bind-html-unsafe="data.title")
@@ -107,7 +111,7 @@ block content
                 td(ng-bind-html-unsafe="data.description")
               tr(ng-show="data.credit")
                 td Credits
-                td {@ data.credit @}
+                td {{ data.credit }}
               tr(ng-show="data.prerequisite")
                 td Pre-Requisite
                 td(ng-bind-html-unsafe="data.prerequisite")
@@ -119,11 +123,11 @@ block content
             h2 Bidding History
             ul(ng-show="!empty_data")
               li(ng-repeat="year in data.bid_history_by_year", ng-show="year.data.length > 0")
-                a(href="#{@ idify(year.year) @}"): span: strong {@ year.year@}
+                a(href="#{{ idify(year.year) }}"): span: strong {{ year.year }}
 
             hr
-            div(ng-repeat="year in data.bid_history_by_year", id="{@ idify(year.year) @}", ng-show="year.data.length != 0 && !empty_data")
-              h3 {@ year.year @}
+            div(ng-repeat="year in data.bid_history_by_year", id="{{ idify(year.year) }}", ng-show="year.data.length != 0 && !empty_data")
+              h3 {{ year.year }}
               div(class="pure-u-1", ng-repeat="(index, group) in year.data")
                 table(class="pure-table pure-table-bordered", width="100%")
                   tr(ng-show="index == 0")
@@ -136,10 +140,10 @@ block content
                     th Highest Bid
 
                   tr(ng-repeat="round in group.bid_info")
-                    td(class="lecture-group", ng-show="$first", rowspan="{@ group.bid_info.length @}")
-                      h2 {@ index + 1 @}
-                    td(class="bidding-round") {@ round.bid_round @}
-                    td(ng-repeat="value in round.bid_summary", ng-class="{true: 'success', false: 'nothing'}[$index == 3];") {@ value @}
+                    td(class="lecture-group", ng-show="$first", rowspan="{{ group.bid_info.length }}")
+                      h2 {{ index + 1 }}
+                    td(class="bidding-round") {{ round.bid_round }}
+                    td(ng-repeat="value in round.bid_summary", ng-class="{true: 'success', false: 'nothing'}[$index == 3];") {{ value }}
 
             p(class="empty-data", ng-show="empty_data") No history to display.
 
@@ -151,7 +155,7 @@ block content
               div(class="bookmarks-section")
                 ul
                   li(ng-repeat="mod in bookmarks_list")
-                    a(ng-click="newSearch(mod)") {@ mod @}
+                    a(ng-click="newSearch(mod)") {{ mod }}
                       span(ng-click="removeBookmark(mod)", class="bookmark-delete") &#10006;
             br
             div(class="sponsored-container")
@@ -159,13 +163,13 @@ block content
               p
                 a(href="http://www.nusmods.com", target="_blank") NUSMods 
                 |· NUSMods helps you find modules which fit your schedule, plan your ideal timetable, then share it with your friends or export it to various formats.
-            
-  script(type="text/javascript")
-    var modCode = '#{output_modCode}';
-    var faculty = '#{output_faculty}';
-    var accType = '#{ output_accType}';
-    var newStudent = #{output_newStudent};
+      include footer
 
-  script(src="javascripts/results-controller.js")
-  script(src="javascripts/cors-schedule.js")
-  
+    script(type="text/javascript")
+      var modCode = '#{output_modCode}';
+      var faculty = '#{output_faculty}';
+      var accType = '#{output_accType}';
+      var newStudent = #{output_newStudent};
+
+    script(src="javascripts/results-controller.js")
+    script(src="javascripts/cors-schedule.js")
