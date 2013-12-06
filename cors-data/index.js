@@ -177,7 +177,7 @@ module.exports = {
         if (!allModulesInfo[modCode]) {
             data.error.module = true;
             if (!data.error.faculty) {
-                data.suggestion = checkModCode(modCode);
+                data.suggestion = this.checkModCode(modCode);
             }
         }
 
