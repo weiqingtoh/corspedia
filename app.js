@@ -8,28 +8,9 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var logfmt = require("logfmt");
-var redis = require('redis');
-var db = redis.createClient();
 
 var app = express();
 app.use(logfmt.requestLogger());
-
-app.use(function(req, res, next){
-  var ua = req.headers['user-agent'];
-  db.zadd('online', Date.now(), ua, next);
-});
-
-app.use(function(req, res, next){
-
-  var min = 300 * 1000;
-  var ago = Date.now() - min;
-  db.zrevrangebyscore('online', '+inf', ago, function(err, users){
-  	console.log(ago);
-    if (err) return next(err);
-    req.online = users;
-    next();
-  });
-});
 
 // all environments
 app.set('port', process.env.PORT || 3000);

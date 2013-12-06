@@ -22,7 +22,6 @@ block content
           p(class="current-round")
 
         div(class="pure-u-1")
-
           p(class="search-again")
             button(class="pure-button pure-button-primary", ng-click="toggleSearchContainer()", ng-show="!show_search_section")
               i(class="icon-search")
@@ -151,13 +150,6 @@ block content
 
         div(class="pure-u-1-4")
           div(class="right-col")
-            p(style="font-size: 24px; color: #00577b")
-              | #{online_count} 
-              if online_count == 1
-                | user 
-              else 
-                | users 
-              | online
             div(class="bookmarks-container")
               h2 Bookmarks
               p(ng-show="emptyBookmarks()") You have no modules in your bookmarks. Add modules here by clicking the <strong>Bookmark</strong> button.

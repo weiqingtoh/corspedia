@@ -71,8 +71,7 @@ module.exports = {
         	output_modCode: modCode,
             output_faculty: faculty,
             output_accType: accType,
-            output_newStudent: newStudent,
-            online_count: req.online.length
+            output_newStudent: newStudent
         });
 	},
 	query: function(req, res) {
