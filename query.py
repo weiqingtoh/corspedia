@@ -204,8 +204,10 @@ def bidHistoryByYear(bidInfo):
     
     #Create Bidhistory Dictionary
     bidHist = []
-    for year in ['2008','2009','2010','2011','2012']:
+    for year in ['2008','2009','2010','2011','2012','2013']:
         for sem in ['1','2']:
+            if year == '2013' and sem == '2':
+                continue
             aySem = 'AY' + year[2:] + '/' + str(int(year[2:]) + 1).zfill(2) + ' Sem ' + sem
             bidHist.insert(0,{"year":aySem, "data":[]})
             currSem = bidHist[0]["data"]
