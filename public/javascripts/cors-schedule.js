@@ -1,59 +1,59 @@
 var CORS_SCHEDULE = [
     {
         round: '0',
-        open_bidding_start: 'July 25, 2013, 09:00:00',
-        open_bidding_end: 'July 26, 2013, 17:00:00',
+        open_bidding_start: 'January 2, 2014, 09:00:00',
+        open_bidding_end: 'January 2, 2014, 17:00:00',
         closed_bidding_start: null,
         closed_bidding_end: null
     },
     {
         round: '1A',
-        open_bidding_start: 'July 29, 2013, 09:00:00',
-        open_bidding_end: 'July 30, 2013, 13:00:00',
-        closed_bidding_start: 'July 30, 2013, 13:00:01',
-        closed_bidding_end: 'July 30, 2013, 17:00:00'
+        open_bidding_start: 'January 3, 2014, 09:00:00',
+        open_bidding_end: 'January 6, 2014, 13:00:00',
+        closed_bidding_start: 'January 6, 2014, 13:00:01',
+        closed_bidding_end: 'January 6, 2014, 17:00:00'
     },
     {
         round: '1B',
-        open_bidding_start: 'July 31, 2013, 09:00:00',
-        open_bidding_end: 'July 31, 2013, 15:00:00',
-        closed_bidding_start: 'July 31, 2013, 15:00:01',
-        closed_bidding_end: 'July 31, 2013, 17:00:00'
+        open_bidding_start: 'January 7, 2014, 09:00:00',
+        open_bidding_end: 'January 7, 2014, 15:00:00',
+        closed_bidding_start: 'January 7, 2014, 15:00:01',
+        closed_bidding_end: 'January 7, 2014, 17:00:00'
     },
-    {
-        round: '1C',
-        open_bidding_start: 'August 1, 2013, 09:00:00',
-        open_bidding_end: 'August 2, 2013, 13:00:00',
-        closed_bidding_start: 'August 2, 2013, 13:00:01',
-        closed_bidding_end: 'August 2, 2013, 17:00:00'
-    },
+    // {
+    //     round: '1C',
+    //     open_bidding_start: 'August 1, 2013, 09:00:00',
+    //     open_bidding_end: 'August 2, 2013, 13:00:00',
+    //     closed_bidding_start: 'August 2, 2013, 13:00:01',
+    //     closed_bidding_end: 'August 2, 2013, 17:00:00'
+    // },
     {
         round: '2A',
-        open_bidding_start: 'August 5, 2013, 09:00:00',
-        open_bidding_end: 'August 6, 2013, 13:00:00',
-        closed_bidding_start: 'August 6, 2013, 13:00:01',
-        closed_bidding_end: 'August 6, 2013, 17:00:00'
+        open_bidding_start: 'January 8, 2014, 09:00:00',
+        open_bidding_end: 'January 9, 2014, 13:00:00',
+        closed_bidding_start: 'January 9, 2014, 13:00:01',
+        closed_bidding_end: 'January 9, 2014, 17:00:00'
     },
     {
         round: '2B',
-        open_bidding_start: 'August 7, 2013, 09:00:00',
-        open_bidding_end: 'August 7, 2013, 15:00:00',
-        closed_bidding_start: 'August 7, 2013, 15:00:01',
-        closed_bidding_end: 'August 7, 2013, 17:00:00'
+        open_bidding_start: 'January 10, 2014, 09:00:00',
+        open_bidding_end: 'January 10, 2014, 15:00:00',
+        closed_bidding_start: 'January 10, 2014, 15:00:01',
+        closed_bidding_end: 'January 10, 2014, 17:00:00'
     },
     {
         round: '3A',
-        open_bidding_start: 'August 12, 2013, 09:00:00',
-        open_bidding_end: 'August 12, 2013, 15:00:00',
-        closed_bidding_start: 'August 12, 2013, 15:00:01',
-        closed_bidding_end: 'August 12, 2013, 17:00:00'
+        open_bidding_start: 'January 13, 2014, 09:00:00',
+        open_bidding_end: 'January 13, 2014, 15:00:00',
+        closed_bidding_start: 'January 13, 2014, 15:00:01',
+        closed_bidding_end: 'January 13, 2014, 17:00:00'
     },
     {
         round: '3B',
-        open_bidding_start: 'August 13, 2013, 09:00:00',
-        open_bidding_end: 'August 13, 2013, 15:00:00',
-        closed_bidding_start: 'August 13, 2013, 15:00:01',
-        closed_bidding_end: 'August 13, 2013, 17:00:00'
+        open_bidding_start: 'January 14, 2014, 09:00:00',
+        open_bidding_end: 'January 14, 2014, 15:00:00',
+        closed_bidding_start: 'January 14, 2014 15:00:01',
+        closed_bidding_end: 'January 14, 2014, 17:00:00'
     }
 ];
 
