@@ -30,10 +30,12 @@ html
     script(type="text/javascript", src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
      //- Grab Google CDN's jQuery, fall back to local if offline
     script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+    script(type="text/javascript", src="javascripts/utils.js")
+    script(type="text/javascript", src="javascripts/corspedia-controller.js")
     script
-      window.jQuery || document.write('<script src="javascripts/libs/jquery-1.9.1.min.js"><\/script>')
+        window.jQuery || document.write('<script src="javascripts/libs/jquery-1.9.1.min.js"><\/script>')
 
-  body
+  body(ng-app, ng-controller="CorspediaController")
     div(id="fb-root")
     script
       (function(d, s, id) {

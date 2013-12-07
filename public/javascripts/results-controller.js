@@ -1,20 +1,5 @@
 'use strict';
 
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
-
-String.prototype.insert = function (index, string) {
-  if (index > 0)
-    return this.substring(0, index) + string + this.substring(index, this.length);
-  else
-    return string + this;
-};
-
 var QUERY_URL_FORMAT = '/query?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
 
@@ -154,43 +139,6 @@ function ResultsController($scope, $http, $timeout) {
 	}
 
 	fetchResults();
-
-	$scope.show_bookmarks_section = false;
-	$scope.bookmarks_list = angular.fromJson(localStorage["bookmark_list"]);
-
-	if (!$scope.bookmarks_list) {
-		$scope.bookmarks_list = {};
-		saveBookmarks();
-	}
-
-	$scope.toggleBookmarksSection = function() {
-		$scope.show_bookmarks_section = !$scope.show_bookmarks_section; 
-		if ($scope.show_bookmarks_section) {
-			_gaq.push(['_trackEvent', 'Bookmarks', 'Open']);
-		} else {
-			_gaq.push(['_trackEvent', 'Bookmarks', 'Close']);
-		}
-	}
-
-	$scope.addBookmark = function(module) {
-		console.log($scope.bookmarks_list);
-		$scope.bookmarks_list[module] = module;
-		$scope.show_bookmarks_section = true;
-		saveBookmarks();
-	}
-
-	$scope.removeBookmark = function(module) {
-		delete $scope.bookmarks_list[module];
-		saveBookmarks();
-	}
-
-	function saveBookmarks() {
-		localStorage["bookmark_list"] = angular.toJson($scope.bookmarks_list);
-	}
-
-	$scope.emptyBookmarks = function() {
-		return Object.size($scope.bookmarks_list) === 0;
-	}
 
 	$scope.moduleInBookmarks = function() {
 		for (var key in $scope.bookmarks_list) {
