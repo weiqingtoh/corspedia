@@ -9,27 +9,27 @@ block content
           p(class="main-caption") An easy-to-use search engine for NUS CORS Bidding Archives.
   div(class="landing-container")
     p(class="current-round")
-    form(method="post" class="search-form")
+    form(method="post" class="search-form", action="./")
       div(class="search-segment search-module")
         input(placeholder="Module Code", type="text", name="modCode")
       div(class="search-segment search-faculty")
         div(class="icon-container")
           i(class="icon-chevron-down icon-large")
         - var faculties = [{ val: 0, name: 'Your Faculty' }, { val: 'ART', name: 'Arts' }, { val: 'BIZ', name: 'Business' }, { val: 'COM', name: 'Computing' }, { val: 'SDE', name: 'Design & Environment' }, { val: 'ENG', name: 'Engineering' }, { val: 'LAW', name: 'Law' }, { val: 'MED', name: 'Medicine' }, { val: 'MDP', name: 'Multi-Disciplinary Program' }, { val: 'YST', name: 'Music' }, { val: 'SCI', name: 'Science' }, { val: 'USP', name: 'USP' }]
-        select(class="wide", name="faculty")
+        select(class="wide", name="faculty", ng-model="preferences_list.faculty")
           for item in faculties
             option(value=item.val)= item.name
 
       div(class="search-segment search-new-student")
         p
           label(for="check1") New Student? 
-          input(name="newStudent", id="check1", value="1", type="checkbox")
+          input(name="newStudent", id="check1", value="1", type="checkbox", ng-model="preferences_list.newStudent")
 
       div(class="search-segment search-account")
         div(class="icon-container")
           i(class="icon-chevron-down icon-large")
 
-        select(class="wide", name="accType", style="height:50px;")
+        select(class="wide", name="accType", style="height:50px;", ng-model="preferences_list.accType")
           option(value="0") Account
           option(value="p") Program
           option(value="g") General
