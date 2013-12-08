@@ -69,8 +69,10 @@ module.exports = {
             var faculties = [];
             output.forEach(function(row) {
                 // Filter by Rounds - Round 1A,1B,1C
-                if (row[11][0] == '1' && newStu == '0' && row[8] != '1' && row[7] == that.facultyList[faculty]) {
-                    out.push(row);
+                if (row[11][0] == '1'){
+                    if (newStu == '0' && row[8] != '1' && row[7] == that.facultyList[faculty]) {
+                        out.push(row);
+                    }
                 } else if (row[11][0] == '2') {
                     // Round 2A, 2B, 2C
                     if (row[11] == '2C') {
