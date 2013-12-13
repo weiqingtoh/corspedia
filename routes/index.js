@@ -36,7 +36,7 @@ module.exports = {
         }
 
         if (error_messages.length == 0) {
-            var url = '/results?code=' + code + '&fac=' + faculty + '&acc=' + accType + '&new=';
+            var url = '/module/' + code + '?fac=' + faculty + '&acc=' + accType + '&new=';
             if (newStudent == "1") {
                 url += '1';
             } else {
@@ -51,34 +51,37 @@ module.exports = {
 	        	faculty: faculty
 	        });
         }
-	},
-	results: function(req, res) {
-		var modCode = req.query.code;
+	},	
+    module: function(req, res) {
+        var modCode = req.params.code;
         var faculty = req.query.fac;
         var accType = req.query.acc;
         var newStudent = req.query.new;
-        
+
         // In case of lower letters
         modCode = modCode.toUpperCase();
         faculty = faculty.toUpperCase();
 
-        if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || faculty == '0' || accType == '0') {
+        if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || 
+            faculty == '0' || 
+            accType == '0' ||) {
             res.redirect('/');
         }
         
         res.render('results', { 
-        	title: 'Results for ' + modCode,
-        	output_modCode: modCode,
+            title: 'Results for ' + modCode,
+            output_modCode: modCode,
             output_faculty: faculty,
             output_accType: accType,
             output_newStudent: newStudent
         });
-	},
+    },
 	query: function(req, res) {
 		var modCode = req.query.code;
         var faculty = req.query.fac;
         var accType = req.query.acc;
         var newStudent = req.query.new;
+
         modCode = modCode.toUpperCase();
         faculty = faculty.toUpperCase();
         if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || faculty == '0' || accType == '0') {
@@ -87,9 +90,7 @@ module.exports = {
 		
         var data = corsdata.extract(modCode, faculty, accType, newStudent);
         res.set('Content-Type', 'application/json');
-        // console.log(data);
         res.send(JSON.stringify(data));
-        // self.response.out.write(response)
 	},
 	test: function() {
 		corsdata.checkModCode();

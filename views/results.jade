@@ -1,11 +1,11 @@
 extends layout
 
 block content
-  script(type="text/javascript", src="javascripts/jquery-ui.js")
-  link(href="stylesheets/jquery-ui.css", rel="stylesheet")
+  script(type="text/javascript", src="/javascripts/jquery-ui.js")
+  link(href="/stylesheets/jquery-ui.css", rel="stylesheet")
   div(class="docs uikit results-screen", id="inner-doc", ng-app, ng-controller="ResultsController")
     div(ng-class="loading_section", ng-show="loading || error", style="display:none")
-      img(ng-src="{{{true: 'images/error-icon.png', false: 'images/ajax_loader.gif'}[error]}}")
+      img(ng-src="{{{true: '/images/error-icon.png', false: '/images/ajax_loader.gif'}[error]}}")
       div(class="error-container")
         p(ng-show="data.error.faculty") The faculty you have chosen was not found.
         p(ng-show="data.error.module") We do not have the information for the module code you have entered.
@@ -166,7 +166,7 @@ block content
                   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
               })();
             noscript Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-            a(href="http://disqus.com", class="dsq-brlink") comments powered by <span class="logo-disqus">Disqus</span>
+            //- a(href="http://disqus.com", class="dsq-brlink") comments powered by <span class="logo-disqus">Disqus</span>
 
         div(class="pure-u-1-4")
           div(class="right-col")
@@ -192,5 +192,5 @@ block content
       var accType = '#{output_accType}';
       var newStudent = #{output_newStudent};
 
-    script(type="text/javascript", src="javascripts/results-controller.js")
-    script(type="text/javascript", src="javascripts/cors-schedule.js")
+    script(type="text/javascript", src="/javascripts/results-controller.js")
+    script(type="text/javascript", src="/javascripts/cors-schedule.js")

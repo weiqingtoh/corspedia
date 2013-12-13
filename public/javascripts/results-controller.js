@@ -1,7 +1,7 @@
 'use strict';
 
 var QUERY_URL_FORMAT = '/query?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
-var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
+var RESULTS_URL_FORMAT = '/module/<modCode>?fac=<faculty>&acc=<accType>&new=<newStudent>';
 
 function ResultsController($scope, $http, $timeout) {
 
