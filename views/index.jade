@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  include nav
   div(class="top-container")
     div(class="landing-container")
       div(class="pure-g search-container")
@@ -53,5 +54,5 @@ block content
       p This depends on the module type that you are planning to map the module towards.<br/>
           | <strong> Program Account (P)</strong> - Used for Core modules, Higher Level Electives, Major Modules (Cross-Faculty included) </br>
           | <strong> General Account (G)</strong> - Used for UEM (Unrestricted Elective Modules), Minor modules, GEM and SS </div></p>
-  script(type="text/javascript", src="javascripts/cors-schedule.js")
+  script(type="text/javascript", src="/javascripts/cors-schedule.js")
   include footer
