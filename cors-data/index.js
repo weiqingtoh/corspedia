@@ -291,7 +291,6 @@ module.exports = {
     extractModulesCatalogue: function() {
         var list = [];
         for (var key in allModulesInfo) {
-            list.push([key, allModulesInfo[key].title]);
             var title = allModulesInfo[key].title;
             if (title) {
                 if (title.split(' ').length > 1) {
