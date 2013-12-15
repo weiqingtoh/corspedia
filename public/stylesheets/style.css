@@ -109,6 +109,7 @@ a:hover {
 .pure-menu li a {
   font-weight: 700;
   color: #fff;
+  padding: 5px 19px;
 }
 .pure-menu li a:hover,
 .pure-menu li a:focus {

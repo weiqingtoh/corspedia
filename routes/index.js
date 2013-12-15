@@ -12,6 +12,9 @@ module.exports = {
 	about: function(req, res) {
 		res.render('about', { title: 'About - Corspedia' });
 	},
+    catalogue: function(req, res) {
+        res.render('catalogue', { title: 'Catalogue - Corspedia' });
+    },
 	search: function(req, res) {
         var modCode = req.body.modCode;
         var faculty = req.body.faculty;
@@ -90,8 +93,5 @@ module.exports = {
         // console.log(data);
         res.send(JSON.stringify(data));
         // self.response.out.write(response)
-	},
-	test: function() {
-		corsdata.checkModCode();
 	}
 }
