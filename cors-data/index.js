@@ -287,5 +287,19 @@ module.exports = {
 
         suggestions.sort();
         return suggestions;
+    },
+    extractModulesCatalogue: function() {
+        var list = [];
+        for (var key in allModulesInfo) {
+            list.push([key, allModulesInfo[key].title]);
+        }
+        return list.sort(function (a, b) {
+            if (a[0] > b[0])
+              return 1;
+            if (a[0] < b[0])
+              return -1;
+            // a must be equal to b
+            return 0;
+        });
     }
 }

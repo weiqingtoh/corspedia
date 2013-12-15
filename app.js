@@ -34,8 +34,8 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.post('/', routes.search);
-app.get('/results', routes.results);
-app.get('/query', routes.query);
+app.get('/module/:code', routes.module);
+app.get('/api/:type', routes.api);
 app.get('/about', routes.about);
 app.get('/catalogue', routes.catalogue);
 

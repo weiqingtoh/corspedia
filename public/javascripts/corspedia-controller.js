@@ -1,3 +1,9 @@
+'use strict';
+
+var RESULTS_URL_FORMAT = '/module/<modCode>?fac=<faculty>&acc=<accType>&new=<newStudent>';
+var MODULE_API_FORMAT = '/api/module?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
+var CATALOGUE_API_FORMAT = '/api/catalogue/';
+
 function CorspediaController($scope) {
 
 	// bookmarks manager

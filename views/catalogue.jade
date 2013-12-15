@@ -3,10 +3,13 @@ extends layout
 block content
   include nav
   
-  div(class="main-container catalogue-container")
+  div(class="main-container catalogue-container", ng-app, ng-controller="CatalogueController")
     div(class="pure-g")
       div(class="pure-u-1")
         h1 Catalogue
         hr
-        p Hello
+        input(ng-model="search_text")
+        p(ng-repeat="mod in modules | filter: search_text")
+          | <a href="">{{mod[0]}} - {{mod[1]}}</a>
   include footer
+  script(type="text/javascript", src="/javascripts/catalogue-controller.js")

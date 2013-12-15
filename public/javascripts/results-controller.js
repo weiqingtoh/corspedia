@@ -1,8 +1,3 @@
-'use strict';
-
-var QUERY_URL_FORMAT = '/query?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
-var RESULTS_URL_FORMAT = '/results?code=<modCode>&fac=<faculty>&acc=<accType>&new=<newStudent>';
-
 function ResultsController($scope, $http, $timeout) {
 
 	$scope.modCode = modCode.toUpperCase();
@@ -18,7 +13,6 @@ function ResultsController($scope, $http, $timeout) {
 	$scope.empty_data = true;
 
 	$scope.show_search_section = false;
-	console.log('results contr')
 	$scope.toggleSearchContainer = function() {
 
 		$('#search-container').toggle("blind");
@@ -32,7 +26,7 @@ function ResultsController($scope, $http, $timeout) {
 	}
 
 	function constructURL(type, mod, fac, acc, stu) {
-		var format = type == 'query' ? QUERY_URL_FORMAT : RESULTS_URL_FORMAT;
+		var format = type == 'query' ? MODULE_API_FORMAT : RESULTS_URL_FORMAT;
 		var m = mod ? mod : $scope.modCode;
 		var f = fac ? fac : $scope.faculty;
 		var a = acc ? acc : $scope.accType;
