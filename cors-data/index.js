@@ -287,5 +287,32 @@ module.exports = {
 
         suggestions.sort();
         return suggestions;
+<<<<<<< Updated upstream
+=======
+    },
+    extractModulesCatalogue: function() {
+        var list = [];
+        for (var key in allModulesInfo) {
+            var title = allModulesInfo[key].title;
+            if (title) {
+                if (title.split(' ').length > 1) {
+                    title = title.split(' ').map(function(word) {
+                        word = word.toLowerCase();
+                        word = word[0].toUpperCase() + word.slice(1);
+                        return word;
+                    }).join(' ');
+                }
+            }
+            list.push([key, title]);
+        }
+        return list.sort(function (a, b) {
+            if (a[0] > b[0])
+              return 1;
+            if (a[0] < b[0])
+              return -1;
+            // a must be equal to b
+            return 0;
+        });
+>>>>>>> Stashed changes
     }
 }

@@ -82,10 +82,22 @@ module.exports = {
         var accType = req.query.acc;
         var newStudent = req.query.new;
 
+<<<<<<< Updated upstream
         modCode = modCode.toUpperCase();
         faculty = faculty.toUpperCase();
         if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || faculty == '0' || accType == '0') {
             res.redirect('/');
+=======
+            modCode = modCode.toUpperCase();
+            faculty = faculty.toUpperCase();
+            if (!modCode.match(/[a-zA-Z]{2,3}[\d]{4}[a-zA-Z]{0,1}/) || faculty == '0' || accType == '0') {
+                res.redirect('/');
+            }
+    		
+            var data = corsdata.extract(modCode, faculty, accType, newStudent);
+            res.set('Content-Type', 'application/json');
+            res.send(JSON.stringify(data));
+>>>>>>> Stashed changes
         }
 		
         var data = corsdata.extract(modCode, faculty, accType, newStudent);
