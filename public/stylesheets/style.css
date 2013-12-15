@@ -84,6 +84,7 @@ a:hover {
 /* Navigation */
 .nav-container {
   background-color: #00577b;
+  min-width: 480px;
 }
 .nav-section {
   max-width: 960px;
@@ -530,6 +531,11 @@ a.module-links:hover {
 .bookmarked {
   font-weight: 700;
   color: #00c43f;
+}
+/* Catalogue */
+.catalogue-container a {
+  font-weight: 300;
+  text-decoration: underline;
 }
 /* About Page */
 .about-container [class^="icon-"] {

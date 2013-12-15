@@ -287,11 +287,30 @@ module.exports = {
 
         suggestions.sort();
         return suggestions;
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> route-change
     },
     extractModulesCatalogue: function() {
         var list = [];
         for (var key in allModulesInfo) {
+<<<<<<< HEAD
             list.push([key, allModulesInfo[key].title]);
+=======
+            var title = allModulesInfo[key].title;
+            if (title) {
+                if (title.split(' ').length > 1) {
+                    title = title.split(' ').map(function(word) {
+                        word = word.toLowerCase();
+                        word = word[0].toUpperCase() + word.slice(1);
+                        return word;
+                    }).join(' ');
+                }
+            }
+            list.push([key, title]);
+>>>>>>> route-change
         }
         return list.sort(function (a, b) {
             if (a[0] > b[0])
@@ -301,5 +320,9 @@ module.exports = {
             // a must be equal to b
             return 0;
         });
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> route-change
     }
 }

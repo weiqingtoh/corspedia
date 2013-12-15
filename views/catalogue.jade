@@ -8,8 +8,8 @@ block content
       div(class="pure-u-1")
         h1 Catalogue
         hr
-        input(ng-model="search_text")
-        p(ng-repeat="mod in modules | filter: search_text")
-          | <a href="">{{mod[0]}} - {{mod[1]}}</a>
+        p Here's a list of modules in the system.
+        p(ng-repeat="mod in modules")
+          a(href="{{linkify(mod[0])}}") {{mod[0]}} <span ng-show="mod[1]">- {{mod[1]}}</span>
   include footer
   script(type="text/javascript", src="/javascripts/catalogue-controller.js")
