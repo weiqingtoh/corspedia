@@ -96,6 +96,10 @@ module.exports = {
             var data = corsdata.extract(modCode, faculty, accType, newStudent);
             res.set('Content-Type', 'application/json');
             res.send(JSON.stringify(data));
+        } else if (type == 'catalogue') {
+            var data = corsdata.extractModulesCatalogue(modCode, faculty, accType, newStudent);
+            res.set('Content-Type', 'application/json');
+            res.send(JSON.stringify(data));
         }
 
 	}
