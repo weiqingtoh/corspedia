@@ -107,6 +107,13 @@ function SinglePostCtrl($scope, $routeParams) {
       }
       $location.path('/'); // TODO: Redirect to a 404 page
     }
+
+    var $meta_title = $('meta[property="og:title"]'); 
+    $meta_title.attr('content', $scope.current_post.title);
+
+    var $meta_desc = $('meta[property="og:description"');
+    var para = $($scope.current_post.content);
+    $meta_title.attr('content', $(para[0]).html());
   }
 
   function loadDisqus() {
