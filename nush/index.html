@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/style.css">
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="http://www.parsecdn.com/js/parse-1.2.15.min.js"></script>
+    </head>
+    <body ng-app ng-controller="QuestionsController">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Cluster Cleanliness Survey</h1>
+                    <hr/>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Cluster</label>
+                        <select class="form-control">
+                            <option>RA-02</option>
+                            <option>RB-02</option>
+                            <option>RA-03</option>
+                            <option>RB-03</option>
+                            <option>RA-04</option>
+                            <option>RB-04</option>
+                            <option>RA-05</option>
+                            <option>RB-05</option>
+                            <option>RA-06</option>
+                            <option>RB-06</option>
+                            <option>RA-07</option>
+                            <option>RB-07</option>
+                            <option>RA-08</option>
+                            <option>RB-08</option>
+                            <option>RA-09</option>
+                            <option>RB-09</option>
+                            <option>RA-10</option>
+                            <option>RB-10</option>
+                            <option>RA-11</option>
+                            <option>RB-11</option>
+                            <option>RA-12</option>
+                            <option>RB-12</option>
+                        </select>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-md-12 survey-section">
+                            <h2>Room Cleanliness</h2>
+                            <hr/>
+                            <div class="form-group">
+                                <label>Select Room</label>
+                                <select class="form-control">
+                                    <option>01</option>
+                                    <option>02</option>
+                                    <option>03</option>
+                                    <option>04</option>
+                                    <option>05</option>
+                                    <option>06</option>
+                                    <option>07</option>
+                                    <option>08</option>
+                                    <option>09</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+                            <br/>
+                            <div class="individual-section">
+                                <h3>Individual - Left Side</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in individual_questions" ng-init="index = 0" ng-class="individualQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectIndividualResponse(index, qn.question, res)" ng-click="editIndividualQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="individual-section">
+                                <h3>Individual - Right Side</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in individual_questions" ng-init="index = 1" ng-class="individualQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectIndividualResponse(index, qn.question, res)" ng-click="editIndividualQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="individual-section">
+                                <h3>Room</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in room_questions" ng-init="index = 0" ng-class="roomQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectRoomResponse(index, qn.question, res)" ng-click="editRoomQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 survey-section">
+                            <div class="individual-section" ng-repeat="sn in common_area_questions">
+                                <h3>{{sn.section}}</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in sn.questions" ng-class="commonAreaQuestionAnswered(qn.question)">
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectCommonAreaResponse(qn.question, res)" ng-click="editCommonAreaQuestionResponse(qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 survey-section">
+                            <h2>Room Cleanliness</h2>
+                            <hr/>
+                            <div class="form-group">
+                                <label>Select Room</label>
+                                <select class="form-control">
+                                    <option>01</option>
+                                    <option>02</option>
+                                    <option>03</option>
+                                    <option>04</option>
+                                    <option>05</option>
+                                    <option>06</option>
+                                    <option>07</option>
+                                    <option>08</option>
+                                    <option>09</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+                            <br/>
+                            <div class="individual-section">
+                                <h3>Individual - Left Side</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in individual_questions" ng-init="index = 2" ng-class="individualQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectIndividualResponse(index, qn.question, res)" ng-click="editIndividualQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="individual-section">
+                                <h3>Individual - Right Side</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in individual_questions" ng-init="index = 3" ng-class="individualQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectIndividualResponse(index, qn.question, res)" ng-click="editIndividualQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="individual-section">
+                                <h3>Room</h3>
+                                <table class="table table-bordered table-striped">
+                                    <tr ng-repeat="qn in room_questions" ng-init="index = 1" ng-class="roomQuestionAnswered(index, qn.question)" >
+                                        <td class="question">{{qn.question}}</td>
+                                        <td ng-repeat="res in qn.options" ng-class="selectRoomResponse(index, qn.question, res)" ng-click="editRoomQuestionResponse(index, qn.question, res)" colspan="{{6/qn.options.length}}">{{res}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success btn-block" ng-click="submit()">Submit</button>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+        <script src="js/questions-controller.js"></script>
+        <script>
+            Parse.initialize("mqa47XeTHFDE0ex7hlv1YAMz4DPrlj957W9OIdEE", "FSn98VL5ImEWyJy1mPZtb3Qxl4L7TNpLJrusOLA9");
+        </script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+    </body>
+</html>
