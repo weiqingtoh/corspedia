@@ -88,13 +88,13 @@
             if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_start)) &&
                 now_date <= toUTC(new Date(CORS_SCHEDULE[i].open_bidding_end))) {
                 round += ' (Open)';
-                return start + round + ' till ' + CORS_SCHEDULE[i].open_bidding_end;
+                return start + round + ' till ' + formatTime(CORS_SCHEDULE[i].open_bidding_end);
             }
             if (CORS_SCHEDULE[i].open_bidding_start) {
                 if (now_date >= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_start)) &&
                     now_date <= toUTC(new Date(CORS_SCHEDULE[i].closed_bidding_end))) {
                     round += ' (Closed)';
-                    return start + round + ' till ' + CORS_SCHEDULE[i].closed_bidding_end;
+                    return start + round + ' till ' + formatTime(CORS_SCHEDULE[i].closed_bidding_end);
                 }
             }
         }
