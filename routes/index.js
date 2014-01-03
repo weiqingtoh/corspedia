@@ -55,6 +55,14 @@ module.exports = {
 	        });
         }
 	},	
+    results: function(req, res) {
+        var modCode = req.query.code;
+        var faculty = req.query.fac;
+        var accType = req.query.acc;
+        var newStudent = req.query.new;
+
+        res.redirect('/module/' + modCode + '?fac=' + faculty + '&acc=' + accType + '&new=' + newStudent);        
+    },
     module: function(req, res) {
         var modCode = req.params.code;
         var faculty = req.query.fac;
