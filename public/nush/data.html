@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/style.css">
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="http://www.parsecdn.com/js/parse-1.2.15.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Cleanliness Data Retrieval</h2>
+                    <hr/>
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Start Date - DD/MM/YYYY</label>
+                            <input type="text" class="form-control" id="start-date" placeholder="Enter start date - DD/MM/YYYY" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">End Date - DD/MM/YYYY</label>
+                            <input type="text" class="form-control" id="end-date" placeholder="Enter end date - DD/MM/YYYY" value="">
+                        </div>
+                    </form>
+                    <button class="btn btn-success" onclick="retrieveData()">Retrieve Data</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+        <script>
+            Parse.initialize("5NDGW5pTQoBNsypxoYihLwEwTzyxIE4ktZxGT8FO", "20GB1EMzpgBC6ySZxuLJer1wD3iHshNxQv55K877");
+            function retrieveData() {
+                var CleanlinessObject = Parse.Object.extend("CleanlinessObject");
+                var query = new Parse.Query(CleanlinessObject);
+                query.limit(1000);
+                function createDate(date_string) {
+                    var date_array = date_string.split('/').map(function(c) { return parseInt(c); });
+                    var date = new Date(date_array[2], date_array[1]-1, date_array[0]);
+                    return date;
+                }
+                var start_date = createDate($('#start-date').val());
+                var end_date = createDate($('#end-date').val());
+                query.greaterThanOrEqualTo("createdAt", start_date);
+                query.lessThan("createdAt", end_date);
+                query.ascending("createdAt");
+                query.find({ 
+                    success: function(results) {
+                        if (results.length > 0) {
+                            var res = $.map(results, function(s) {
+                                var row = s.attributes;
+                                row['createdAt'] = s.createdAt;
+                                return row;
+                            });
+                            var csv = [];
+                            var headers = Object.keys(res[0]);
+                            console.log(headers);
+                            headers = sortedHeaders(headers);
+                            console.log(headers);
+                            csv.push(headers);
+                            for (var i = 0; i < res.length; i++) {
+                                var row = [];
+                                for (var j = 0; j < headers.length; j++) {
+                                    row.push(res[i][headers[j]]);
+                                }
+                                csv.push(row);
+                            }
+                            arrayToCSV(csv);
+                        }
+                    }
+                });
+            }
+
+            function sortedHeaders(headers) {
+
+                var flattened_headers = {};
+                for (var i = 0; i < mandatory_questions.length; i++) {
+                    flattened_headers[sanitizeQuestion(mandatory_questions[i].question)] = mandatory_questions[i].order;
+                }
+                for (var i = 0; i < individual_questions.length; i++) {
+                    flattened_headers[sanitizeQuestion(individual_questions[i].question)] = individual_questions[i].order;
+                }
+                for (var i = 0; i < room_questions.length; i++) {
+                    flattened_headers[sanitizeQuestion(room_questions[i].question)] = room_questions[i].order;
+                }
+                for (var i = 0; i < common_area_questions.length; i++) {
+                    for (var j = 0; j < common_area_questions[i].questions.length; j++) {
+                        flattened_headers[sanitizeQuestion(common_area_questions[i].questions[j].question)] = common_area_questions[i].questions[j].order;
+                    }
+                }
+                headers.sort(function(a, b) {
+                    return parseFloat(flattened_headers[a]) - parseFloat(flattened_headers[b]);
+                })
+                return headers;
+            }
+
+            function arrayToCSV(objArray) {
+                var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+                var str = '';
+                 
+                for (var i = 0; i < array.length; i++) {
+                    var line = '';
+                    for (var index in array[i]) {
+                        if(line != '') line += ','
+                     
+                        line += array[i][index];
+                    }
+             
+                    str += line + '\r\n';
+                }
+             
+                if (navigator.appName != 'Microsoft Internet Explorer') {
+                    var popup = window.open('data:text/csv;charset=utf-8,' + escape(str));
+                } else {
+                    var popup = window.open('','csv','');
+                    popup.document.body.innerHTML = '<pre>' + str + '</pre>';
+                }          
+            }
+
+
+        </script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+    </body>
+</html>
