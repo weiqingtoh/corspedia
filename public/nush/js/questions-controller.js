@@ -1,5 +1,7 @@
 function QuestionsController($scope) {
 
+	$scope.loading_shown = false;
+
 	// Loading of preferences
 	if (localStorage['name']) {
 		$scope.name = localStorage['name'];
@@ -13,6 +15,27 @@ function QuestionsController($scope) {
 	$scope.savePreferences = function() {
 		localStorage['name'] = $scope.name;
 		localStorage['cluster'] = $scope.cluster;
+	}
+
+	$scope.saveCheckedRooms = function() {
+		localStorage['rooms_checked'] = angular.toJson($scope.rooms_checked);
+	}
+
+	$scope.numberOfCheckedRooms = function() {
+		return Object.keys($scope.rooms_checked).length;
+	}
+
+	if (localStorage['rooms_checked']) {
+		$scope.rooms_checked = angular.fromJson(localStorage['rooms_checked']);
+	} else {
+		$scope.rooms_checked = {};
+		$scope.saveCheckedRooms();
+	}
+
+	$scope.clearCheckedRooms = function() {
+		if (!confirm('Are you sure you want to clear the checked rooms records?')) { return; }
+		$scope.rooms_checked = {};
+		$scope.saveCheckedRooms();
 	}
 
 	// Auto updating of room numbers
@@ -113,22 +136,23 @@ function QuestionsController($scope) {
         }
 
         function validation() {
-        	console.log($scope.name)
         	if (!$scope.name || $scope.name == undefined || $scope.name.length == 0) {
         		alert('Cluster mentor name not filled.');
-        		return;
+        		return true;
         	}
         	if (!$scope.cluster) {
         		alert('Cluster name not selected.');	
-        		return;
+        		return true;
         	}
         	if (!$scope.first_room || !$scope.second_room) {
         		alert('Room number not selected.');
-        		return;
+        		return true;
         	}
         }
 
-        validation();
+        if (validation()) { return; }
+
+        var rooms_checked_pending = [];
 
         if (!$scope.ignore_first_room && !$scope.ignore_first_room_left) {
         	var response = angular.copy($scope.individual_responses[0]);
@@ -137,6 +161,7 @@ function QuestionsController($scope) {
         	response['Room'] = $scope.cluster + '-' + formatRoom($scope.first_room) + '-1';
         	responses_to_submit.push(response);
         	objects_to_submit.push(new CleanlinessObject());
+        	rooms_checked_pending.push(formatRoom($scope.first_room) + '-1');
         }
 
         if (!$scope.ignore_first_room && !$scope.ignore_first_room_right) {
@@ -146,6 +171,7 @@ function QuestionsController($scope) {
         	response['Room'] = $scope.cluster + '-' + formatRoom($scope.first_room) + '-2';
         	responses_to_submit.push(response);
         	objects_to_submit.push(new CleanlinessObject());
+        	rooms_checked_pending.push(formatRoom($scope.first_room) + '-2');
         }
 
         if (!$scope.ignore_second_room && !$scope.ignore_second_room_left) {
@@ -155,6 +181,7 @@ function QuestionsController($scope) {
         	response['Room'] = $scope.cluster + '-' + formatRoom($scope.second_room) + '-1';
         	responses_to_submit.push(response);
         	objects_to_submit.push(new CleanlinessObject());
+        	rooms_checked_pending.push(formatRoom($scope.second_room) + '-1');
         }
 
         if (!$scope.ignore_second_room && !$scope.ignore_second_room_right) {
@@ -164,6 +191,7 @@ function QuestionsController($scope) {
         	response['Room'] = $scope.cluster + '-' + formatRoom($scope.second_room) + '-2';
         	responses_to_submit.push(response);
         	objects_to_submit.push(new CleanlinessObject());
+        	rooms_checked_pending.push(formatRoom($scope.second_room) + '-2');
         }
 
         $.map(responses_to_submit, function(res) {
@@ -171,7 +199,7 @@ function QuestionsController($scope) {
         })
         
         var num_of_submitted_responses = 0;
-        
+        $scope.loading_shown = true;
         for (var i = 0; i < responses_to_submit.length; i++) {
 	        objects_to_submit[i].save(
 	        	responses_to_submit[i], {
@@ -180,6 +208,11 @@ function QuestionsController($scope) {
 				    num_of_submitted_responses++;
 				    console.log(num_of_submitted_responses);
 				    if (num_of_submitted_responses == responses_to_submit.length) {
+					    for (var i = 0; i < rooms_checked_pending.length; i++) {
+				    		$scope.rooms_checked[rooms_checked_pending[i]] = rooms_checked_pending[i];
+				    	}
+				    	$scope.loading_shown = false;	
+				    	$scope.saveCheckedRooms();
 					    alert('Responses submitted!');
 					    location.reload();
 					}
@@ -188,6 +221,7 @@ function QuestionsController($scope) {
 				    // Execute any logic that should take place if the save fails.
 				    // error is a Parse.Error with an error code and description.
 				    alert('Failed to submit response: ' + error.description);
+				    $scope.loading_shown = false;
 				}
 	        });
 	    }

@@ -26,6 +26,9 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+        <div class="loading-screen" ng-show="loading_shown">
+            <img src="img/loading.gif" class="loader"/>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -35,7 +38,6 @@
                         <label for="name">Cluster Mentor Name</label>
                         <input type="text" class="form-control" id="name" placeholder="Enter name" ng-model="name" ng-change="savePreferences()">
                     </div>
-
                     <div class="form-group">
                         <label>Select Cluster</label>
                         <select class="form-control" ng-model="cluster" ng-change="savePreferences()">
@@ -63,7 +65,18 @@
                             <option value="RB12">RB12</option>
                         </select>
                     </div>
-                    <br/><br/>
+                    <h2>Recently Checked Rooms</h2>
+                    <div ng-show="numberOfCheckedRooms() > 0">
+                        <span class="rooms-checked" ng-repeat="room in rooms_checked">{{ room }}</span>
+                    </div>
+                    <p ng-show="numberOfCheckedRooms() == 0">
+                        There are no recently checked rooms.
+                    </p>
+                    <br/>
+                    <button class="btn btn-warning" ng-click="clearCheckedRooms()" ng-show="numberOfCheckedRooms() > 0">
+                        Clear Checked Rooms
+                    </button>
+                    <br/>
                     <div class="row" ng-init="ignore_first_room = false">
                         <div class="col-md-12 survey-section">
                             <h2>Room Cleanliness</h2>
