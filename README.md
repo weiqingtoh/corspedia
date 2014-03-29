@@ -3,7 +3,14 @@ Corspedia
 
 Corspedia is an easy-to-use search engine for NUS CORS Bidding Archives.  
 Try it out at [http://www.corspedia.com](http://www.corspedia.com).  
-It is powered by [Google App Engine](https://cloud.google.com/products/), [AngularJS](http://angularjs.org/) and [Pure](http://purecss.io/). 
+It is powered by [Node JS](http://nodejs.org/), [AngularJS](http://angularjs.org/) and [Pure](http://purecss.io/). 
+
+Quickstart
+--
+
+    $ npm install
+    $ node app.js
+
 
 Background
 --
