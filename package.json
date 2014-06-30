@@ -7,9 +7,8 @@
   },
   "dependencies": {
     "express": "~3.4.6",
-    "jade": "*",
-    "less-middleware": "*",
-    "redis": "*",
+    "jade": "0.35.0",
+    "less-middleware": "0.1.14",
     "csv": "0.3.6",
     "logfmt": "~0.17.0"
   },
