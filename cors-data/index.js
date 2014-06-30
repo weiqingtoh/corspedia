@@ -64,7 +64,7 @@ module.exports = {
         var that = this;
         
         // This function identifies the necessary bid point sets to display
-        function filterData(faculty, newStu, output) {
+        function filterData(faculty, newStu, output, accType) {
             var out = [];
             var faculties = [];
             output.forEach(function(row) {
@@ -87,8 +87,11 @@ module.exports = {
                         }
                     }
                 } else {
-                    // Round 3A, 3B, 3C         
-                    out.push(row);
+                    // Round 3A, 3B, 3C
+                    if ((that.facultyList[faculty] == row[7] && accType == 'p') || 
+                        (that.facultyList[faculty] != row[7] && accType == 'g')) {    
+                        out.push(row);
+                    }
                 }
             });
 
@@ -154,7 +157,7 @@ module.exports = {
             var modBidData = extractData(modCode, accType);
         } else {
             // For all other modules, extract and filter the necessary data
-            var modBidData = filterData(faculty, newStu, extractData(modCode, accType));
+            var modBidData = filterData(faculty, newStu, extractData(modCode, accType), accType);
         }
         
         console.log(modBidData);
