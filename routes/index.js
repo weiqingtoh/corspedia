@@ -31,6 +31,9 @@ module.exports = {
         if (!code) {
             error_messages.push('Invalid Module Code');
         }
+
+        res.redirect('http://nusmods.com/modules/' + code + '/corspedia');
+
         if (faculty == '0') {
             error_messages.push('Invalid Faculty');
         }
@@ -79,13 +82,15 @@ module.exports = {
             res.redirect('/');
         }
         
-        res.render('results', { 
-            title: 'Results for ' + modCode,
-            output_modCode: modCode,
-            output_faculty: faculty,
-            output_accType: accType,
-            output_newStudent: newStudent
-        });
+        res.redirect('http://nusmods.com/modules/' + modCode + '/corspedia');
+
+        // res.render('results', { 
+        //     title: 'Results for ' + modCode,
+        //     output_modCode: modCode,
+        //     output_faculty: faculty,
+        //     output_accType: accType,
+        //     output_newStudent: newStudent
+        // });
     },
 	api: function(req, res) {
         var type = req.params.type;
