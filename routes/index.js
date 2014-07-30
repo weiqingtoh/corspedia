@@ -32,7 +32,7 @@ module.exports = {
             error_messages.push('Invalid Module Code');
         }
 
-        res.redirect('http://nusmods.com/modules/' + code + '/corspedia');
+        res.redirect('http://nusmods.com/modules/' + code + '#corspedia');
 
         if (faculty == '0') {
             error_messages.push('Invalid Faculty');
@@ -82,7 +82,7 @@ module.exports = {
             res.redirect('/');
         }
         
-        res.redirect('http://nusmods.com/modules/' + modCode + '/corspedia');
+        res.redirect('http://nusmods.com/modules/' + modCode + '#corspedia');
 
         // res.render('results', { 
         //     title: 'Results for ' + modCode,
