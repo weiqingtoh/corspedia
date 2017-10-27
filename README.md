@@ -1,3 +1,6 @@
+
+[Status: Not actively maintained]
+
 Corspedia
 ==
 
